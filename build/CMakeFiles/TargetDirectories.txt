@@ -1,0 +1,3 @@
+C:/msys64/usr/httpFramework/build/CMakeFiles/rebuild_cache.dir
+C:/msys64/usr/httpFramework/build/CMakeFiles/http.dir
+C:/msys64/usr/httpFramework/build/CMakeFiles/edit_cache.dir

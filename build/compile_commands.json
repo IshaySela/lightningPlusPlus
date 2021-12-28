@@ -1,0 +1,47 @@
+[
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/source.cpp.obj -c C:/msys64/usr/httpFramework/source.cpp",
+  "file": "C:/msys64/usr/httpFramework/source.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/WSAInitializer.cpp.obj -c C:/msys64/usr/httpFramework/WSAInitializer.cpp",
+  "file": "C:/msys64/usr/httpFramework/WSAInitializer.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/SSLServer.cpp.obj -c C:/msys64/usr/httpFramework/SSLServer.cpp",
+  "file": "C:/msys64/usr/httpFramework/SSLServer.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/LowLevelApiException.cpp.obj -c C:/msys64/usr/httpFramework/LowLevelApiException.cpp",
+  "file": "C:/msys64/usr/httpFramework/LowLevelApiException.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/SmartResource.cpp.obj -c C:/msys64/usr/httpFramework/SmartResource.cpp",
+  "file": "C:/msys64/usr/httpFramework/SmartResource.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/SSLClient.cpp.obj -c C:/msys64/usr/httpFramework/SSLClient.cpp",
+  "file": "C:/msys64/usr/httpFramework/SSLClient.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/SSLStream.cpp.obj -c C:/msys64/usr/httpFramework/SSLStream.cpp",
+  "file": "C:/msys64/usr/httpFramework/SSLStream.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/HttpRequest.cpp.obj -c C:/msys64/usr/httpFramework/HttpRequest.cpp",
+  "file": "C:/msys64/usr/httpFramework/HttpRequest.cpp"
+},
+{
+  "directory": "C:/msys64/usr/httpFramework/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/HeadersParser.cpp.obj -c C:/msys64/usr/httpFramework/HeadersParser.cpp",
+  "file": "C:/msys64/usr/httpFramework/HeadersParser.cpp"
+}
+]
