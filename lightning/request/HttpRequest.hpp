@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 
-
 namespace lightning
 {
     class HttpRequest
@@ -13,6 +12,10 @@ namespace lightning
 
     public:
         HttpRequest(std::string method, std::string rawUri, std::string protocolVersion);
+
+        std::string &getMethod();
+        std::string &getRawUri();
+        std::string &getProtocolVersion();
 
         /**
          * @brief Construct a http request from a raw request line, as specified
