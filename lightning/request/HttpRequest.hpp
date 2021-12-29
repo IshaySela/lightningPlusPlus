@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include "../lightning.hpp"
+
 
 namespace lightning
 {
@@ -11,7 +13,6 @@ namespace lightning
         std::string rawUri;
         std::string protocolVersion;
 
-        using HeadersMap = std::unordered_map<std::string, std::string>;
         HeadersMap headers;
 
         /**
@@ -31,9 +32,6 @@ namespace lightning
         std::string &getMethod();
         std::string &getRawUri();
         std::string &getProtocolVersion();
-
-        static constexpr const char *DOUBLE_CRLF = "\r\n\r\n";
-        static constexpr const char *CRLF = "\r\n";
         /**
          * @brief Construct a http request from request (without the body) that was sent by the client.
          * The request structure is specified in the rfc standard https://datatracker.ietf.org/doc/html/rfc2616#section-5

@@ -2,7 +2,6 @@
 #include <cstring>
 #include <sstream>
 #include <array>
-#include <string_view>
 
 namespace lightning
 {
@@ -76,7 +75,7 @@ namespace lightning
 
     auto HttpRequest::createRequest(std::string request) -> HttpRequest
     {
-        int requestLineEnd = request.find(HttpRequest::CRLF);
+        int requestLineEnd = request.find(lightning::CRLF);
 
         if (requestLineEnd == std::string::npos)
         {
@@ -86,7 +85,7 @@ namespace lightning
         auto [method, uri, version] = parseRequestLine(std::string(request.begin(), request.begin() + requestLineEnd));
 
         // The raw headers, without the request line and the CRLF at the end of it.
-        auto rawHeaders = std::string(request.begin() + requestLineEnd + strlen(HttpRequest::CRLF), request.end());
+        auto rawHeaders = std::string(request.begin() + requestLineEnd + strlen(lightning::CRLF), request.end());
         auto headers = parseHeaders(rawHeaders);
 
         return HttpRequest(method, uri, version, headers);
