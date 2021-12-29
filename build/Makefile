@@ -153,6 +153,30 @@ HttpRequest.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpRequest.cpp.s
 .PHONY : HttpRequest.cpp.s
 
+HttpResponse.obj: HttpResponse.cpp.obj
+.PHONY : HttpResponse.obj
+
+# target to build an object file
+HttpResponse.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponse.cpp.obj
+.PHONY : HttpResponse.cpp.obj
+
+HttpResponse.i: HttpResponse.cpp.i
+.PHONY : HttpResponse.i
+
+# target to preprocess a source file
+HttpResponse.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponse.cpp.i
+.PHONY : HttpResponse.cpp.i
+
+HttpResponse.s: HttpResponse.cpp.s
+.PHONY : HttpResponse.s
+
+# target to generate assembly for a file
+HttpResponse.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponse.cpp.s
+.PHONY : HttpResponse.cpp.s
+
 LowLevelApiException.obj: LowLevelApiException.cpp.obj
 .PHONY : LowLevelApiException.obj
 
@@ -333,6 +357,9 @@ help:
 	@echo "... HttpRequest.obj"
 	@echo "... HttpRequest.i"
 	@echo "... HttpRequest.s"
+	@echo "... HttpResponse.obj"
+	@echo "... HttpResponse.i"
+	@echo "... HttpResponse.s"
 	@echo "... LowLevelApiException.obj"
 	@echo "... LowLevelApiException.i"
 	@echo "... LowLevelApiException.s"

@@ -48,6 +48,7 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "*.inc": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "optional": "cpp"
     }
 }
