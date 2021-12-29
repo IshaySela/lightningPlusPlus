@@ -38,10 +38,5 @@
   "directory": "C:/msys64/usr/httpFramework/build",
   "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/HttpRequest.cpp.obj -c C:/msys64/usr/httpFramework/HttpRequest.cpp",
   "file": "C:/msys64/usr/httpFramework/HttpRequest.cpp"
-},
-{
-  "directory": "C:/msys64/usr/httpFramework/build",
-  "command": "C:/msys64/mingw64/bin/g++.exe   -g -std=gnu++20 -o CMakeFiles/http.dir/HeadersParser.cpp.obj -c C:/msys64/usr/httpFramework/HeadersParser.cpp",
-  "file": "C:/msys64/usr/httpFramework/HeadersParser.cpp"
 }
 ]

@@ -10,6 +10,7 @@
 #include <sstream>
 #include "lightning/WSAInitializer.hpp"
 #include "lightning/SSLServer.hpp"
+#include "lightning/request/HttpRequest.hpp"
 
 constexpr auto CERT_FILE_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.crt";
 constexpr auto PRIVATE_KEY_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.decrypted.key";
@@ -22,7 +23,7 @@ std::string buildReply(int amount)
     reply << "HTTP/1.1 200 OK\n"
              "Content-Type:text/html\n"
              "Content-Length:"
-          << content.size() << "\n"
+          << content.length() << "\n"
           << "\r\n\r\n"
           << content;
 
@@ -50,8 +51,9 @@ void test()
 
         auto headers = client.getStream().readUntilToken("\r\n\r\n");
 
-        std::cout << "Headers: \n" << headers.data() << std::endl;
-        
+        lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(headers.begin(), headers.end()));
+
+        client.getStream().write(reply.data(), reply.size());
 
         counter++;
     }

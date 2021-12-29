@@ -2,10 +2,14 @@
 #include <cstring>
 #include <sstream>
 #include <array>
+#include <string_view>
 
 namespace lightning
 {
-    HttpRequest::HttpRequest(std::string method, std::string rawUri, std::string protocolVersion) : method(method), rawUri(rawUri), protocolVersion(protocolVersion)
+    HttpRequest::HttpRequest(std::string method, std::string rawUri, std::string protocolVersion, HeadersMap &headers) : method(method),
+                                                                                                                         rawUri(rawUri),
+                                                                                                                         protocolVersion(protocolVersion),
+                                                                                                                         headers(headers)
     {
     }
 
@@ -22,27 +26,69 @@ namespace lightning
         return this->protocolVersion;
     }
 
-    auto createRequestFromRequestLine(std::string requestLine) -> HttpRequest
+    auto HttpRequest::getNextToken(std::string line, std::string del, int &outIndex, int offset) -> std::string
     {
-        auto getNext = [](std::string line, int offset = 0) -> std::string
+        int index = line.find(del, offset);
+
+        if (index == std::string::npos)
         {
-            std::string chunk;
-            int index = offset;
+            outIndex = line.length();
+            return std::string(line.begin() + offset, line.end());
+        }
 
-            while (line[index] != ' ')
-            {
-                chunk.push_back(line[index]);
-            }
+        outIndex = index + del.length(); // Skip the delimiter.
+        return std::string(line.begin() + offset, line.begin() + index);
+    };
 
-            return chunk;
-        };
+    auto HttpRequest::parseRequestLine(std::string requestLine) -> HttpRequest::RequestLine
+    {
+        std::string method, uri, version, delimiter = " ";
+        int offset = 0;
 
-        std::string method, uri, version;
+        method = getNextToken(requestLine, delimiter, offset, offset);
+        uri = getNextToken(requestLine, delimiter, offset, offset);
+        version = getNextToken(requestLine, " ", offset, offset);
 
-        method = getNext(requestLine);
-        uri = getNext(requestLine, method.length());
-        version = getNext(requestLine, method.length() + uri.length());
+        return HttpRequest::RequestLine{
+            .method = method,
+            .rawUri = uri,
+            .protocolVersion = version};
+    }
 
-        return HttpRequest(method, uri, version);
+    auto HttpRequest::parseHeaders(std::string rawHeaders) -> HeadersMap
+    {
+        std::istringstream keyPairStream;
+        std::string header = "", key = "", value = "";
+        HeadersMap headersMap;
+        int offset = 0;
+
+        while ((header = HttpRequest::getNextToken(rawHeaders, CRLF, offset, offset)) != "")
+        {
+            int keySepratorIndex = 0;
+            key = HttpRequest::getNextToken(header, ": ", keySepratorIndex, 0);
+            value = std::string(header.begin() + keySepratorIndex, header.end());
+
+            headersMap.insert({key, value});
+        }
+
+        return headersMap;
+    }
+
+    auto HttpRequest::createRequest(std::string request) -> HttpRequest
+    {
+        int requestLineEnd = request.find(HttpRequest::CRLF);
+
+        if (requestLineEnd == std::string::npos)
+        {
+            throw std::runtime_error("Invalid request sent by client");
+        }
+
+        auto [method, uri, version] = parseRequestLine(std::string(request.begin(), request.begin() + requestLineEnd));
+
+        // The raw headers, without the request line and the CRLF at the end of it.
+        auto rawHeaders = std::string(request.begin() + requestLineEnd + strlen(HttpRequest::CRLF), request.end());
+        auto headers = parseHeaders(rawHeaders);
+
+        return HttpRequest(method, uri, version, headers);
     }
 }

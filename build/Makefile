@@ -129,30 +129,6 @@ http/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/build
 .PHONY : http/fast
 
-HeadersParser.obj: HeadersParser.cpp.obj
-.PHONY : HeadersParser.obj
-
-# target to build an object file
-HeadersParser.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HeadersParser.cpp.obj
-.PHONY : HeadersParser.cpp.obj
-
-HeadersParser.i: HeadersParser.cpp.i
-.PHONY : HeadersParser.i
-
-# target to preprocess a source file
-HeadersParser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HeadersParser.cpp.i
-.PHONY : HeadersParser.cpp.i
-
-HeadersParser.s: HeadersParser.cpp.s
-.PHONY : HeadersParser.s
-
-# target to generate assembly for a file
-HeadersParser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HeadersParser.cpp.s
-.PHONY : HeadersParser.cpp.s
-
 HttpRequest.obj: HttpRequest.cpp.obj
 .PHONY : HttpRequest.obj
 
@@ -354,9 +330,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... http"
-	@echo "... HeadersParser.obj"
-	@echo "... HeadersParser.i"
-	@echo "... HeadersParser.s"
 	@echo "... HttpRequest.obj"
 	@echo "... HttpRequest.i"
 	@echo "... HttpRequest.s"

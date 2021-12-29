@@ -16,9 +16,7 @@ add_executable(http
     ./lightning/stream/IStream.hpp
     ./lightning/stream/SSLStream.hpp ./SSLStream.cpp
 
-    ./lightning/request/HttpRequest.hpp ./HttpRequest.cpp
-    ./lightning/HeadersParser.hpp ./HeadersParser.cpp
-    
+    ./lightning/request/HttpRequest.hpp ./HttpRequest.cpp    
 )
 
 find_package(OpenSSL REQUIRED)

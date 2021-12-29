@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/http.dir/HeadersParser.cpp.obj"
-  "CMakeFiles/http.dir/HeadersParser.cpp.obj.d"
   "CMakeFiles/http.dir/HttpRequest.cpp.obj"
   "CMakeFiles/http.dir/HttpRequest.cpp.obj.d"
   "CMakeFiles/http.dir/LowLevelApiException.cpp.obj"

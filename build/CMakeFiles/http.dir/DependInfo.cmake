@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/msys64/usr/httpFramework/HeadersParser.cpp" "CMakeFiles/http.dir/HeadersParser.cpp.obj" "gcc" "CMakeFiles/http.dir/HeadersParser.cpp.obj.d"
   "C:/msys64/usr/httpFramework/HttpRequest.cpp" "CMakeFiles/http.dir/HttpRequest.cpp.obj" "gcc" "CMakeFiles/http.dir/HttpRequest.cpp.obj.d"
   "C:/msys64/usr/httpFramework/LowLevelApiException.cpp" "CMakeFiles/http.dir/LowLevelApiException.cpp.obj" "gcc" "CMakeFiles/http.dir/LowLevelApiException.cpp.obj.d"
   "C:/msys64/usr/httpFramework/SSLClient.cpp" "CMakeFiles/http.dir/SSLClient.cpp.obj" "gcc" "CMakeFiles/http.dir/SSLClient.cpp.obj.d"
