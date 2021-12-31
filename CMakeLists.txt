@@ -20,6 +20,8 @@ add_executable(http
     ./lightning/response/HttpResponse.hpp ./HttpResponse.cpp
     ./lightning/response/StatusLine.hpp
     ./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp
+    ./lightning/HttpProtocol.hpp
+    ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
 )
 
 find_package(OpenSSL REQUIRED)

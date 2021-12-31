@@ -4,6 +4,7 @@
 #include "../response/HttpResponse.hpp"
 #include <functional>
 #include <future>
+#include <unordered_map>
 
 namespace lightning
 {
@@ -11,6 +12,11 @@ namespace lightning
     {
     private:
         SSLServer lowLevelServer;
+
+        // An unordered_map that maps methods to maps of URIs.
+        using ResolversMap = std::unordered_map<std::string, std::unordered_map<std::string, std::string>>;
+
+        HttpServer::ResolversMap resolvers;
 
     public:
         HttpServer(SSLServer lowLevelServer);
