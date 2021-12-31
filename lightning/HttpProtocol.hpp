@@ -17,27 +17,29 @@ namespace lightning::HttpProtocol
         Methods_COUNT // Used to evaluate how many elements are in Method.
     };
 
+    // An array of all the supported http methods,
+    // ordered by their declartion in the enum class Method.
+    const std::array<std::string, static_cast<int>(Method::Methods_COUNT)> supportedHttpMethods =
+        {{std::string("OPTIONS"),
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT",
+          "DELETE",
+          "TRACE",
+          "CONNECT"}};
+
     /**
      * @brief Convert an of type Method to the string value of that method.
      * convertMethodToString(Method::Get) -> "GET"
      * convertMethodToString(Method::Post) -> "POST"
-     * convertMethodToString(Methods::Methods_COUNT) -> throw exception.
      *
      * @param method The method to convert.
      * @return std::string The string value of the method.
      */
-    auto convertMethodToString(Method method) -> std::string
+    inline auto convertMethodToString(const Method method) -> std::string
     {
-        static const std::array<std::string, static_cast<int>(Methods::Methods_COUNT - 1)> methodToString =
-            {{"OPTIONS",
-              "GET",
-              "HEAD",
-              "POST",
-              "PUT",
-              "DELETE",
-              "TRACE",
-              "CONNECT"}};
-
-        return methodToString[method];
+        int index = static_cast<int>(method);
+        return supportedHttpMethods.at(index);
     }
 }
