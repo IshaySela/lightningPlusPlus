@@ -7,8 +7,8 @@ namespace lightning
     {
         int statusCode;
 
-        const char *statusPhrase;
-        const char *httpVersion;
+        std::string statusPhrase;
+        std::string httpVersion;
 
         /**
          * @brief Construct a new Status Line object.
@@ -17,7 +17,7 @@ namespace lightning
          * @param statusPhrase The status phrase.
          * @param httpVersion The http version. Only the number without the HTTP - 1.1, 1.0, 2.0 etc.
          */
-        StatusLine(int statusCode, const char *statusPhrase, const char *httpVersion) : statusCode(statusCode),
+        StatusLine(int statusCode, std::string statusPhrase, std::string httpVersion) : statusCode(statusCode),
                                                                                         statusPhrase(statusPhrase),
                                                                                         httpVersion(httpVersion)
         {

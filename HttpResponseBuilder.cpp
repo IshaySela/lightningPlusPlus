@@ -36,6 +36,8 @@ namespace lightning
     auto HttpResponseBuilder::withBody(std::vector<char> body) -> HttpResponseBuilder &
     {
         this->body = body;
+
+        this->withHeader("Content-Length", std::to_string(body.size()));
         return *this;
     }
 

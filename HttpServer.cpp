@@ -1,5 +1,6 @@
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
+#include "lightning/LowLevelApiException.hpp"
 
 namespace lightning
 {
@@ -20,20 +21,16 @@ namespace lightning
         while (true)
         {
             auto client = this->lowLevelServer.accept();
+            std::vector<char> requestBuffer;
 
-            auto headers = client.getStream().readUntilToken("\r\n\r\n");
+            requestBuffer = client.getStream().readUntilToken("\r\n\r\n");
 
-            lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(headers.begin(), headers.end()));
+            lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(requestBuffer.begin(), requestBuffer.end()));
 
-            std::string example = "Hello, World #" + std::to_string(counter++);
+            auto resolver = this->getResolverOrDefault(request.getMethod(), request.getRawUri());
 
-            auto response = lightning::HttpResponseBuilder::create()
-                                .withBody(std::vector<char>(example.begin(), example.end()))
-                                .withHeader("Content-Type", "text/html")
-                                .build()
-                                .toHttpResponse();
+            auto response = resolver(request).toHttpResponse();
 
-            
             client.getStream().write(response.data(), response.size());
         }
     }
@@ -55,4 +52,33 @@ namespace lightning
         this->resolvers.at(methodString).insert(std::pair<std::string, Resolver>{uri, resolver});
     }
 
+    auto HttpServer::getResolver(std::string method, std::string uri) -> std::optional<Resolver>
+    {
+        static const std::optional<Resolver> RESOLVER_NOT_FOUND;
+
+        auto methodMap = this->resolvers.find(method);
+
+        if (methodMap == this->resolvers.end())
+            return RESOLVER_NOT_FOUND;
+
+        auto urisMap = (*methodMap).second;
+        auto itResolver = urisMap.find(uri);
+
+        return itResolver == urisMap.end() ? RESOLVER_NOT_FOUND : (*itResolver).second;
+    }
+
+    auto HttpServer::getResolverOrDefault(std::string method, std::string uri) -> Resolver
+    {
+        static auto defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
+        {
+            return HttpResponseBuilder::create()
+                .withStatusCode(404)
+                .withStatusPhrase("Not Found")
+                .build();
+        };
+
+        auto resolver = this->getResolver(method, uri);
+
+        return resolver.value_or(defaultResolver);
+    }
 }

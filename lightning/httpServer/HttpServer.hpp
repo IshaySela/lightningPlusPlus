@@ -49,6 +49,24 @@ namespace lightning
          */
         auto addResolver(HttpProtocol::Method method, std::string uri, Resolver resolver) -> void;
 
+        /**
+         * @brief Get the resolver from the resolvers map, based on the method and uri.
+         *
+         * @param method The method of the resolver.
+         * @param uri The uri of the resolver
+         * @return std::optional<Resolver> An optinal object that contains the resolver, if one exists.
+         */
+        auto getResolver(std::string method, std::string uri) -> std::optional<Resolver>;
+
+        /**
+         * @brief Call HttpServer::getResolver, if no resolver was found return the default resolver.
+         * otherwise, return the resolver from HttpServer::getResolver.
+         * 
+         * @param method The method of the resolver. 
+         * @param uri The uri of the resolver.
+         * @return Resolver The return of HttpServer::getResolver, or the default request resolver.
+         */
+        auto getResolverOrDefault(std::string method, std::string uri) -> Resolver;
     private:
         SSLServer lowLevelServer;
         HttpServer::ResolversMap resolvers;

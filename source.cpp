@@ -33,6 +33,25 @@ void test()
 
     lightning::HttpServer httpServer(sslServer);
 
+    int counter = 0;
+    auto testResolver = [&counter](lightning::HttpRequest request) -> lightning::HttpResponse
+    {
+        // Test program:
+        std::string example = "Hello, World #" + std::to_string(counter++);
+
+        auto response = lightning::HttpResponseBuilder::create()
+                            .withBody(std::vector<char>(example.begin(), example.end()))
+                            .withHeader("Content-Type", "text/html")
+                            .withHeader("Content-Length", std::to_string(example.size()))
+                            .withStatusCode(200)
+                            .withStatusPhrase("OK")
+                            .build();
+
+        return response;
+    };
+
+    httpServer.get("/", testResolver);
+
     httpServer.start();
 
     WSACleanup();

@@ -47,10 +47,13 @@ namespace lightning
         // Denote the end of the headers
         responseBuffer << "\r\n";
 
-        responseBuffer << this->body.data();
+        if (this->body.size() > 0)
+        {
+            responseBuffer << this->body.data();
+        }
 
         auto buffer = responseBuffer.str();
-
+   
         return std::vector<char>(buffer.begin(), buffer.end());
     }
 
