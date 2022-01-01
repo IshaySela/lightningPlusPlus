@@ -795,7 +795,8 @@ CMakeFiles/http.dir/HttpServer.cpp.obj: ../HttpServer.cpp \
   C:/msys64/mingw64/include/c++/11.2.0/bits/this_thread_sleep.h \
   C:/msys64/mingw64/x86_64-w64-mingw32/include/semaphore.h \
   C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_futex.h \
-  ../lightning/response/HttpResponseBuilder.hpp
+  ../lightning/response/HttpResponseBuilder.hpp \
+  ../lightning/LowLevelApiException.hpp
 
 CMakeFiles/http.dir/LowLevelApiException.cpp.obj: ../LowLevelApiException.cpp \
   ../lightning/LowLevelApiException.hpp \
@@ -3779,11 +3780,11 @@ C:/msys64/mingw64/x86_64-w64-mingw32/include/semaphore.h:
 
 C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_futex.h:
 
-../LowLevelApiException.cpp:
-
 C:/msys64/mingw64/x86_64-w64-mingw32/include/dpapi.h:
 
 ../lightning/LowLevelApiException.hpp:
+
+../LowLevelApiException.cpp:
 
 C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/avx5124fmapsintrin.h:
 

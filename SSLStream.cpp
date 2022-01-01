@@ -99,12 +99,10 @@ namespace lightning::stream
 
         switch (error)
         {
-        case SSL_ERROR_SSL:
-            throw lightning::LowLevelApiException("A non-recoverable, fatal error has occurred while reading data from the peer", error);
-
-            // Non fatal errors can be ignored.
         case SSL_ERROR_ZERO_RETURN:
         case SSL_ERROR_SYSCALL:
+        case SSL_ERROR_SSL:
+            throw lightning::LowLevelApiException("A non-recoverable, fatal error has occurred while reading data from the peer", error);
         default:
             break;
         }

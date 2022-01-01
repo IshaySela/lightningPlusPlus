@@ -800,6 +800,7 @@ CMakeFiles/http.dir/HttpServer.cpp.obj
  C:/msys64/mingw64/x86_64-w64-mingw32/include/semaphore.h
  C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_futex.h
  C:/msys64/usr/httpFramework/lightning/response/HttpResponseBuilder.hpp
+ C:/msys64/usr/httpFramework/lightning/LowLevelApiException.hpp
 
 CMakeFiles/http.dir/LowLevelApiException.cpp.obj
  C:/msys64/usr/httpFramework/LowLevelApiException.cpp

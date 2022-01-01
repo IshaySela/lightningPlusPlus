@@ -23,7 +23,15 @@ namespace lightning
             auto client = this->lowLevelServer.accept();
             std::vector<char> requestBuffer;
 
-            requestBuffer = client.getStream().readUntilToken("\r\n\r\n");
+            try
+            {
+                requestBuffer = client.getStream().readUntilToken("\r\n\r\n");
+            }
+            catch (const LowLevelApiException &e)
+            {
+                client.getStream().close();
+                continue;
+            }
 
             lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(requestBuffer.begin(), requestBuffer.end()));
 
