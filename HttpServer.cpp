@@ -53,6 +53,16 @@ namespace lightning
         this->addResolver(HttpProtocol::Method::Post, uri, resolver);
     }
 
+    auto HttpServer::put(std::string uri, Resolver resolver) -> void
+    {
+        this->addResolver(HttpProtocol::Method::Put, uri, resolver);
+    }
+
+    auto HttpServer::resolveDelete(std::string uri, Resolver resolver) -> void
+    {
+        this->addResolver(HttpProtocol::Method::Delete, uri, resolver);
+    }
+
     auto HttpServer::addResolver(HttpProtocol::Method method, std::string uri, Resolver resolver) -> void
     {
         auto methodString = HttpProtocol::convertMethodToString(method);
