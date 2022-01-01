@@ -8,10 +8,12 @@
 #include <openssl/err.h>
 #include "lightning/LowLevelApiException.hpp"
 #include <sstream>
+#include <limits>
 #include "lightning/WSAInitializer.hpp"
 #include "lightning/SSLServer.hpp"
 #include "lightning/request/HttpRequest.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
+#include "lightning/HttpProtocol.hpp"
 
 constexpr auto CERT_FILE_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.crt";
 constexpr auto PRIVATE_KEY_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.decrypted.key";

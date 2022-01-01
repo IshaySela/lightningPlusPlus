@@ -209,6 +209,20 @@ CMakeFiles/http.dir/HttpResponseBuilder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/http.dir/HttpResponseBuilder.cpp.s"
 	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/msys64/usr/httpFramework/HttpResponseBuilder.cpp -o CMakeFiles/http.dir/HttpResponseBuilder.cpp.s
 
+CMakeFiles/http.dir/HttpServer.cpp.obj: CMakeFiles/http.dir/flags.make
+CMakeFiles/http.dir/HttpServer.cpp.obj: ../HttpServer.cpp
+CMakeFiles/http.dir/HttpServer.cpp.obj: CMakeFiles/http.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:/msys64/usr/httpFramework/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/http.dir/HttpServer.cpp.obj"
+	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/http.dir/HttpServer.cpp.obj -MF CMakeFiles/http.dir/HttpServer.cpp.obj.d -o CMakeFiles/http.dir/HttpServer.cpp.obj -c C:/msys64/usr/httpFramework/HttpServer.cpp
+
+CMakeFiles/http.dir/HttpServer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/http.dir/HttpServer.cpp.i"
+	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:/msys64/usr/httpFramework/HttpServer.cpp > CMakeFiles/http.dir/HttpServer.cpp.i
+
+CMakeFiles/http.dir/HttpServer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/http.dir/HttpServer.cpp.s"
+	C:/msys64/mingw64/bin/g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/msys64/usr/httpFramework/HttpServer.cpp -o CMakeFiles/http.dir/HttpServer.cpp.s
+
 # Object files for target http
 http_OBJECTS = \
 "CMakeFiles/http.dir/source.cpp.obj" \
@@ -220,7 +234,8 @@ http_OBJECTS = \
 "CMakeFiles/http.dir/SSLStream.cpp.obj" \
 "CMakeFiles/http.dir/HttpRequest.cpp.obj" \
 "CMakeFiles/http.dir/HttpResponse.cpp.obj" \
-"CMakeFiles/http.dir/HttpResponseBuilder.cpp.obj"
+"CMakeFiles/http.dir/HttpResponseBuilder.cpp.obj" \
+"CMakeFiles/http.dir/HttpServer.cpp.obj"
 
 # External object files for target http
 http_EXTERNAL_OBJECTS =
@@ -235,12 +250,13 @@ http.exe: CMakeFiles/http.dir/SSLStream.cpp.obj
 http.exe: CMakeFiles/http.dir/HttpRequest.cpp.obj
 http.exe: CMakeFiles/http.dir/HttpResponse.cpp.obj
 http.exe: CMakeFiles/http.dir/HttpResponseBuilder.cpp.obj
+http.exe: CMakeFiles/http.dir/HttpServer.cpp.obj
 http.exe: CMakeFiles/http.dir/build.make
 http.exe: C:/msys64/mingw64/lib/libssl.dll.a
 http.exe: C:/msys64/mingw64/lib/libcrypto.dll.a
 http.exe: CMakeFiles/http.dir/linklibs.rsp
 http.exe: CMakeFiles/http.dir/objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:/msys64/usr/httpFramework/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable http.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:/msys64/usr/httpFramework/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable http.exe"
 	"C:/Program Files/CMake/bin/cmake.exe" -E rm -f CMakeFiles/http.dir/objects.a
 	C:/msys64/mingw64/bin/ar.exe qc CMakeFiles/http.dir/objects.a @CMakeFiles/http.dir/objects1.rsp
 	C:/msys64/mingw64/bin/g++.exe -g -Wl,--whole-archive CMakeFiles/http.dir/objects.a -Wl,--no-whole-archive -o http.exe -Wl,--out-implib,libhttp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/http.dir/linklibs.rsp

@@ -49,6 +49,15 @@
         "typeinfo": "cpp",
         "*.inc": "cpp",
         "cstring": "cpp",
-        "optional": "cpp"
+        "optional": "cpp",
+        "future": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     }
 }
