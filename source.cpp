@@ -14,24 +14,10 @@
 #include "lightning/request/HttpRequest.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/HttpProtocol.hpp"
+#include "lightning/httpServer/HttpServer.hpp"
 
 constexpr auto CERT_FILE_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.crt";
 constexpr auto PRIVATE_KEY_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.decrypted.key";
-
-std::string buildReply(int amount)
-{
-    std::stringstream reply;
-    std::string content = "Hello, Counter! " + std::to_string(amount);
-
-    reply << "HTTP/1.1 200 OK\n"
-             "Content-Type:text/html\n"
-             "Content-Length:"
-          << content.length() << "\n"
-          << "\r\n\r\n"
-          << content;
-
-    return reply.str();
-}
 
 void test()
 {
@@ -43,23 +29,11 @@ void test()
         throw lightning::LowLevelApiException("Error while calling WSAStartup()", error);
     }
 
-    lightning::SSLServer server(8080, CERT_FILE_PATH, PRIVATE_KEY_PATH);
+    lightning::SSLServer sslServer(8080, CERT_FILE_PATH, PRIVATE_KEY_PATH);
 
-    int counter = 0;
+    lightning::HttpServer httpServer(sslServer);
 
-    while (true)
-    {
-        auto client = server.accept();
-        auto reply = buildReply(counter);
-
-        auto headers = client.getStream().readUntilToken("\r\n\r\n");
-
-        lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(headers.begin(), headers.end()));
-
-        client.getStream().write(reply.data(), reply.size());
-
-        counter++;
-    }
+    httpServer.start();
 
     WSACleanup();
 }

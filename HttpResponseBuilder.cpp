@@ -39,4 +39,10 @@ namespace lightning
         return *this;
     }
 
+    auto HttpResponseBuilder::withHeader(std::string key, std::string value) -> HttpResponseBuilder &
+    {
+        this->headers.insert_or_assign(key, value);
+        return *this;
+    }
+
 }

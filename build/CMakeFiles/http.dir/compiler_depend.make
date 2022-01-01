@@ -794,7 +794,8 @@ CMakeFiles/http.dir/HttpServer.cpp.obj: ../HttpServer.cpp \
   C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_timed_wait.h \
   C:/msys64/mingw64/include/c++/11.2.0/bits/this_thread_sleep.h \
   C:/msys64/mingw64/x86_64-w64-mingw32/include/semaphore.h \
-  C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_futex.h
+  C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_futex.h \
+  ../lightning/response/HttpResponseBuilder.hpp
 
 CMakeFiles/http.dir/LowLevelApiException.cpp.obj: ../LowLevelApiException.cpp \
   ../lightning/LowLevelApiException.hpp \
@@ -2985,7 +2986,25 @@ CMakeFiles/http.dir/source.cpp.obj: ../source.cpp \
   C:/msys64/mingw64/include/c++/11.2.0/optional \
   C:/msys64/mingw64/include/c++/11.2.0/bits/enable_special_members.h \
   ../lightning/response/StatusLine.hpp \
-  ../lightning/HttpProtocol.hpp
+  ../lightning/HttpProtocol.hpp \
+  ../lightning/httpServer/HttpServer.hpp \
+  C:/msys64/mingw64/include/c++/11.2.0/future \
+  C:/msys64/mingw64/include/c++/11.2.0/mutex \
+  C:/msys64/mingw64/include/c++/11.2.0/chrono \
+  C:/msys64/mingw64/include/c++/11.2.0/ratio \
+  C:/msys64/mingw64/include/c++/11.2.0/ctime \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/parse_numbers.h \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/unique_lock.h \
+  C:/msys64/mingw64/include/c++/11.2.0/condition_variable \
+  C:/msys64/mingw64/include/c++/11.2.0/stop_token \
+  C:/msys64/mingw64/include/c++/11.2.0/atomic \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/std_thread.h \
+  C:/msys64/mingw64/include/c++/11.2.0/semaphore \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/semaphore_base.h \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_timed_wait.h \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/this_thread_sleep.h \
+  C:/msys64/mingw64/x86_64-w64-mingw32/include/semaphore.h \
+  C:/msys64/mingw64/include/c++/11.2.0/bits/atomic_futex.h
 
 
 C:/msys64/mingw64/include/c++/11.2.0/bits/stl_iterator_base_funcs.h:

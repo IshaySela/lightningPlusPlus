@@ -24,7 +24,11 @@ namespace lightning
          * clients. ; TODO: Convert SSLServer to a pure virtual class and pass a pointer to the class instead.
          */
         HttpServer(SSLServer lowLevelServer);
-        auto start() -> std::future<void>;
+
+        /**
+         * @brief Start handling clients from the server.
+         */
+        auto start() -> void;
 
         /**
          * @brief Call HttpServer::adResolver with the method parameter as "GET"
