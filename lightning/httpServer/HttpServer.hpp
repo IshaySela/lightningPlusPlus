@@ -3,6 +3,7 @@
 #include "../request/HttpRequest.hpp"
 #include "../response/HttpResponse.hpp"
 #include "../HttpProtocol.hpp"
+#include "../response/HttpResponseBuilder.hpp"
 #include <functional>
 #include <future>
 #include <unordered_map>
@@ -61,8 +62,8 @@ namespace lightning
         /**
          * @brief Call HttpServer::getResolver, if no resolver was found return the default resolver.
          * otherwise, return the resolver from HttpServer::getResolver.
-         * 
-         * @param method The method of the resolver. 
+         *
+         * @param method The method of the resolver.
          * @param uri The uri of the resolver.
          * @return Resolver The return of HttpServer::getResolver, or the default request resolver.
          */

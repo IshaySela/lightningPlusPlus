@@ -1,6 +1,6 @@
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/LowLevelApiException.hpp"
+#include <fstream>
 
 namespace lightning
 {
