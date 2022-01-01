@@ -42,6 +42,15 @@ namespace lightning
         auto post(std::string uri, Resolver resolver) -> void;
 
         /**
+         * @brief Call HttpServer::addResolver with the method parameter as "PUT".
+         */
+        auto put(std::string uri, Resolver resolver) -> void;
+        
+        /**
+         * @brief Call HttpServer::addResolver with the method parameter as "DELETE".
+         */
+        auto resolveDelete(std::string uri, Resolver resolver) -> void;
+        /**
          * @brief Map a resolve function to a method and uri.
          *
          * @param method The method to map to.
