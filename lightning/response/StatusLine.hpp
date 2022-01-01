@@ -33,7 +33,7 @@ namespace lightning
         {
             std::stringstream stream;
 
-            stream << "HTTP/" << this->httpVersion << " " << std::to_string(this->statusCode) << " " << this->statusPhrase << "\r\n\r\n";
+            stream << "HTTP/" << this->httpVersion << " " << std::to_string(this->statusCode) << " " << this->statusPhrase << "\r\n";
 
             return stream.str();
         }
