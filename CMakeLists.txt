@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(http
     ./source.cpp
-    ./lightning/WSAInitializer.hpp ./WSAInitializer.cpp
+    ./lightning/sockets.hpp ./sockets.cpp
     ./lightning/SSLServer.hpp ./SSLServer.cpp
     ./lightning/LowLevelApiException.hpp ./LowLevelApiException.cpp
     ./lightning/SmartResource.hpp ./SmartResource.cpp
