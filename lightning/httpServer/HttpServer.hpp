@@ -4,6 +4,7 @@
 #include "../response/HttpResponse.hpp"
 #include "../HttpProtocol.hpp"
 #include "../response/HttpResponseBuilder.hpp"
+#include "../lightning.hpp"
 #include <functional>
 #include <future>
 #include <unordered_map>
@@ -45,7 +46,8 @@ namespace lightning
          * @brief Call HttpServer::addResolver with the method parameter as "PUT".
          */
         auto put(std::string uri, Resolver resolver) -> void;
-        
+
+        auto head(std::string uri, Resolver resolver) -> void;
         /**
          * @brief Call HttpServer::addResolver with the method parameter as "DELETE".
          */
@@ -80,5 +82,7 @@ namespace lightning
     private:
         SSLServer lowLevelServer;
         HttpServer::ResolversMap resolvers;
+
+        Resolver defaultGetResolver;
     };
 } // namespace lightning

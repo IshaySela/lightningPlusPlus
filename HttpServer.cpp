@@ -45,7 +45,14 @@ namespace lightning
 
     auto HttpServer::get(std::string uri, Resolver resolver) -> void
     {
-        this->addResolver(HttpProtocol::Method::Get, uri, resolver);
+        if (uri == "*")
+        {
+            this->defaultGetResolver = resolver;
+        }
+        else
+        {
+            this->addResolver(HttpProtocol::Method::Get, uri, resolver);
+        }
     }
 
     auto HttpServer::post(std::string uri, Resolver resolver) -> void
@@ -56,6 +63,11 @@ namespace lightning
     auto HttpServer::put(std::string uri, Resolver resolver) -> void
     {
         this->addResolver(HttpProtocol::Method::Put, uri, resolver);
+    }
+
+    auto HttpServer::head(std::string uri, Resolver resolver) -> void
+    {
+        this->addResolver(HttpProtocol::Method::Head, uri, resolver);
     }
 
     auto HttpServer::resolveDelete(std::string uri, Resolver resolver) -> void
@@ -99,4 +111,5 @@ namespace lightning
 
         return resolver.value_or(defaultResolver);
     }
+
 }
