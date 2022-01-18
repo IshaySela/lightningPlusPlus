@@ -22,6 +22,8 @@ add_executable(http
     ./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp
     ./lightning/HttpProtocol.hpp
     ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
+
+    ./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
 )
 
 find_package(OpenSSL REQUIRED)

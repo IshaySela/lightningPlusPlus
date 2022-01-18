@@ -7,16 +7,16 @@
 #include <openssl/err.h>
 #include "lightning/LowLevelApiException.hpp"
 #include <sstream>
-#include <limits>
 #include "lightning/SSLServer.hpp"
 #include "lightning/request/HttpRequest.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/HttpProtocol.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/sockets.hpp"
+#include <regex>
 
-constexpr auto CERT_FILE_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.crt";
-constexpr auto PRIVATE_KEY_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.decrypted.key";
+constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
+constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
 
 void test()
 {
@@ -50,14 +50,22 @@ void test()
 
 int main(int argc, char **argv)
 {
-    try
-    {
-        test();
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    std::string test = "/test/";
+    std::regex rgx("^\\/test\\/(.*)");
+    std::cmatch match;
 
-    std::cout << "Ended gracefully" << std::endl;
+    std::regex_match(test.c_str(), match, rgx);
+
+    std::cout << match.empty() << std::endl;
+
+    // try
+    // {
+    //     test();
+    // }
+    // catch (const std::exception &e)
+    // {
+    //     std::cerr << e.what() << '\n';
+    // }
+
+    // std::cout << "Ended gracefully" << std::endl;
 }
