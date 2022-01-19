@@ -5,6 +5,7 @@
 #include "../HttpProtocol.hpp"
 #include "../response/HttpResponseBuilder.hpp"
 #include "../lightning.hpp"
+#include "../uriMapper/UriMapper.hpp"
 #include <functional>
 #include <future>
 #include <unordered_map>
@@ -14,9 +15,8 @@ namespace lightning
     class HttpServer
     {
     public:
-        using Resolver = std::function<HttpResponse(HttpRequest request)>;
         // An unordered_map that maps methods to maps of URIs.
-        using ResolversMap = std::unordered_map<std::string, std::unordered_map<std::string, Resolver>>;
+        using ResolversMap = std::unordered_map<std::string, UriMapper>;
 
         /**
          * @brief Construct a new Http Server object, and initilize the resolver to contain an empty map

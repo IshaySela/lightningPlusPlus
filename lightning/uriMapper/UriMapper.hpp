@@ -1,7 +1,8 @@
 #pragma once
 #include <unordered_map>
 #include <regex>
-#include "../httpServer/HttpServer.hpp"
+#include <optional>
+#include "../lightning.hpp"
 
 namespace lightning
 {
@@ -13,7 +14,7 @@ namespace lightning
     class UriMapper
     {
     private:
-        std::unordered_map<std::string, HttpServer::Resolver> resolvers;
+        std::unordered_map<std::string, Resolver> resolvers;
 
         /**
          * @brief Search for the wildcard string /* and return its index.
@@ -64,14 +65,14 @@ namespace lightning
          * @param resolver The resolver.
          * @returns The resolver that was passed in.
          */
-        auto add(std::string experssion, HttpServer::Resolver resolver) -> HttpServer::Resolver;
+        auto add(std::string experssion, Resolver resolver) -> Resolver;
 
         /**
          * @brief Return the value (resolver) of the first key (regex expression) that mathces to the uri provided.
          *
          * @param uri The uri to match against.
-         * @return HttpServer::Resolver The resolver for which the uri was matched successfully.
+         * @return Resolver The resolver for which the uri was matched successfully.
          */
-        auto match(std::string uri) -> std::optional<HttpServer::Resolver>;
+        auto match(std::string uri) -> std::optional<Resolver>;
     };
 }

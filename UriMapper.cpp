@@ -42,7 +42,7 @@ namespace lightning
         return strings::formatEx<std::string>(cleanUri, seprator, wildcardRegex).value_or(uri); // TODO: Figure out a general way to handle optional values.
     }
 
-    auto UriMapper::add(std::string uri, HttpServer::Resolver resolver) -> HttpServer::Resolver
+    auto UriMapper::add(std::string uri, Resolver resolver) -> Resolver
     {
         auto wildcard = this->containsWildcard(uri);
 
@@ -58,7 +58,7 @@ namespace lightning
         return (*this->resolvers.insert({wildcardRegex, resolver}).first).second;
     }
 
-    auto UriMapper::match(std::string uri) -> std::optional<HttpServer::Resolver>
+    auto UriMapper::match(std::string uri) -> std::optional<Resolver>
     {
         for (auto &[regexStr, resolver] : this->resolvers)
         {

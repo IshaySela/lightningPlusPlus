@@ -46,7 +46,7 @@ void test()
         return response;
     };
 
-    httpServer.get("/", testResolver);
+    httpServer.get("/hello/*/world", testResolver);
 
     httpServer.start();
 }
