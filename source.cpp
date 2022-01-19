@@ -14,6 +14,9 @@
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/sockets.hpp"
 #include <regex>
+#include "lightning/uriMapper/Strings.hpp"
+#include <optional>
+#include "lightning/uriMapper/UriMapper.hpp"
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
@@ -50,22 +53,14 @@ void test()
 
 int main(int argc, char **argv)
 {
-    std::string test = "/test/";
-    std::regex rgx("^\\/test\\/(.*)");
-    std::cmatch match;
+    try
+    {
+        test();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 
-    std::regex_match(test.c_str(), match, rgx);
-
-    std::cout << match.empty() << std::endl;
-
-    // try
-    // {
-    //     test();
-    // }
-    // catch (const std::exception &e)
-    // {
-    //     std::cerr << e.what() << '\n';
-    // }
-
-    // std::cout << "Ended gracefully" << std::endl;
+    std::cout << "Ended gracefully" << std::endl;
 }

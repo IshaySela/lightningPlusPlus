@@ -16,15 +16,13 @@ namespace lightning
         std::unordered_map<std::string, HttpServer::Resolver> resolvers;
 
         /**
-         * @brief Find any special character that is relevant to the uri mapper, and return its index.
-         * Return std::string::npos if no character was found.
-         *
-         * Currently, only looking for wildcard at the end of the uri.
-         *
-         * @param uri
-         * @return size_t The index of the special character, or std::string::npos if none was found.
+         * @brief Search for the wildcard string /* and return its index.
+         * Return string::npos if the string does not exists.
+         * 
+         * @param uri The uri to search in.
+         * @return size_t The index of the wildcard, or string::npos if none was found.
          */
-        auto findSpecialCharacters(std::string uri) -> size_t;
+        auto containsWildcard(std::string uri) -> size_t;
 
         /**
          * @brief Create exact match regexp for the uri. 
@@ -35,6 +33,18 @@ namespace lightning
          * @return std::string The exact match regular expression.
          */
         auto createExactMatch(std::string uri) -> std::string;
+
+        /**
+         * @brief Convert a uri with wildcard /* to the regex equivelent.
+         * 
+         * /test/* -> ^\/test(\/.*|$) = /test or /test/<any character set possible>
+         * /test/* /hello -> ^\/test(\/.*|$)\/hello = /test/<any character set possible>/hello
+         * 
+         * @param uri The uri with the wildcard that is used to construct the regex.
+         * @return std::string The constructed regex.
+         */
+        auto createWithWildcard(std::string uri) -> std::string;
+
     public:
         /**
          * @brief Add a new resolver to the resolvers map.
@@ -46,11 +56,15 @@ namespace lightning
          *
          * "/test/*" -> "^\/test\/(.*)|^\/test" ; The string /test/ and then any string, or the string '/test/ iteself.
          *
-         *
+         * Note: The order of UriMapper::add is important. If 2 expressions
+         * will result in a match, the latter experssion will be resolved since it will be stored before it in the 
+         * unordered_map.
+         * 
          * @param experssion The regex expression.
          * @param resolver The resolver.
+         * @returns The resolver that was passed in.
          */
-        auto add(std::string experssion, HttpServer::Resolver resolver) -> void;
+        auto add(std::string experssion, HttpServer::Resolver resolver) -> HttpServer::Resolver;
 
         /**
          * @brief Return the value (resolver) of the first key (regex expression) that mathces to the uri provided.
@@ -58,6 +72,6 @@ namespace lightning
          * @param uri The uri to match against.
          * @return HttpServer::Resolver The resolver for which the uri was matched successfully.
          */
-        auto match(std::string uri) -> HttpServer::Resolver;
+        auto match(std::string uri) -> std::optional<HttpServer::Resolver>;
     };
 }
