@@ -10,7 +10,7 @@ namespace lightning
         {
             auto &method = HttpProtocol::supportedHttpMethods[i];
 
-            this->resolvers.insert({method, std::unordered_map<std::string, Resolver>()});
+            this->resolvers.insert({method, UriMapper()});
         }
     }
 
@@ -45,7 +45,14 @@ namespace lightning
 
     auto HttpServer::get(std::string uri, Resolver resolver) -> void
     {
-        this->addResolver(HttpProtocol::Method::Get, uri, resolver);
+        if (uri == "*")
+        {
+            this->defaultGetResolver = resolver;
+        }
+        else
+        {
+            this->addResolver(HttpProtocol::Method::Get, uri, resolver);
+        }
     }
 
     auto HttpServer::post(std::string uri, Resolver resolver) -> void
@@ -58,6 +65,11 @@ namespace lightning
         this->addResolver(HttpProtocol::Method::Put, uri, resolver);
     }
 
+    auto HttpServer::head(std::string uri, Resolver resolver) -> void
+    {
+        this->addResolver(HttpProtocol::Method::Head, uri, resolver);
+    }
+
     auto HttpServer::resolveDelete(std::string uri, Resolver resolver) -> void
     {
         this->addResolver(HttpProtocol::Method::Delete, uri, resolver);
@@ -67,7 +79,7 @@ namespace lightning
     {
         auto methodString = HttpProtocol::convertMethodToString(method);
 
-        this->resolvers.at(methodString).insert(std::pair<std::string, Resolver>{uri, resolver});
+        this->resolvers.at(methodString).add(uri, resolver);
     }
 
     auto HttpServer::getResolver(std::string method, std::string uri) -> std::optional<Resolver>
@@ -80,9 +92,8 @@ namespace lightning
             return RESOLVER_NOT_FOUND;
 
         auto urisMap = (*methodMap).second;
-        auto itResolver = urisMap.find(uri);
-
-        return itResolver == urisMap.end() ? RESOLVER_NOT_FOUND : (*itResolver).second;
+        
+        return urisMap.match(uri);
     }
 
     auto HttpServer::getResolverOrDefault(std::string method, std::string uri) -> Resolver
@@ -99,4 +110,5 @@ namespace lightning
 
         return resolver.value_or(defaultResolver);
     }
+
 }

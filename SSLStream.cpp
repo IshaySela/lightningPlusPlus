@@ -47,7 +47,7 @@ namespace lightning::stream
 
         while (readResult == SSLStream::SSL_NO_ERROR && !foundToken)
         {
-            readResult = SSL_read_ex(this->ssl, chunk.data(), 1024, &chunkBytesRead);
+            readResult = SSL_read_ex(this->ssl, reinterpret_cast<void*>(chunk.data()), 1024, &chunkBytesRead);
 
             if (readResult < SSLStream::SSL_NO_ERROR)
             {
@@ -68,7 +68,7 @@ namespace lightning::stream
         std::string leftover(buffer.begin() + static_cast<int>(tokenPosition) + token.length(), buffer.end());
 
         // Only the header
-        std::vector headersBuffer(buffer.begin(), buffer.begin() + static_cast<int>(tokenPosition));
+        std::vector<char> headersBuffer(buffer.begin(), buffer.begin() + static_cast<int>(tokenPosition));
 
         return headersBuffer;
     }

@@ -3,31 +3,27 @@
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
-#include <winsock2.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include "lightning/LowLevelApiException.hpp"
 #include <sstream>
-#include <limits>
-#include "lightning/WSAInitializer.hpp"
 #include "lightning/SSLServer.hpp"
 #include "lightning/request/HttpRequest.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/HttpProtocol.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
+#include "lightning/sockets.hpp"
+#include <regex>
+#include "lightning/uriMapper/Strings.hpp"
+#include <optional>
+#include "lightning/uriMapper/UriMapper.hpp"
 
-constexpr auto CERT_FILE_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.crt";
-constexpr auto PRIVATE_KEY_PATH = "C:\\msys64\\usr\\httpFramework\\cert\\localhost\\localhost.decrypted.key";
+constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
+constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
 
 void test()
 {
-    WSADATA data;
-    auto versionRequired = MAKEWORD(2, 2);
-    int error;
-    if ((error = WSAStartup(versionRequired, &data)) != 0)
-    {
-        throw lightning::LowLevelApiException("Error while calling WSAStartup()", error);
-    }
+    auto wsaCleaner = initWSData();
 
     lightning::SSLServer sslServer(8080, CERT_FILE_PATH, PRIVATE_KEY_PATH);
 
@@ -50,11 +46,9 @@ void test()
         return response;
     };
 
-    httpServer.get("/", testResolver);
+    httpServer.get("/hello/*/world", testResolver);
 
     httpServer.start();
-
-    WSACleanup();
 }
 
 int main(int argc, char **argv)
