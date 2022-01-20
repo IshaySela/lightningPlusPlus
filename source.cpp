@@ -1,22 +1,12 @@
 
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <iostream>
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-#include "lightning/LowLevelApiException.hpp"
-#include <sstream>
 #include "lightning/SSLServer.hpp"
 #include "lightning/request/HttpRequest.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
-#include "lightning/HttpProtocol.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/sockets.hpp"
-#include <regex>
-#include "lightning/uriMapper/Strings.hpp"
-#include <optional>
-#include "lightning/uriMapper/UriMapper.hpp"
+#include "lightning/TaskExecutor.hpp"
+#include <chrono>
+#include <thread>
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
