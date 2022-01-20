@@ -21,8 +21,7 @@ void test()
 
     int counter = 0;
     
-    httpServer.get("/index.html", lightning::handlers::uriToStaticFile("/home/ishaysela/projects/lightningPlusPlus/tests/index.html2"));
-
+    httpServer.get("/*", lightning::handlers::serveFolder("../tests"));
     httpServer.start();
 }
 

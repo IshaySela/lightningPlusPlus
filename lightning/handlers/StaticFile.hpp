@@ -25,7 +25,18 @@ namespace lightning::handlers
      * 
      * @param path The path to the file.
      * @param contentType the content type header in the response to the client.
+     * @param notFoundResolver Resolver that is called if the file coult not be read.
      * @return Resolver The resolver that is serving the file.
      */
     auto uriToStaticFile(std::string path, std::string contentType = "text/html", Resolver notFoundResolver = NOT_FOUND_RESOLVER) -> Resolver;
+
+    /**
+     * @brief Serve entire folder based on the request uri.
+     * 
+     * @param path The path to the folder
+     * @param notFoundResolver Resolver that is called if the file coult not be read.
+     * 
+     * @return Resolver The resolver for serving the folder.
+     */
+    auto serveFolder(std::string path, Resolver notFoundResolver = NOT_FOUND_RESOLVER) -> Resolver;
 }
