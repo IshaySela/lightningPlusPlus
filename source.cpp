@@ -5,8 +5,6 @@
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/TaskExecutor.hpp"
-#include <chrono>
-#include <thread>
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
@@ -17,7 +15,7 @@ void test()
 
     lightning::SSLServer sslServer(8080, CERT_FILE_PATH, PRIVATE_KEY_PATH);
 
-    lightning::HttpServer httpServer(sslServer);
+    lightning::HttpServer httpServer(sslServer, 2);
 
     int counter = 0;
     auto testResolver = [&counter](lightning::HttpRequest request) -> lightning::HttpResponse
@@ -36,7 +34,7 @@ void test()
         return response;
     };
 
-    httpServer.get("/hello/*/world", testResolver);
+    httpServer.get("/*", testResolver);
 
     httpServer.start();
 }

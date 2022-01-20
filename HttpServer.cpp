@@ -4,7 +4,7 @@
 
 namespace lightning
 {
-    HttpServer::HttpServer(SSLServer lowLevelServer) : lowLevelServer(lowLevelServer)
+    HttpServer::HttpServer(SSLServer lowLevelServer, const int threadCount) : lowLevelServer(lowLevelServer), tasks(threadCount)
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
         {
@@ -21,6 +21,7 @@ namespace lightning
         while (true)
         {
             auto client = this->lowLevelServer.accept();
+
             std::vector<char> requestBuffer;
 
             try
@@ -34,12 +35,9 @@ namespace lightning
             }
 
             lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(requestBuffer.begin(), requestBuffer.end()));
-
             auto resolver = this->getResolverOrDefault(request.getMethod(), request.getRawUri());
 
-            auto response = resolver(request).toHttpResponse();
-
-            client.getStream().write(response.data(), response.size());
+            this->tasks.add_task(new ResolveAndSend(std::move(client), resolver, request), true);
         }
     }
 
@@ -92,7 +90,7 @@ namespace lightning
             return RESOLVER_NOT_FOUND;
 
         auto urisMap = (*methodMap).second;
-        
+
         return urisMap.match(uri);
     }
 
@@ -110,5 +108,13 @@ namespace lightning
 
         return resolver.value_or(defaultResolver);
     }
+
+    void HttpServer::ResolveAndSend::operator()()
+    {
+        auto response = this->resolver(request).toHttpResponse();
+        this->client.getStream().write(response.data(), response.size());
+    }
+
+    HttpServer::ResolveAndSend::ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request) {}
 
 }

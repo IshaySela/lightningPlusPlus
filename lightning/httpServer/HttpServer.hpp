@@ -9,6 +9,7 @@
 #include <functional>
 #include <future>
 #include <unordered_map>
+#include "../TaskExecutor.hpp"
 
 namespace lightning
 {
@@ -24,8 +25,10 @@ namespace lightning
          *
          * @param lowLevelServer The underlying low level server API that is used to accept new
          * clients. ; TODO: Convert SSLServer to a pure virtual class and pass a pointer to the class instead.
+         * @param threadCount The argument to pass to the constructor of HttpServer::tasks. Controls how many
+         * threads the tasks executor will use, must be positive number above 0.
          */
-        HttpServer(SSLServer lowLevelServer);
+        HttpServer(SSLServer lowLevelServer, const int threadCount = 1);
 
         /**
          * @brief Start handling clients from the server.
@@ -79,10 +82,34 @@ namespace lightning
          * @return Resolver The return of HttpServer::getResolver, or the default request resolver.
          */
         auto getResolverOrDefault(std::string method, std::string uri) -> Resolver;
+
     private:
         SSLServer lowLevelServer;
         HttpServer::ResolversMap resolvers;
 
         Resolver defaultGetResolver;
+
+        /**
+         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to 
+         * the function that is invoked by TaskExecutor.
+         * 
+         */
+        class ResolveAndSend
+        {
+        public:
+            ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request);
+
+            /**
+             * @brief Call resolver with request and send the result back to the client.
+             * Satisfy the Task<T> constraint.
+             */
+            void operator()();
+        private:
+            SSLClient client;
+            Resolver resolver;
+            HttpRequest request;
+        };
+
+        TaskExecutor<ResolveAndSend> tasks;
     };
 } // namespace lightning
