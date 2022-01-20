@@ -27,6 +27,8 @@ add_executable(http
     ./lightning/uriMapper/Strings.hpp ./Strings.cpp
 
     ./lightning/TaskExecutor.hpp
+
+    ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 )
 
 find_package(OpenSSL REQUIRED)

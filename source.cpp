@@ -5,6 +5,8 @@
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/TaskExecutor.hpp"
+#include "lightning/handlers/StaticFile.hpp"
+
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
@@ -18,23 +20,8 @@ void test()
     lightning::HttpServer httpServer(sslServer, 2);
 
     int counter = 0;
-    auto testResolver = [&counter](lightning::HttpRequest request) -> lightning::HttpResponse
-    {
-        // Test program:
-        std::string example = "Hello, World #" + std::to_string(counter++);
-
-        auto response = lightning::HttpResponseBuilder::create()
-                            .withBody(std::vector<char>(example.begin(), example.end()))
-                            .withHeader("Content-Type", "text/html")
-                            .withHeader("Content-Length", std::to_string(example.size()))
-                            .withStatusCode(200)
-                            .withStatusPhrase("OK")
-                            .build();
-
-        return response;
-    };
-
-    httpServer.get("/*", testResolver);
+    
+    httpServer.get("/index.html", lightning::handlers::uriToStaticFile("/home/ishaysela/projects/lightningPlusPlus/tests/index.html2"));
 
     httpServer.start();
 }

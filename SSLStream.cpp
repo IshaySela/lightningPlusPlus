@@ -1,5 +1,6 @@
 #include "lightning/stream/SSLStream.hpp"
 #include "lightning/LowLevelApiException.hpp"
+#include <openssl/err.h>
 
 namespace lightning::stream
 {
