@@ -1,22 +1,10 @@
 
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <iostream>
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-#include "lightning/LowLevelApiException.hpp"
-#include <sstream>
 #include "lightning/SSLServer.hpp"
 #include "lightning/request/HttpRequest.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
-#include "lightning/HttpProtocol.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/sockets.hpp"
-#include <regex>
-#include "lightning/uriMapper/Strings.hpp"
-#include <optional>
-#include "lightning/uriMapper/UriMapper.hpp"
+#include "lightning/TaskExecutor.hpp"
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
@@ -27,7 +15,7 @@ void test()
 
     lightning::SSLServer sslServer(8080, CERT_FILE_PATH, PRIVATE_KEY_PATH);
 
-    lightning::HttpServer httpServer(sslServer);
+    lightning::HttpServer httpServer(sslServer, 2);
 
     int counter = 0;
     auto testResolver = [&counter](lightning::HttpRequest request) -> lightning::HttpResponse
@@ -46,7 +34,7 @@ void test()
         return response;
     };
 
-    httpServer.get("/hello/*/world", testResolver);
+    httpServer.get("/*", testResolver);
 
     httpServer.start();
 }
