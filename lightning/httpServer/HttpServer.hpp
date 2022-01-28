@@ -9,6 +9,7 @@
 #include <functional>
 #include <future>
 #include <unordered_map>
+#include <chrono>
 #include "../TaskExecutor.hpp"
 
 namespace lightning
@@ -69,8 +70,10 @@ namespace lightning
          *
          * @param method The method of the resolver.
          * @param uri The uri of the resolver
+         * @param regexUri The regex that has matched the uri to the resolver.
          * @return std::optional<Resolver> An optinal object that contains the resolver, if one exists.
          */
+        auto getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>;
         auto getResolver(std::string method, std::string uri) -> std::optional<Resolver>;
 
         /**
@@ -83,11 +86,17 @@ namespace lightning
          */
         auto getResolverOrDefault(std::string method, std::string uri) -> Resolver;
 
+        /**
+         * @brief Default resolver that returns 404 Not Found with no headers.
+         */
+        static const Resolver defaultResolver;
     private:
         SSLServer lowLevelServer;
         HttpServer::ResolversMap resolvers;
 
         Resolver defaultGetResolver;
+
+        static auto getTimeSinceEpoch() -> std::uint64_t;
 
         /**
          * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to 
@@ -104,6 +113,7 @@ namespace lightning
              * Satisfy the Task<T> constraint.
              */
             void operator()();
+
         private:
             SSLClient client;
             Resolver resolver;

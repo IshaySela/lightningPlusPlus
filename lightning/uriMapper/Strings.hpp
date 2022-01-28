@@ -12,10 +12,12 @@ namespace lightning::strings
     /**
      * @brief Replace occurences of {} with the corresponding replacements pass 
      * as variadic template.
+     * If 1 replacement was provided and multiple <sepratorToken> where found, all occurrences of <sepratorToken>
+     * will be replaced with the single replacer.
      * 
      * Exapmles:
      * format("Hello {}", "World") -> "Hello World"
-     * format("Hello {} {}", "World") -> "Hello World {}"
+     * format("Hello {} {}", "World") -> "Hello World World"
      * format("Hello {}","World", "break") -> ""
      * 
      * 
@@ -28,20 +30,21 @@ namespace lightning::strings
      * @param args The replacers list.
      * @param speratorToken The token to find in str and replace with args
      * 
-     * @return std::optional<std::string\> The formmated string.
+     * @return std::optional<std::string> The formmated string.
      */
     template <typename T = std::string, typename... Ts>
     auto formatEx(const std::string &str, const std::string sepratorToken, T t, Ts... args) -> std::optional<std::string>
     {
         std::array<T, sizeof...(args) + 1> replacers = {t, args...};
         std::string replaced;
+        size_t tokenIndex = std::string::npos;
 
         // Store the offset of the latest token.
         size_t offset = 0;
 
         for (int i = 0; i < replacers.size(); i++)
         {
-            auto tokenIndex = str.find(sepratorToken);
+            tokenIndex = str.find(sepratorToken, offset);
 
             if (tokenIndex == std::string::npos)
             {
@@ -54,6 +57,9 @@ namespace lightning::strings
         }
 
         replaced += std::string(str.begin() + offset, str.end());
+        
+        if(tokenIndex != std::string::npos && replaced.length() != 0)
+            replaced = formatEx(replaced, sepratorToken, t, args...).value_or(replaced);
 
         return replaced;
     }

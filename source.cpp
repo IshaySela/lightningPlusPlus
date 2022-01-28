@@ -6,7 +6,7 @@
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/TaskExecutor.hpp"
 #include "lightning/handlers/StaticFile.hpp"
-
+#include "lightning/uriMapper/UriMapper.hpp"
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
@@ -20,7 +20,7 @@ void test()
     lightning::HttpServer httpServer(sslServer, 2);
 
     int counter = 0;
-    
+
     httpServer.get("/*", lightning::handlers::serveFolder("../tests"));
     httpServer.start();
 }

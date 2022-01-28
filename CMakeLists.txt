@@ -17,6 +17,7 @@ add_executable(http
     ./lightning/stream/SSLStream.hpp ./SSLStream.cpp
 
     ./lightning/request/HttpRequest.hpp ./HttpRequest.cpp
+    ./lightning/request/FrameworkInfo.hpp
     ./lightning/response/HttpResponse.hpp ./HttpResponse.cpp
     ./lightning/response/StatusLine.hpp
     ./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp

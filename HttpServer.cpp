@@ -4,6 +4,14 @@
 
 namespace lightning
 {
+    const Resolver HttpServer::defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
+    {
+        return HttpResponseBuilder::create()
+            .withStatusCode(404)
+            .withStatusPhrase("Not Found")
+            .build();
+    };
+
     HttpServer::HttpServer(SSLServer lowLevelServer, const int threadCount) : lowLevelServer(lowLevelServer), tasks(threadCount)
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
@@ -21,6 +29,8 @@ namespace lightning
         while (true)
         {
             auto client = this->lowLevelServer.accept();
+            auto requestArrivalTime = HttpServer::getTimeSinceEpoch();
+            std::string matchedRegex;
 
             std::vector<char> requestBuffer;
 
@@ -34,8 +44,11 @@ namespace lightning
                 continue;
             }
 
-            lightning::HttpRequest request = lightning::HttpRequest::createRequest(std::string(requestBuffer.begin(), requestBuffer.end()));
-            auto resolver = this->getResolverOrDefault(request.getMethod(), request.getRawUri());
+            lightning::HttpRequest request = lightning::HttpRequest::createRequest(requestBuffer.begin(), requestBuffer.end());
+
+            auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
+
+            request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
 
             this->tasks.add_task(new ResolveAndSend(std::move(client), resolver, request), true);
         }
@@ -80,41 +93,52 @@ namespace lightning
         this->resolvers.at(methodString).add(uri, resolver);
     }
 
-    auto HttpServer::getResolver(std::string method, std::string uri) -> std::optional<Resolver>
+    auto HttpServer::getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>
     {
-        static const std::optional<Resolver> RESOLVER_NOT_FOUND;
-
         auto methodMap = this->resolvers.find(method);
 
         if (methodMap == this->resolvers.end())
-            return RESOLVER_NOT_FOUND;
+            return std::nullopt;
 
         auto urisMap = (*methodMap).second;
 
-        return urisMap.match(uri);
+        auto res = urisMap.match(uri);
+
+        if (res.has_value())
+        {
+            auto [resolver, rgx] = res.value();
+
+            regexUri = rgx;
+            return resolver;
+        }
+
+        return std::nullopt;
     }
 
-    auto HttpServer::getResolverOrDefault(std::string method, std::string uri) -> Resolver
+    auto HttpServer::getResolver(std::string method, std::string uri) -> std::optional<Resolver>
     {
-        static auto defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
-        {
-            return HttpResponseBuilder::create()
-                .withStatusCode(404)
-                .withStatusPhrase("Not Found")
-                .build();
-        };
-
-        auto resolver = this->getResolver(method, uri);
-
-        return resolver.value_or(defaultResolver);
+        std::string discard;
+        return this->getResolver(method, uri, discard);
     }
 
     void HttpServer::ResolveAndSend::operator()()
     {
+        // Here all of the middlewares (future) and pre resolve tasks execute
+
+        // This is needs to be done on the working thread
+        // And can only be done after frameworkInfo was injected.
+        request.computeUriParameters();
+
         auto response = this->resolver(request).toHttpResponse();
         this->client.getStream().write(response.data(), response.size());
     }
 
     HttpServer::ResolveAndSend::ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request) {}
 
+    auto HttpServer::getTimeSinceEpoch() -> std::uint64_t
+    {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::system_clock::now().time_since_epoch())
+            .count();
+    }
 }

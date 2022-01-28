@@ -23,8 +23,9 @@ namespace lightning
          * @param uri The uri to search in.
          * @return size_t The index of the wildcard, or string::npos if none was found.
          */
-        auto containsWildcard(std::string uri) -> size_t;
+        static auto containsWildcard(std::string uri) -> size_t;
 
+    public:
         /**
          * @brief Create exact match regexp for the uri. 
          * "/test" -> "^\/test$"
@@ -33,7 +34,7 @@ namespace lightning
          * @param uri  
          * @return std::string The exact match regular expression.
          */
-        auto createExactMatch(std::string uri) -> std::string;
+        static auto createExactMatch(std::string uri) -> std::string;
 
         /**
          * @brief Convert a uri with wildcard /* to the regex equivelent.
@@ -44,9 +45,8 @@ namespace lightning
          * @param uri The uri with the wildcard that is used to construct the regex.
          * @return std::string The constructed regex.
          */
-        auto createWithWildcard(std::string uri) -> std::string;
+        static auto createWithWildcard(std::string uri) -> std::string;
 
-    public:
         /**
          * @brief Add a new resolver to the resolvers map.
          * If no special characters are detect (wildcard *, id [] etc), an exact match will occur.
@@ -68,11 +68,12 @@ namespace lightning
         auto add(std::string experssion, Resolver resolver) -> Resolver;
 
         /**
-         * @brief Return the value (resolver) of the first key (regex expression) that mathces to the uri provided.
+         * @brief Return the value (resolver) of the first key (regex expression) that mathces to the uri provided, and the 
+         * regex that was matched.
          *
          * @param uri The uri to match against.
-         * @return Resolver The resolver for which the uri was matched successfully.
+         * @return Optional pair containing the resolver and the regex that was matched.
          */
-        auto match(std::string uri) -> std::optional<Resolver>;
+        auto match(std::string uri) -> std::optional<std::pair<Resolver, std::string>>;
     };
 }

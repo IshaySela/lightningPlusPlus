@@ -2,13 +2,19 @@
 #include <cstring>
 #include <sstream>
 #include <array>
+#include <regex>
 
 namespace lightning
 {
-    HttpRequest::HttpRequest(std::string method, std::string rawUri, std::string protocolVersion, HeadersMap &headers) : method(method),
-                                                                                                                         rawUri(rawUri),
-                                                                                                                         protocolVersion(protocolVersion),
-                                                                                                                         headers(headers)
+    HttpRequest::HttpRequest(std::string method,
+                             std::string rawUri,
+                             std::string protocolVersion,
+                             HeadersMap &headers,
+                             FrameworkInfo frameworkInfo) : method(method),
+                                                            rawUri(rawUri),
+                                                            protocolVersion(protocolVersion),
+                                                            headers(headers),
+                                                            frameworkInfo(frameworkInfo)
     {
     }
 
@@ -23,6 +29,11 @@ namespace lightning
     std::string &HttpRequest::getProtocolVersion()
     {
         return this->protocolVersion;
+    }
+
+    FrameworkInfo &HttpRequest::getFrameworkInfo()
+    {
+        return this->frameworkInfo;
     }
 
     auto HttpRequest::getNextToken(std::string line, std::string del, int &outIndex, int offset) -> std::string
@@ -88,6 +99,47 @@ namespace lightning
         auto rawHeaders = std::string(request.begin() + requestLineEnd + strlen(lightning::CRLF), request.end());
         auto headers = parseHeaders(rawHeaders);
 
-        return HttpRequest(method, uri, version, headers);
+        return HttpRequest(method, uri, version, headers, FrameworkInfo{.matchedRegex = "", .requestArrivalTime = 0});
+    }
+
+    auto HttpRequest::createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest
+    {
+        return HttpRequest::createRequest(std::string(beg, end));
+    }
+
+    auto HttpRequest::getUriParameters() -> std::vector<std::string> &
+    {
+        return this->uriParameters;
+    }
+
+    auto HttpRequest::computeUriParameters() -> void
+    {
+        std::smatch result;
+        std::vector<std::string> params;
+        std::regex regex(this->frameworkInfo.matchedRegex, std::regex_constants::ECMAScript);
+        this->uriParameters.clear();
+
+
+        if (!std::regex_match(rawUri, result, regex))
+            return;
+
+        // Proccess each subgruop and get the parameter out of it.
+        auto compute = [&params](std::pair<std::string::const_iterator, std::string::const_iterator> val)
+        {
+            auto &[itStart, itEnd] = val;
+            std::string param(itStart.base()), postParam(itEnd.base());
+
+            if (postParam.length() != 0)
+            {
+                size_t index = param.find(postParam);
+                param = param.substr(index == std::string::npos ? 0 : index);
+            }
+
+            params.push_back(param);
+        };
+
+        std::for_each(++result.begin(), result.end(), compute);
+
+        this->uriParameters = params;
     }
 }
