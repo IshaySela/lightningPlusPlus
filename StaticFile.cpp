@@ -2,6 +2,8 @@
 
 #include <fstream>
 #include <iostream>
+#include <algorithm>
+#include <regex>
 
 namespace lightning::handlers
 {
@@ -32,7 +34,7 @@ namespace lightning::handlers
     {
         const auto resolver = [folderPath, notFoundResolver](HttpRequest request) -> HttpResponse
         {
-            std::string path = folderPath + request.getRawUri(); // TODO: Add feature to ignore the query.
+            std::string path = folderPath + *(request.getUriParameters().end() - 1); // TODO: Add feature to ignore the query string at the end.
 
             std::ifstream file(path);
 

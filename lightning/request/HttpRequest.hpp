@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include "../lightning.hpp"
-
+#include "FrameworkInfo.hpp"
 
 namespace lightning
 {
@@ -12,6 +13,8 @@ namespace lightning
         std::string method;
         std::string rawUri;
         std::string protocolVersion;
+        std::vector<std::string> uriParameters;
+        FrameworkInfo frameworkInfo;
 
         HeadersMap headers;
 
@@ -27,11 +30,19 @@ namespace lightning
         static auto getNextToken(std::string line, std::string del, int &outIndex, int offset = 0) -> std::string;
 
     public:
-        HttpRequest(std::string method, std::string rawUri, std::string protocolVersion, HeadersMap &headers);
+        HttpRequest(std::string method, std::string rawUri, std::string protocolVersion, HeadersMap &headers, FrameworkInfo frameworkInfo);
 
-        std::string &getMethod();
-        std::string &getRawUri();
-        std::string &getProtocolVersion();
+        auto getMethod() -> std::string &;
+        auto getRawUri() -> std::string &;
+        auto getProtocolVersion() -> std::string &;
+        auto getFrameworkInfo() -> FrameworkInfo &;
+        auto getUriParameters() -> std::vector<std::string> &;
+
+        /**
+         * @brief Calculate the uri paramters.
+         */
+        auto computeUriParameters() -> void;
+
         /**
          * @brief Construct a http request from request (without the body) that was sent by the client.
          * The request structure is specified in the rfc standard https://datatracker.ietf.org/doc/html/rfc2616#section-5
@@ -40,6 +51,7 @@ namespace lightning
          * @return HttpRequest
          */
         static auto createRequest(std::string request) -> HttpRequest;
+        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest;
 
         using RequestLine = struct RequestLine
         {

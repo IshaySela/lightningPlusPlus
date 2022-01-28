@@ -48,7 +48,7 @@ namespace lightning::stream
 
         while (readResult == SSLStream::SSL_NO_ERROR && !foundToken)
         {
-            readResult = SSL_read_ex(this->ssl, reinterpret_cast<void*>(chunk.data()), 1024, &chunkBytesRead);
+            readResult = SSL_read_ex(this->ssl, reinterpret_cast<void *>(chunk.data()), 1024, &chunkBytesRead);
 
             if (readResult < SSLStream::SSL_NO_ERROR)
             {
@@ -133,7 +133,10 @@ namespace lightning::stream
     auto SSLStream::close() -> void
     {
         SSL_shutdown(this->ssl);
-        SSL_free(this->ssl);
+
+        // The SSLStream class is not responsible for freeing
+        // the ssl object. The entity that has provided the SSL* should own the object and free it.
+        // SSL_free(this->ssl);
     }
 
 }
