@@ -5,7 +5,7 @@ project(http)
 set(CMAKE_CXX_STANDARD 20)
 
 
-add_executable(http
+add_library(http STATIC
     ./source.cpp
     ./lightning/sockets.hpp ./sockets.cpp
     ./lightning/SSLServer.hpp ./SSLServer.cpp
