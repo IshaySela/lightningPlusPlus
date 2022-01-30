@@ -1,0 +1,455 @@
+\hypertarget{classlightning_1_1_http_server}{}\doxysection{lightning\+::Http\+Server Class Reference}
+\label{classlightning_1_1_http_server}\index{lightning::HttpServer@{lightning::HttpServer}}
+
+
+{\ttfamily \#include $<$Http\+Server.\+hpp$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classlightning_1_1_http_server_1_1_resolve_and_send}{Resolve\+And\+Send}}
+\begin{DoxyCompactList}\small\item\em This class is used to supply the \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}}, Resolver and Http\+Requet to the function that is invoked by \mbox{\hyperlink{classlightning_1_1_task_executor}{Task\+Executor}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}{Resolvers\+Map}} = std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classlightning_1_1_uri_mapper}{Uri\+Mapper}} $>$
+\item 
+using \mbox{\hyperlink{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}{Resolvers\+Map}} = std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{classlightning_1_1_uri_mapper}{Uri\+Mapper}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlightning_1_1_http_server_a24770e6ee18f21868f7215c8a43dcad6}{Http\+Server}} (\mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} \mbox{\hyperlink{classlightning_1_1_http_server_ae09f8f34289acfc0ca1653c7132ef491}{low\+Level\+Server}}, const int thread\+Count=1)
+\begin{DoxyCompactList}\small\item\em Construct a new Http Server object, and initilize the resolver to contain an empty map for each supported HTTP method. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a38b65c2d40c7c275d1a2a667efe60ad9}{start}} () -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Start handling clients from the server. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a1717863dff0690a9617e1b6b99c4c198}{get}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call Http\+Server\+::ad\+Resolver with the method parameter as \char`\"{}\+GET\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a510934f155ce163b823384702edfb5da}{post}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+POST\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_ad4beb2f92768694b25880f53eceee0ea}{put}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+PUT\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a46a84ffb5a13660a9ab1e62d32416810}{head}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a83dea5dea560a2f466acb06efb82f21f}{resolve\+Delete}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+DELETE\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{add\+Resolver}} (\mbox{\hyperlink{namespacelightning_1_1_http_protocol_ac784b69be492bea9b8746fed73cf7fdf}{Http\+Protocol\+::\+Method}} method, std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Map a resolve function to a method and uri. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{get\+Resolver}} (std\+::string method, std\+::string uri, std\+::string \&regex\+Uri) -\/$>$ std\+::optional$<$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} $>$
+\begin{DoxyCompactList}\small\item\em Get the resolver from the resolvers map, based on the method and uri. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_aa0908653c96cdf373cdb2109fa894da7}{get\+Resolver}} (std\+::string method, std\+::string uri) -\/$>$ std\+::optional$<$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} $>$
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_ac87a099e705d5ecdc36b9bd34dd9e8b4}{get\+Resolver\+Or\+Default}} (std\+::string method, std\+::string uri) -\/$>$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}, if no resolver was found return the default resolver. otherwise, return the resolver from \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlightning_1_1_http_server_a24770e6ee18f21868f7215c8a43dcad6}{Http\+Server}} (\mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} \mbox{\hyperlink{classlightning_1_1_http_server_ae09f8f34289acfc0ca1653c7132ef491}{low\+Level\+Server}}, const int thread\+Count=1)
+\begin{DoxyCompactList}\small\item\em Construct a new Http Server object, and initilize the resolver to contain an empty map for each supported HTTP method. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a38b65c2d40c7c275d1a2a667efe60ad9}{start}} () -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Start handling clients from the server. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a1717863dff0690a9617e1b6b99c4c198}{get}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call Http\+Server\+::ad\+Resolver with the method parameter as \char`\"{}\+GET\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a510934f155ce163b823384702edfb5da}{post}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+POST\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_ad4beb2f92768694b25880f53eceee0ea}{put}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+PUT\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a46a84ffb5a13660a9ab1e62d32416810}{head}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a83dea5dea560a2f466acb06efb82f21f}{resolve\+Delete}} (std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+DELETE\char`\"{}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{add\+Resolver}} (\mbox{\hyperlink{namespacelightning_1_1_http_protocol_ac784b69be492bea9b8746fed73cf7fdf}{Http\+Protocol\+::\+Method}} method, std\+::string uri, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} resolver) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Map a resolve function to a method and uri. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{get\+Resolver}} (std\+::string method, std\+::string uri, std\+::string \&regex\+Uri) -\/$>$ std\+::optional$<$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} $>$
+\begin{DoxyCompactList}\small\item\em Get the resolver from the resolvers map, based on the method and uri. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_aa0908653c96cdf373cdb2109fa894da7}{get\+Resolver}} (std\+::string method, std\+::string uri) -\/$>$ std\+::optional$<$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} $>$
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_server_ac87a099e705d5ecdc36b9bd34dd9e8b4}{get\+Resolver\+Or\+Default}} (std\+::string method, std\+::string uri) -\/$>$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}
+\begin{DoxyCompactList}\small\item\em Call \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}, if no resolver was found return the default resolver. otherwise, return the resolver from \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} \mbox{\hyperlink{classlightning_1_1_http_server_a9b36a0da97a13b51d0ba4c5e8f9fcd6a}{default\+Resolver}}
+\begin{DoxyCompactList}\small\item\em Default resolver that returns 404 Not Found with no headers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_server_aaffc627b7a2223dcabbd043120aa74ef}{get\+Time\+Since\+Epoch}} () -\/$>$ std\+::uint64\+\_\+t
+\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_server_a94cb76931d5277ceb61c7c0d4e764313}{get\+Time\+Since\+Epoch}} () -\/$>$ std\+::uint64\+\_\+t
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} \mbox{\hyperlink{classlightning_1_1_http_server_ae09f8f34289acfc0ca1653c7132ef491}{low\+Level\+Server}}
+\item 
+\mbox{\hyperlink{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}{Http\+Server\+::\+Resolvers\+Map}} \mbox{\hyperlink{classlightning_1_1_http_server_a62ec168f33f1ffa64b56fbc0b292e957}{resolvers}}
+\item 
+\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} \mbox{\hyperlink{classlightning_1_1_http_server_a06279b033ee5fbd4245952fc4aaa67f8}{default\+Get\+Resolver}}
+\item 
+\mbox{\hyperlink{classlightning_1_1_task_executor}{Task\+Executor}}$<$ \mbox{\hyperlink{classlightning_1_1_http_server_1_1_resolve_and_send}{Resolve\+And\+Send}} $>$ \mbox{\hyperlink{classlightning_1_1_http_server_a21eabc60f7ccbd4913d21a8cff33d12d}{tasks}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}\label{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!ResolversMap@{ResolversMap}}
+\index{ResolversMap@{ResolversMap}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{ResolversMap}{ResolversMap}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}{lightning\+::\+Http\+Server\+::\+Resolvers\+Map}} =  std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classlightning_1_1_uri_mapper}{Uri\+Mapper}}$>$}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}\label{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!ResolversMap@{ResolversMap}}
+\index{ResolversMap@{ResolversMap}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{ResolversMap}{ResolversMap}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}{lightning\+::\+Http\+Server\+::\+Resolvers\+Map}} =  std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{classlightning_1_1_uri_mapper}{Uri\+Mapper}}$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_server_a24770e6ee18f21868f7215c8a43dcad6}\label{classlightning_1_1_http_server_a24770e6ee18f21868f7215c8a43dcad6}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!HttpServer@{HttpServer}}
+\index{HttpServer@{HttpServer}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{HttpServer()}{HttpServer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily lightning\+::\+Http\+Server\+::\+Http\+Server (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}}}]{low\+Level\+Server,  }\item[{const int}]{thread\+Count = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Construct a new Http Server object, and initilize the resolver to contain an empty map for each supported HTTP method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em low\+Level\+Server} & The underlying low level server API that is used to accept new clients. ; TODO\+: Convert \mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} to a pure virtual class and pass a pointer to the class instead. \\
+\hline
+{\em thread\+Count} & The argument to pass to the constructor of \mbox{\hyperlink{classlightning_1_1_http_server_a21eabc60f7ccbd4913d21a8cff33d12d}{Http\+Server\+::tasks}}. Controls how many threads the tasks executor will use, must be positive number above 0. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlightning_1_1_http_server_a24770e6ee18f21868f7215c8a43dcad6}\label{classlightning_1_1_http_server_a24770e6ee18f21868f7215c8a43dcad6}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!HttpServer@{HttpServer}}
+\index{HttpServer@{HttpServer}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{HttpServer()}{HttpServer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily lightning\+::\+Http\+Server\+::\+Http\+Server (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}}}]{low\+Level\+Server,  }\item[{const int}]{thread\+Count = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Construct a new Http Server object, and initilize the resolver to contain an empty map for each supported HTTP method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em low\+Level\+Server} & The underlying low level server API that is used to accept new clients. ; TODO\+: Convert \mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} to a pure virtual class and pass a pointer to the class instead. \\
+\hline
+{\em thread\+Count} & The argument to pass to the constructor of \mbox{\hyperlink{classlightning_1_1_http_server_a21eabc60f7ccbd4913d21a8cff33d12d}{Http\+Server\+::tasks}}. Controls how many threads the tasks executor will use, must be positive number above 0. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}\label{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!addResolver@{addResolver}}
+\index{addResolver@{addResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{addResolver()}{addResolver()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::add\+Resolver (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacelightning_1_1_http_protocol_ac784b69be492bea9b8746fed73cf7fdf}{Http\+Protocol\+::\+Method}}}]{method,  }\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$ void}
+
+
+
+Map a resolve function to a method and uri. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & The method to map to. \\
+\hline
+{\em uri} & The uri to map to. \\
+\hline
+{\em resolver} & The functions that resolves the request. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}\label{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!addResolver@{addResolver}}
+\index{addResolver@{addResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{addResolver()}{addResolver()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::add\+Resolver (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacelightning_1_1_http_protocol_ac784b69be492bea9b8746fed73cf7fdf}{Http\+Protocol\+::\+Method}}}]{method,  }\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Map a resolve function to a method and uri. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & The method to map to. \\
+\hline
+{\em uri} & The uri to map to. \\
+\hline
+{\em resolver} & The functions that resolves the request. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlightning_1_1_http_server_a1717863dff0690a9617e1b6b99c4c198}\label{classlightning_1_1_http_server_a1717863dff0690a9617e1b6b99c4c198}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!get@{get}}
+\index{get@{get}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$ void}
+
+
+
+Call Http\+Server\+::ad\+Resolver with the method parameter as \char`\"{}\+GET\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a1717863dff0690a9617e1b6b99c4c198}\label{classlightning_1_1_http_server_a1717863dff0690a9617e1b6b99c4c198}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!get@{get}}
+\index{get@{get}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Call Http\+Server\+::ad\+Resolver with the method parameter as \char`\"{}\+GET\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_aa0908653c96cdf373cdb2109fa894da7}\label{classlightning_1_1_http_server_aa0908653c96cdf373cdb2109fa894da7}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getResolver@{getResolver}}
+\index{getResolver@{getResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getResolver()}{getResolver()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Resolver (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{uri }\end{DoxyParamCaption}) -\/$>$ std\+::optional$<$\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}$>$}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_aa0908653c96cdf373cdb2109fa894da7}\label{classlightning_1_1_http_server_aa0908653c96cdf373cdb2109fa894da7}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getResolver@{getResolver}}
+\index{getResolver@{getResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getResolver()}{getResolver()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Resolver (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{uri }\end{DoxyParamCaption}) -\/$>$  std\+::optional$<$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} $>$}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}\label{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getResolver@{getResolver}}
+\index{getResolver@{getResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getResolver()}{getResolver()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Resolver (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{uri,  }\item[{std\+::string \&}]{regex\+Uri }\end{DoxyParamCaption}) -\/$>$ std\+::optional$<$\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}$>$}
+
+
+
+Get the resolver from the resolvers map, based on the method and uri. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & The method of the resolver. \\
+\hline
+{\em uri} & The uri of the resolver \\
+\hline
+{\em regex\+Uri} & The regex that has matched the uri to the resolver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::optional$<$\+Resolver$>$ An optinal object that contains the resolver, if one exists. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}\label{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getResolver@{getResolver}}
+\index{getResolver@{getResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getResolver()}{getResolver()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Resolver (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{uri,  }\item[{std\+::string \&}]{regex\+Uri }\end{DoxyParamCaption}) -\/$>$  std\+::optional$<$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} $>$}
+
+
+
+Get the resolver from the resolvers map, based on the method and uri. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & The method of the resolver. \\
+\hline
+{\em uri} & The uri of the resolver \\
+\hline
+{\em regex\+Uri} & The regex that has matched the uri to the resolver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::optional$<$\+Resolver$>$ An optinal object that contains the resolver, if one exists. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_server_ac87a099e705d5ecdc36b9bd34dd9e8b4}\label{classlightning_1_1_http_server_ac87a099e705d5ecdc36b9bd34dd9e8b4}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getResolverOrDefault@{getResolverOrDefault}}
+\index{getResolverOrDefault@{getResolverOrDefault}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getResolverOrDefault()}{getResolverOrDefault()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Resolver\+Or\+Default (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{uri }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}, if no resolver was found return the default resolver. otherwise, return the resolver from \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & The method of the resolver. \\
+\hline
+{\em uri} & The uri of the resolver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resolver The return of \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}, or the default request resolver. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_server_ac87a099e705d5ecdc36b9bd34dd9e8b4}\label{classlightning_1_1_http_server_ac87a099e705d5ecdc36b9bd34dd9e8b4}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getResolverOrDefault@{getResolverOrDefault}}
+\index{getResolverOrDefault@{getResolverOrDefault}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getResolverOrDefault()}{getResolverOrDefault()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Resolver\+Or\+Default (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{uri }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}, if no resolver was found return the default resolver. otherwise, return the resolver from \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & The method of the resolver. \\
+\hline
+{\em uri} & The uri of the resolver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resolver The return of \mbox{\hyperlink{classlightning_1_1_http_server_a59244e06fc4fb2ac5c79f98f43ce7680}{Http\+Server\+::get\+Resolver}}, or the default request resolver. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_server_aaffc627b7a2223dcabbd043120aa74ef}\label{classlightning_1_1_http_server_aaffc627b7a2223dcabbd043120aa74ef}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getTimeSinceEpoch@{getTimeSinceEpoch}}
+\index{getTimeSinceEpoch@{getTimeSinceEpoch}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getTimeSinceEpoch()}{getTimeSinceEpoch()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::get\+Time\+Since\+Epoch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ std\+::uint64\+\_\+t\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a94cb76931d5277ceb61c7c0d4e764313}\label{classlightning_1_1_http_server_a94cb76931d5277ceb61c7c0d4e764313}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!getTimeSinceEpoch@{getTimeSinceEpoch}}
+\index{getTimeSinceEpoch@{getTimeSinceEpoch}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{getTimeSinceEpoch()}{getTimeSinceEpoch()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static auto lightning\+::\+Http\+Server\+::get\+Time\+Since\+Epoch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  std\+::uint64\+\_\+t\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a46a84ffb5a13660a9ab1e62d32416810}\label{classlightning_1_1_http_server_a46a84ffb5a13660a9ab1e62d32416810}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!head@{head}}
+\index{head@{head}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{head()}{head()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::head (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$ void}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a46a84ffb5a13660a9ab1e62d32416810}\label{classlightning_1_1_http_server_a46a84ffb5a13660a9ab1e62d32416810}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!head@{head}}
+\index{head@{head}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{head()}{head()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::head (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$  void}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a510934f155ce163b823384702edfb5da}\label{classlightning_1_1_http_server_a510934f155ce163b823384702edfb5da}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!post@{post}}
+\index{post@{post}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{post()}{post()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::post (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$ void}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+POST\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a510934f155ce163b823384702edfb5da}\label{classlightning_1_1_http_server_a510934f155ce163b823384702edfb5da}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!post@{post}}
+\index{post@{post}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{post()}{post()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::post (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+POST\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_ad4beb2f92768694b25880f53eceee0ea}\label{classlightning_1_1_http_server_ad4beb2f92768694b25880f53eceee0ea}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!put@{put}}
+\index{put@{put}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::put (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$ void}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+PUT\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_ad4beb2f92768694b25880f53eceee0ea}\label{classlightning_1_1_http_server_ad4beb2f92768694b25880f53eceee0ea}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!put@{put}}
+\index{put@{put}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::put (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+PUT\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a83dea5dea560a2f466acb06efb82f21f}\label{classlightning_1_1_http_server_a83dea5dea560a2f466acb06efb82f21f}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!resolveDelete@{resolveDelete}}
+\index{resolveDelete@{resolveDelete}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{resolveDelete()}{resolveDelete()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::resolve\+Delete (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$ void}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+DELETE\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a83dea5dea560a2f466acb06efb82f21f}\label{classlightning_1_1_http_server_a83dea5dea560a2f466acb06efb82f21f}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!resolveDelete@{resolveDelete}}
+\index{resolveDelete@{resolveDelete}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{resolveDelete()}{resolveDelete()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::resolve\+Delete (\begin{DoxyParamCaption}\item[{std\+::string}]{uri,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{resolver }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Call \mbox{\hyperlink{classlightning_1_1_http_server_aa4529cbfe3ac4de3daa79212830603cb}{Http\+Server\+::add\+Resolver}} with the method parameter as \char`\"{}\+DELETE\char`\"{}. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a38b65c2d40c7c275d1a2a667efe60ad9}\label{classlightning_1_1_http_server_a38b65c2d40c7c275d1a2a667efe60ad9}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!start@{start}}
+\index{start@{start}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ void}
+
+
+
+Start handling clients from the server. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a38b65c2d40c7c275d1a2a667efe60ad9}\label{classlightning_1_1_http_server_a38b65c2d40c7c275d1a2a667efe60ad9}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!start@{start}}
+\index{start@{start}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Server\+::start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Start handling clients from the server. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_server_a06279b033ee5fbd4245952fc4aaa67f8}\label{classlightning_1_1_http_server_a06279b033ee5fbd4245952fc4aaa67f8}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!defaultGetResolver@{defaultGetResolver}}
+\index{defaultGetResolver@{defaultGetResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{defaultGetResolver}{defaultGetResolver}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} lightning\+::\+Http\+Server\+::default\+Get\+Resolver\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a9b36a0da97a13b51d0ba4c5e8f9fcd6a}\label{classlightning_1_1_http_server_a9b36a0da97a13b51d0ba4c5e8f9fcd6a}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!defaultResolver@{defaultResolver}}
+\index{defaultResolver@{defaultResolver}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{defaultResolver}{defaultResolver}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} lightning\+::\+Http\+Server\+::default\+Resolver\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= [](HttpRequest request) -\/> \mbox{\hyperlink{classlightning_1_1_http_response}{lightning::HttpResponse}}}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} \mbox{\hyperlink{classlightning_1_1_http_response_builder_ad5073b911e8c4258910bbfd10e4d2428}{HttpResponseBuilder::create}}()}
+\DoxyCodeLine{            .withStatusCode(404)}
+\DoxyCodeLine{            .withStatusPhrase(\textcolor{stringliteral}{"{}Not Found"{}})}
+\DoxyCodeLine{            .build();}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+Default resolver that returns 404 Not Found with no headers. 
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_ae09f8f34289acfc0ca1653c7132ef491}\label{classlightning_1_1_http_server_ae09f8f34289acfc0ca1653c7132ef491}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!lowLevelServer@{lowLevelServer}}
+\index{lowLevelServer@{lowLevelServer}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{lowLevelServer}{lowLevelServer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} lightning\+::\+Http\+Server\+::low\+Level\+Server\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a62ec168f33f1ffa64b56fbc0b292e957}\label{classlightning_1_1_http_server_a62ec168f33f1ffa64b56fbc0b292e957}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!resolvers@{resolvers}}
+\index{resolvers@{resolvers}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{resolvers}{resolvers}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlightning_1_1_http_server_aa669d2262a3819f250c248d01cfcccae}{Http\+Server\+::\+Resolvers\+Map}} lightning\+::\+Http\+Server\+::resolvers\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_server_a21eabc60f7ccbd4913d21a8cff33d12d}\label{classlightning_1_1_http_server_a21eabc60f7ccbd4913d21a8cff33d12d}} 
+\index{lightning::HttpServer@{lightning::HttpServer}!tasks@{tasks}}
+\index{tasks@{tasks}!lightning::HttpServer@{lightning::HttpServer}}
+\doxysubsubsection{\texorpdfstring{tasks}{tasks}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlightning_1_1_task_executor}{Task\+Executor}}$<$ \mbox{\hyperlink{classlightning_1_1_http_server_1_1_resolve_and_send}{Resolve\+And\+Send}} $>$ lightning\+::\+Http\+Server\+::tasks\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lightning/http\+Server/\mbox{\hyperlink{lightning_2http_server_2_http_server_8hpp}{Http\+Server.\+hpp}}\item 
+\mbox{\hyperlink{_http_server_8cpp}{Http\+Server.\+cpp}}\end{DoxyCompactItemize}

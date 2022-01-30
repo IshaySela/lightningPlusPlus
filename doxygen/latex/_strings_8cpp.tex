@@ -1,0 +1,18 @@
+\hypertarget{_strings_8cpp}{}\doxysection{Strings.\+cpp File Reference}
+\label{_strings_8cpp}\index{Strings.cpp@{Strings.cpp}}
+{\ttfamily \#include \char`\"{}lightning/uri\+Mapper/\+Strings.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacelightning}{lightning}}
+\item 
+ \mbox{\hyperlink{namespacelightning_1_1strings}{lightning\+::strings}}
+\begin{DoxyCompactList}\small\item\em Helper function for using strings with regex and more. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{namespacelightning_1_1strings_a336b81a9db3a0a94b15b017bbad4cc68}{lightning\+::strings\+::sanitize\+For\+Regex}} (std\+::string \&str) -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Santize a string to be literal regex value, by appending all of the special characters \mbox{[}-\/.\textbackslash{}+$\ast$?\textbackslash{}\mbox{[}$^\wedge$\textbackslash{}\mbox{]}\$()\{\}=!$<$$>$$\vert$\+:\textbackslash{}\textbackslash{}\mbox{]} with backslash. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{namespacelightning_1_1strings_ad84aa085c65287178d2d9d28b4bc4acc}{lightning\+::strings\+::sanitize\+Execpt\+Wildcard\+For\+Regex}} (std\+::string \&str) -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Sanitize all but the $\ast$ for wildcard. \end{DoxyCompactList}\end{DoxyCompactItemize}

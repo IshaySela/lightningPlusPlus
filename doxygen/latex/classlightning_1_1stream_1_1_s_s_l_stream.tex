@@ -1,0 +1,361 @@
+\hypertarget{classlightning_1_1stream_1_1_s_s_l_stream}{}\doxysection{lightning\+::stream\+::SSLStream Class Reference}
+\label{classlightning_1_1stream_1_1_s_s_l_stream}\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+
+
+Wrap the raw SSL\+\_\+read and SSL\+\_\+write functions for ease of use.  
+
+
+
+
+{\ttfamily \#include $<$SSLStream.\+hpp$>$}
+
+Inheritance diagram for lightning\+::stream\+::SSLStream\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classlightning_1_1stream_1_1_s_s_l_stream}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_ac6d6a55685c5f8072fda824219e4a066}{SSLStream}} (SSL $\ast$\mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a6e710ff29b6587cef377efac3d692bac}{ssl}})
+\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a1fa462490a3b7d5f13d6daac170f3011}{read}} (int amount) -\/$>$ std\+::vector$<$ char $>$ override
+\begin{DoxyCompactList}\small\item\em Read X amount of data from the source. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a61aa624d206079462b1526baa5142ea8}{write}} (const char $\ast$buffer, int size) -\/$>$ int override
+\begin{DoxyCompactList}\small\item\em Write the buffer to the source. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_af7a50518c77b03befc3a0c7d4726daca}{read\+Until\+Token}} (std\+::string token) -\/$>$ std\+::vector$<$ char $>$ override
+\begin{DoxyCompactList}\small\item\em Read from the source until reached the given token. What to do with any leftover is up to the implementation. Note that the token should be left out from the buffer. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a08d361a97a09bf28636cf29291562f28}{close}} () -\/$>$ void override
+\begin{DoxyCompactList}\small\item\em Close the connection.\+The behaviour of a call to \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_aad540db7832271cfa4e121c4714648a0}{IStream\+::read}} and \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a0d837164f32d9c1d07fbce68f2815390}{IStream\+::write}} is not defined. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a0857151ec01a61d526fe7abbc5d120de}{get\+Ssl}} () const -\/$>$ SSL $\ast$
+\item 
+\mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_ac6d6a55685c5f8072fda824219e4a066}{SSLStream}} (SSL $\ast$\mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a6e710ff29b6587cef377efac3d692bac}{ssl}})
+\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a1fa462490a3b7d5f13d6daac170f3011}{read}} (int amount) -\/$>$ std\+::vector$<$ char $>$ override
+\begin{DoxyCompactList}\small\item\em Read X amount of data from the source. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a61aa624d206079462b1526baa5142ea8}{write}} (const char $\ast$buffer, int size) -\/$>$ int override
+\begin{DoxyCompactList}\small\item\em Write the buffer to the source. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_af7a50518c77b03befc3a0c7d4726daca}{read\+Until\+Token}} (std\+::string token) -\/$>$ std\+::vector$<$ char $>$ override
+\begin{DoxyCompactList}\small\item\em Read from the source until reached the given token. What to do with any leftover is up to the implementation. Note that the token should be left out from the buffer. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a08d361a97a09bf28636cf29291562f28}{close}} () -\/$>$ void override
+\begin{DoxyCompactList}\small\item\em Close the connection.\+The behaviour of a call to \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_aad540db7832271cfa4e121c4714648a0}{IStream\+::read}} and \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a0d837164f32d9c1d07fbce68f2815390}{IStream\+::write}} is not defined. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a0857151ec01a61d526fe7abbc5d120de}{get\+Ssl}} () const -\/$>$ SSL $\ast$
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a598474615c2aa72bb0411859347dc2c6}{SSL\+\_\+\+NO\+\_\+\+ERROR}} = 1
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a2a419e0e2c727c81286541bc58788500}{handle\+Read\+Error}} (int ret) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Handle a case where SSL\+\_\+read fails. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a5e0127eb4a636a88ca7799fdaf9e0d49}{read\+From\+Levtover}} (int amount, int \&bytes\+Read) -\/$>$ std\+::vector$<$ char $>$
+\begin{DoxyCompactList}\small\item\em Read from the leftover vector, and remove the bytes read from it. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a2a419e0e2c727c81286541bc58788500}{handle\+Read\+Error}} (int ret) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Handle a case where SSL\+\_\+read fails. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a5e0127eb4a636a88ca7799fdaf9e0d49}{read\+From\+Levtover}} (int amount, int \&bytes\+Read) -\/$>$ std\+::vector$<$ char $>$
+\begin{DoxyCompactList}\small\item\em Read from the leftover vector, and remove the bytes read from it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+SSL $\ast$ \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a6e710ff29b6587cef377efac3d692bac}{ssl}}
+\item 
+std\+::vector$<$ char $>$ \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream_a986aedce333510380b27b0a80a3a4302}{leftover\+Buffer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Wrap the raw SSL\+\_\+read and SSL\+\_\+write functions for ease of use. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_ac6d6a55685c5f8072fda824219e4a066}\label{classlightning_1_1stream_1_1_s_s_l_stream_ac6d6a55685c5f8072fda824219e4a066}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!SSLStream@{SSLStream}}
+\index{SSLStream@{SSLStream}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{SSLStream()}{SSLStream()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily lightning\+::stream\+::\+SSLStream\+::\+SSLStream (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_ac6d6a55685c5f8072fda824219e4a066}\label{classlightning_1_1stream_1_1_s_s_l_stream_ac6d6a55685c5f8072fda824219e4a066}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!SSLStream@{SSLStream}}
+\index{SSLStream@{SSLStream}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{SSLStream()}{SSLStream()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily lightning\+::stream\+::\+SSLStream\+::\+SSLStream (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a08d361a97a09bf28636cf29291562f28}\label{classlightning_1_1stream_1_1_s_s_l_stream_a08d361a97a09bf28636cf29291562f28}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!close@{close}}
+\index{close@{close}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  void\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Close the connection.\+The behaviour of a call to \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_aad540db7832271cfa4e121c4714648a0}{IStream\+::read}} and \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a0d837164f32d9c1d07fbce68f2815390}{IStream\+::write}} is not defined. 
+
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a91953650c69ea6e774a0f9be41fbd1ec}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a08d361a97a09bf28636cf29291562f28}\label{classlightning_1_1stream_1_1_s_s_l_stream_a08d361a97a09bf28636cf29291562f28}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!close@{close}}
+\index{close@{close}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  void\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Close the connection.\+The behaviour of a call to \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_aad540db7832271cfa4e121c4714648a0}{IStream\+::read}} and \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a0d837164f32d9c1d07fbce68f2815390}{IStream\+::write}} is not defined. 
+
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a91953650c69ea6e774a0f9be41fbd1ec}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a0857151ec01a61d526fe7abbc5d120de}\label{classlightning_1_1stream_1_1_s_s_l_stream_a0857151ec01a61d526fe7abbc5d120de}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!getSsl@{getSsl}}
+\index{getSsl@{getSsl}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{getSsl()}{getSsl()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::get\+Ssl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ SSL $\ast$}
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a0857151ec01a61d526fe7abbc5d120de}\label{classlightning_1_1stream_1_1_s_s_l_stream_a0857151ec01a61d526fe7abbc5d120de}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!getSsl@{getSsl}}
+\index{getSsl@{getSsl}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{getSsl()}{getSsl()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::get\+Ssl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$  SSL $\ast$}
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a2a419e0e2c727c81286541bc58788500}\label{classlightning_1_1stream_1_1_s_s_l_stream_a2a419e0e2c727c81286541bc58788500}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!handleReadError@{handleReadError}}
+\index{handleReadError@{handleReadError}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{handleReadError()}{handleReadError()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::handle\+Read\+Error (\begin{DoxyParamCaption}\item[{int}]{ret }\end{DoxyParamCaption}) -\/$>$ void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handle a case where SSL\+\_\+read fails. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ret} & The return value of SSL\+\_\+read. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a2a419e0e2c727c81286541bc58788500}\label{classlightning_1_1stream_1_1_s_s_l_stream_a2a419e0e2c727c81286541bc58788500}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!handleReadError@{handleReadError}}
+\index{handleReadError@{handleReadError}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{handleReadError()}{handleReadError()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::handle\+Read\+Error (\begin{DoxyParamCaption}\item[{int}]{ret }\end{DoxyParamCaption}) -\/$>$  void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Handle a case where SSL\+\_\+read fails. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ret} & The return value of SSL\+\_\+read. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a1fa462490a3b7d5f13d6daac170f3011}\label{classlightning_1_1stream_1_1_s_s_l_stream_a1fa462490a3b7d5f13d6daac170f3011}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!read@{read}}
+\index{read@{read}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::read (\begin{DoxyParamCaption}\item[{int}]{amount }\end{DoxyParamCaption}) -\/$>$  std\+::vector$<$ char $>$\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Read X amount of data from the source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em amount} & The amount to read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$char$>$ The data that was read. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_aad540db7832271cfa4e121c4714648a0}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a1fa462490a3b7d5f13d6daac170f3011}\label{classlightning_1_1stream_1_1_s_s_l_stream_a1fa462490a3b7d5f13d6daac170f3011}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!read@{read}}
+\index{read@{read}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::read (\begin{DoxyParamCaption}\item[{int}]{amount }\end{DoxyParamCaption}) -\/$>$  std\+::vector$<$ char $>$\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Read X amount of data from the source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em amount} & The amount to read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$char$>$ The data that was read. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_aad540db7832271cfa4e121c4714648a0}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a5e0127eb4a636a88ca7799fdaf9e0d49}\label{classlightning_1_1stream_1_1_s_s_l_stream_a5e0127eb4a636a88ca7799fdaf9e0d49}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!readFromLevtover@{readFromLevtover}}
+\index{readFromLevtover@{readFromLevtover}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{readFromLevtover()}{readFromLevtover()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::read\+From\+Levtover (\begin{DoxyParamCaption}\item[{int}]{amount,  }\item[{int \&}]{bytes\+Read }\end{DoxyParamCaption}) -\/$>$ std\+::vector$<$char$>$\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Read from the leftover vector, and remove the bytes read from it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em amount} & The amount to read from the vector. \\
+\hline
+{\em bytes\+Read} & The amount of bytes that where read from the leftover vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$char$>$ vector of chars that will at least be size of amount. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a5e0127eb4a636a88ca7799fdaf9e0d49}\label{classlightning_1_1stream_1_1_s_s_l_stream_a5e0127eb4a636a88ca7799fdaf9e0d49}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!readFromLevtover@{readFromLevtover}}
+\index{readFromLevtover@{readFromLevtover}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{readFromLevtover()}{readFromLevtover()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::read\+From\+Levtover (\begin{DoxyParamCaption}\item[{int}]{amount,  }\item[{int \&}]{bytes\+Read }\end{DoxyParamCaption}) -\/$>$  std\+::vector$<$ char $>$\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Read from the leftover vector, and remove the bytes read from it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em amount} & The amount to read from the vector. \\
+\hline
+{\em bytes\+Read} & The amount of bytes that where read from the leftover vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$char$>$ vector of chars that will at least be size of amount. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_af7a50518c77b03befc3a0c7d4726daca}\label{classlightning_1_1stream_1_1_s_s_l_stream_af7a50518c77b03befc3a0c7d4726daca}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!readUntilToken@{readUntilToken}}
+\index{readUntilToken@{readUntilToken}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{readUntilToken()}{readUntilToken()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::read\+Until\+Token (\begin{DoxyParamCaption}\item[{std\+::string}]{token }\end{DoxyParamCaption}) -\/$>$  std\+::vector$<$ char $>$\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Read from the source until reached the given token. What to do with any leftover is up to the implementation. Note that the token should be left out from the buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The string to find. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$char$>$ The buffer read from the source without the token. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_acbab20bd93d190e60232b5972a3d70c4}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_af7a50518c77b03befc3a0c7d4726daca}\label{classlightning_1_1stream_1_1_s_s_l_stream_af7a50518c77b03befc3a0c7d4726daca}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!readUntilToken@{readUntilToken}}
+\index{readUntilToken@{readUntilToken}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{readUntilToken()}{readUntilToken()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::read\+Until\+Token (\begin{DoxyParamCaption}\item[{std\+::string}]{token }\end{DoxyParamCaption}) -\/$>$  std\+::vector$<$ char $>$\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Read from the source until reached the given token. What to do with any leftover is up to the implementation. Note that the token should be left out from the buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The string to find. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$char$>$ The buffer read from the source without the token. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_acbab20bd93d190e60232b5972a3d70c4}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a61aa624d206079462b1526baa5142ea8}\label{classlightning_1_1stream_1_1_s_s_l_stream_a61aa624d206079462b1526baa5142ea8}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!write@{write}}
+\index{write@{write}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::write (\begin{DoxyParamCaption}\item[{const char $\ast$}]{buffer,  }\item[{int}]{size }\end{DoxyParamCaption}) -\/$>$  int\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Write the buffer to the source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The buffer to write. \\
+\hline
+{\em size} & The size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The amount that was written. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a0d837164f32d9c1d07fbce68f2815390}{lightning\+::stream\+::\+IStream}}.
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a61aa624d206079462b1526baa5142ea8}\label{classlightning_1_1stream_1_1_s_s_l_stream_a61aa624d206079462b1526baa5142ea8}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!write@{write}}
+\index{write@{write}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::stream\+::\+SSLStream\+::write (\begin{DoxyParamCaption}\item[{const char $\ast$}]{buffer,  }\item[{int}]{size }\end{DoxyParamCaption}) -\/$>$  int\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Write the buffer to the source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The buffer to write. \\
+\hline
+{\em size} & The size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The amount that was written. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlightning_1_1stream_1_1_i_stream_a0d837164f32d9c1d07fbce68f2815390}{lightning\+::stream\+::\+IStream}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a986aedce333510380b27b0a80a3a4302}\label{classlightning_1_1stream_1_1_s_s_l_stream_a986aedce333510380b27b0a80a3a4302}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!leftoverBuffer@{leftoverBuffer}}
+\index{leftoverBuffer@{leftoverBuffer}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{leftoverBuffer}{leftoverBuffer}}
+{\footnotesize\ttfamily std\+::vector$<$ char $>$ lightning\+::stream\+::\+SSLStream\+::leftover\+Buffer\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a6e710ff29b6587cef377efac3d692bac}\label{classlightning_1_1stream_1_1_s_s_l_stream_a6e710ff29b6587cef377efac3d692bac}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!ssl@{ssl}}
+\index{ssl@{ssl}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{ssl}{ssl}}
+{\footnotesize\ttfamily SSL $\ast$ lightning\+::stream\+::\+SSLStream\+::ssl\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1stream_1_1_s_s_l_stream_a598474615c2aa72bb0411859347dc2c6}\label{classlightning_1_1stream_1_1_s_s_l_stream_a598474615c2aa72bb0411859347dc2c6}} 
+\index{lightning::stream::SSLStream@{lightning::stream::SSLStream}!SSL\_NO\_ERROR@{SSL\_NO\_ERROR}}
+\index{SSL\_NO\_ERROR@{SSL\_NO\_ERROR}!lightning::stream::SSLStream@{lightning::stream::SSLStream}}
+\doxysubsubsection{\texorpdfstring{SSL\_NO\_ERROR}{SSL\_NO\_ERROR}}
+{\footnotesize\ttfamily static constexpr int lightning\+::stream\+::\+SSLStream\+::\+SSL\+\_\+\+NO\+\_\+\+ERROR = 1\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lightning/stream/\mbox{\hyperlink{lightning_2stream_2_s_s_l_stream_8hpp}{SSLStream.\+hpp}}\item 
+\mbox{\hyperlink{_s_s_l_stream_8cpp}{SSLStream.\+cpp}}\end{DoxyCompactItemize}

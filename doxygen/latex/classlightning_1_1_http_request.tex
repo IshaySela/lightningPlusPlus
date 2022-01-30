@@ -1,0 +1,403 @@
+\hypertarget{classlightning_1_1_http_request}{}\doxysection{lightning\+::Http\+Request Class Reference}
+\label{classlightning_1_1_http_request}\index{lightning::HttpRequest@{lightning::HttpRequest}}
+
+
+{\ttfamily \#include $<$Http\+Request.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Request\+Line}} = struct \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Request\+Line}} \{ std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}
+\item 
+using \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Request\+Line}} = struct \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Request\+Line}} \{ std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlightning_1_1_http_request_a806a607135ed1579868d361b8a27c0c6}{Http\+Request}} (std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}, std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a3a795917134cf911c7a1796cf160f99a}{raw\+Uri}}, std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a8fbf396178e9e23eb90442a01f327db4}{protocol\+Version}}, \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}} \&\mbox{\hyperlink{classlightning_1_1_http_request_a94afd5465061e6e50d2c86e1887d18eb}{headers}}, \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \mbox{\hyperlink{classlightning_1_1_http_request_a5d193ac36bc007776f44b917b23a808f}{framework\+Info}})
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_a990b8c9f7dbb095e8937aa917a8d41a8}{get\+Method}} () -\/$>$ std\+::string \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_aa58cd3459056c0d647e4b90ec0963be7}{get\+Raw\+Uri}} () -\/$>$ std\+::string \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_a088b1916041b38ee47e1f55cfb4cb62d}{get\+Protocol\+Version}} () -\/$>$ std\+::string \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_af86a04ed16d3b906a3b87e58be80bd3e}{get\+Framework\+Info}} () -\/$>$ \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_ab33d85d29681ba7f2f50e5574a0151f0}{get\+Uri\+Parameters}} () -\/$>$ std\+::vector$<$ std\+::string $>$ \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_abbcf976585b3612e044813fee3a6af78}{compute\+Uri\+Parameters}} () -\/$>$ void
+\item 
+\mbox{\hyperlink{classlightning_1_1_http_request_a806a607135ed1579868d361b8a27c0c6}{Http\+Request}} (std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}, std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a3a795917134cf911c7a1796cf160f99a}{raw\+Uri}}, std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a8fbf396178e9e23eb90442a01f327db4}{protocol\+Version}}, \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}} \&\mbox{\hyperlink{classlightning_1_1_http_request_a94afd5465061e6e50d2c86e1887d18eb}{headers}}, \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \mbox{\hyperlink{classlightning_1_1_http_request_a5d193ac36bc007776f44b917b23a808f}{framework\+Info}})
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_ad2f0a6f7044d70a059d401503e2e8ef2}{get\+Method}} () -\/$>$ std\+::string \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_a98a0a802218ff2af3989ef530099bc79}{get\+Raw\+Uri}} () -\/$>$ std\+::string \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_a9c4aa6bc2848e4b006cdcc1f4f473fe8}{get\+Protocol\+Version}} () -\/$>$ std\+::string \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_a59e575dc097a0494b9104d9f38a77068}{get\+Framework\+Info}} () -\/$>$ \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_ab33d85d29681ba7f2f50e5574a0151f0}{get\+Uri\+Parameters}} () -\/$>$ std\+::vector$<$ std\+::string $>$ \&
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_http_request_abbcf976585b3612e044813fee3a6af78}{compute\+Uri\+Parameters}} () -\/$>$ void
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a329841b2830188449a87e767d86cc40a}{create\+Request}} (std\+::string request) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}
+\begin{DoxyCompactList}\small\item\em Construct a http request from request (without the body) that was sent by the client. The request structure is specified in the rfc standard \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5}}. \end{DoxyCompactList}\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a348759f03d83d8ec2da24c1aca4f282e}{create\+Request}} (std\+::vector$<$ char $>$\+::iterator beg, std\+::vector$<$ char $>$\+::iterator end) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}
+\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_afaa139b5cffe1937513939f601341086}{parse\+Request\+Line}} (std\+::string request\+Line) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Http\+Request\+::\+Request\+Line}}
+\begin{DoxyCompactList}\small\item\em Parse the request line sent by the client. The request line should be as specified in \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5.1}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5.\+1}}. General request line will be structured as follows\+: Method SP Request-\/\+URI SP HTTP-\/\+Version CRLF. \end{DoxyCompactList}\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a47eccd3ab5538f32bcc1b042795d3e94}{parse\+Headers}} (std\+::string raw\+Headers) -\/$>$ \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}}
+\begin{DoxyCompactList}\small\item\em Parse a string that is structured as specified in the rfc \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-4.2}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/4.\+2}}. General headers sent by the client will be structured as follows\+: Key \char`\"{}\+: \char`\"{} Value CRLF Key \char`\"{}\+: \char`\"{} Value ... \end{DoxyCompactList}\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a9a6bc8e8474057603a3a869e80f23eaf}{create\+Request}} (std\+::string request) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}
+\begin{DoxyCompactList}\small\item\em Construct a http request from request (without the body) that was sent by the client. The request structure is specified in the rfc standard \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5}}. \end{DoxyCompactList}\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a89bf2746c8fa53e88063142876bdf83c}{create\+Request}} (std\+::vector$<$ char $>$\+::iterator beg, std\+::vector$<$ char $>$\+::iterator end) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}
+\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a682ee63ba0a0798c8a881cc885c95e8c}{parse\+Request\+Line}} (std\+::string request\+Line) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Http\+Request\+::\+Request\+Line}}
+\begin{DoxyCompactList}\small\item\em Parse the request line sent by the client. The request line should be as specified in \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5.1}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5.\+1}}. General request line will be structured as follows\+: Method SP Request-\/\+URI SP HTTP-\/\+Version CRLF. \end{DoxyCompactList}\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a5bef78ad02f6a111fdd52ebb9e548d9b}{parse\+Headers}} (std\+::string raw\+Headers) -\/$>$ \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}}
+\begin{DoxyCompactList}\small\item\em Parse a string that is structured as specified in the rfc \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-4.2}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/4.\+2}}. General headers sent by the client will be structured as follows\+: Key \char`\"{}\+: \char`\"{} Value CRLF Key \char`\"{}\+: \char`\"{} Value ... \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a3d8d33cd9ab2b90c86bda6c237d538f7}{get\+Next\+Token}} (std\+::string line, std\+::string del, int \&out\+Index, int offset=0) -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Parse the line and retrive every character from the offset until reaching the delimiter. \end{DoxyCompactList}\item 
+static auto \mbox{\hyperlink{classlightning_1_1_http_request_a6c2f2e24bcab2ce705758fc0dc38f94e}{get\+Next\+Token}} (std\+::string line, std\+::string del, int \&out\+Index, int offset=0) -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Parse the line and retrive every character from the offset until reaching the delimiter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}
+\item 
+std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a3a795917134cf911c7a1796cf160f99a}{raw\+Uri}}
+\item 
+std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a8fbf396178e9e23eb90442a01f327db4}{protocol\+Version}}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classlightning_1_1_http_request_a54034c7fbbf4335170b3158d499055b6}{uri\+Parameters}}
+\item 
+\mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \mbox{\hyperlink{classlightning_1_1_http_request_a5d193ac36bc007776f44b917b23a808f}{framework\+Info}}
+\item 
+\mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}} \mbox{\hyperlink{classlightning_1_1_http_request_a94afd5465061e6e50d2c86e1887d18eb}{headers}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}\label{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!RequestLine@{RequestLine}}
+\index{RequestLine@{RequestLine}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{RequestLine}{RequestLine}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{lightning\+::\+Http\+Request\+::\+Request\+Line}} =  struct \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Request\+Line}} \{ std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}\label{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!RequestLine@{RequestLine}}
+\index{RequestLine@{RequestLine}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{RequestLine}{RequestLine}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{lightning\+::\+Http\+Request\+::\+Request\+Line}} =  struct \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Request\+Line}} \{ std\+::string \mbox{\hyperlink{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}{method}}}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a806a607135ed1579868d361b8a27c0c6}\label{classlightning_1_1_http_request_a806a607135ed1579868d361b8a27c0c6}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!HttpRequest@{HttpRequest}}
+\index{HttpRequest@{HttpRequest}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{HttpRequest()}{HttpRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily lightning\+::\+Http\+Request\+::\+Http\+Request (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{raw\+Uri,  }\item[{std\+::string}]{protocol\+Version,  }\item[{\mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}} \&}]{headers,  }\item[{\mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}}}]{framework\+Info }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a806a607135ed1579868d361b8a27c0c6}\label{classlightning_1_1_http_request_a806a607135ed1579868d361b8a27c0c6}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!HttpRequest@{HttpRequest}}
+\index{HttpRequest@{HttpRequest}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{HttpRequest()}{HttpRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily lightning\+::\+Http\+Request\+::\+Http\+Request (\begin{DoxyParamCaption}\item[{std\+::string}]{method,  }\item[{std\+::string}]{raw\+Uri,  }\item[{std\+::string}]{protocol\+Version,  }\item[{\mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}} \&}]{headers,  }\item[{\mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}}}]{framework\+Info }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_request_abbcf976585b3612e044813fee3a6af78}\label{classlightning_1_1_http_request_abbcf976585b3612e044813fee3a6af78}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!computeUriParameters@{computeUriParameters}}
+\index{computeUriParameters@{computeUriParameters}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{computeUriParameters()}{computeUriParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::compute\+Uri\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ void}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_abbcf976585b3612e044813fee3a6af78}\label{classlightning_1_1_http_request_abbcf976585b3612e044813fee3a6af78}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!computeUriParameters@{computeUriParameters}}
+\index{computeUriParameters@{computeUriParameters}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{computeUriParameters()}{computeUriParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::compute\+Uri\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  void}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a329841b2830188449a87e767d86cc40a}\label{classlightning_1_1_http_request_a329841b2830188449a87e767d86cc40a}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!createRequest@{createRequest}}
+\index{createRequest@{createRequest}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{createRequest()}{createRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::create\+Request (\begin{DoxyParamCaption}\item[{std\+::string}]{request }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Construct a http request from request (without the body) that was sent by the client. The request structure is specified in the rfc standard \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+Line} & The raw request line read from the client. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a9a6bc8e8474057603a3a869e80f23eaf}\label{classlightning_1_1_http_request_a9a6bc8e8474057603a3a869e80f23eaf}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!createRequest@{createRequest}}
+\index{createRequest@{createRequest}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{createRequest()}{createRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily static auto lightning\+::\+Http\+Request\+::create\+Request (\begin{DoxyParamCaption}\item[{std\+::string}]{request }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Construct a http request from request (without the body) that was sent by the client. The request structure is specified in the rfc standard \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+Line} & The raw request line read from the client. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a348759f03d83d8ec2da24c1aca4f282e}\label{classlightning_1_1_http_request_a348759f03d83d8ec2da24c1aca4f282e}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!createRequest@{createRequest}}
+\index{createRequest@{createRequest}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{createRequest()}{createRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::create\+Request (\begin{DoxyParamCaption}\item[{std\+::vector$<$ char $>$\+::iterator}]{beg,  }\item[{std\+::vector$<$ char $>$\+::iterator}]{end }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a89bf2746c8fa53e88063142876bdf83c}\label{classlightning_1_1_http_request_a89bf2746c8fa53e88063142876bdf83c}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!createRequest@{createRequest}}
+\index{createRequest@{createRequest}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{createRequest()}{createRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily static auto lightning\+::\+Http\+Request\+::create\+Request (\begin{DoxyParamCaption}\item[{std\+::vector$<$ char $>$\+::iterator}]{beg,  }\item[{std\+::vector$<$ char $>$\+::iterator}]{end }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{classlightning_1_1_http_request}{Http\+Request}}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_af86a04ed16d3b906a3b87e58be80bd3e}\label{classlightning_1_1_http_request_af86a04ed16d3b906a3b87e58be80bd3e}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getFrameworkInfo@{getFrameworkInfo}}
+\index{getFrameworkInfo@{getFrameworkInfo}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getFrameworkInfo()}{getFrameworkInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \& lightning\+::\+Http\+Request\+::get\+Framework\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a59e575dc097a0494b9104d9f38a77068}\label{classlightning_1_1_http_request_a59e575dc097a0494b9104d9f38a77068}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getFrameworkInfo@{getFrameworkInfo}}
+\index{getFrameworkInfo@{getFrameworkInfo}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getFrameworkInfo()}{getFrameworkInfo()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Framework\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a990b8c9f7dbb095e8937aa917a8d41a8}\label{classlightning_1_1_http_request_a990b8c9f7dbb095e8937aa917a8d41a8}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getMethod@{getMethod}}
+\index{getMethod@{getMethod}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getMethod()}{getMethod()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string \& lightning\+::\+Http\+Request\+::get\+Method (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ std\+::string \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_ad2f0a6f7044d70a059d401503e2e8ef2}\label{classlightning_1_1_http_request_ad2f0a6f7044d70a059d401503e2e8ef2}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getMethod@{getMethod}}
+\index{getMethod@{getMethod}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getMethod()}{getMethod()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Method (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  std\+::string \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a3d8d33cd9ab2b90c86bda6c237d538f7}\label{classlightning_1_1_http_request_a3d8d33cd9ab2b90c86bda6c237d538f7}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getNextToken@{getNextToken}}
+\index{getNextToken@{getNextToken}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getNextToken()}{getNextToken()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Next\+Token (\begin{DoxyParamCaption}\item[{std\+::string}]{line,  }\item[{std\+::string}]{del,  }\item[{int \&}]{out\+Index,  }\item[{int}]{offset = {\ttfamily 0} }\end{DoxyParamCaption}) -\/$>$ std\+::string\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Parse the line and retrive every character from the offset until reaching the delimiter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & The string to get the substr from. \\
+\hline
+{\em del} & The delimiter to find. \\
+\hline
+{\em out\+Index} & Output variable that will contain the index of the found delimiter. If the delimiter was not found, it will be the length of line. \\
+\hline
+{\em offset} & The offset character to start from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string The substring from offset to del. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a6c2f2e24bcab2ce705758fc0dc38f94e}\label{classlightning_1_1_http_request_a6c2f2e24bcab2ce705758fc0dc38f94e}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getNextToken@{getNextToken}}
+\index{getNextToken@{getNextToken}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getNextToken()}{getNextToken()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static auto lightning\+::\+Http\+Request\+::get\+Next\+Token (\begin{DoxyParamCaption}\item[{std\+::string}]{line,  }\item[{std\+::string}]{del,  }\item[{int \&}]{out\+Index,  }\item[{int}]{offset = {\ttfamily 0} }\end{DoxyParamCaption}) -\/$>$  std\+::string\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Parse the line and retrive every character from the offset until reaching the delimiter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & The string to get the substr from. \\
+\hline
+{\em del} & The delimiter to find. \\
+\hline
+{\em out\+Index} & Output variable that will contain the index of the found delimiter. If the delimiter was not found, it will be the length of line. \\
+\hline
+{\em offset} & The offset character to start from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string The substring from offset to del. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a088b1916041b38ee47e1f55cfb4cb62d}\label{classlightning_1_1_http_request_a088b1916041b38ee47e1f55cfb4cb62d}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getProtocolVersion@{getProtocolVersion}}
+\index{getProtocolVersion@{getProtocolVersion}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getProtocolVersion()}{getProtocolVersion()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string \& lightning\+::\+Http\+Request\+::get\+Protocol\+Version (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ std\+::string \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a9c4aa6bc2848e4b006cdcc1f4f473fe8}\label{classlightning_1_1_http_request_a9c4aa6bc2848e4b006cdcc1f4f473fe8}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getProtocolVersion@{getProtocolVersion}}
+\index{getProtocolVersion@{getProtocolVersion}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getProtocolVersion()}{getProtocolVersion()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Protocol\+Version (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  std\+::string \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_aa58cd3459056c0d647e4b90ec0963be7}\label{classlightning_1_1_http_request_aa58cd3459056c0d647e4b90ec0963be7}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getRawUri@{getRawUri}}
+\index{getRawUri@{getRawUri}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getRawUri()}{getRawUri()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string \& lightning\+::\+Http\+Request\+::get\+Raw\+Uri (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ std\+::string \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a98a0a802218ff2af3989ef530099bc79}\label{classlightning_1_1_http_request_a98a0a802218ff2af3989ef530099bc79}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getRawUri@{getRawUri}}
+\index{getRawUri@{getRawUri}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getRawUri()}{getRawUri()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Raw\+Uri (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  std\+::string \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_ab33d85d29681ba7f2f50e5574a0151f0}\label{classlightning_1_1_http_request_ab33d85d29681ba7f2f50e5574a0151f0}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getUriParameters@{getUriParameters}}
+\index{getUriParameters@{getUriParameters}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getUriParameters()}{getUriParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Uri\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ std\+::vector$<$std\+::string$>$ \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_ab33d85d29681ba7f2f50e5574a0151f0}\label{classlightning_1_1_http_request_ab33d85d29681ba7f2f50e5574a0151f0}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!getUriParameters@{getUriParameters}}
+\index{getUriParameters@{getUriParameters}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{getUriParameters()}{getUriParameters()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::get\+Uri\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  std\+::vector$<$ std\+::string $>$ \&}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a47eccd3ab5538f32bcc1b042795d3e94}\label{classlightning_1_1_http_request_a47eccd3ab5538f32bcc1b042795d3e94}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!parseHeaders@{parseHeaders}}
+\index{parseHeaders@{parseHeaders}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{parseHeaders()}{parseHeaders()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::parse\+Headers (\begin{DoxyParamCaption}\item[{std\+::string}]{raw\+Headers }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Parse a string that is structured as specified in the rfc \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-4.2}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/4.\+2}}. General headers sent by the client will be structured as follows\+: Key \char`\"{}\+: \char`\"{} Value CRLF Key \char`\"{}\+: \char`\"{} Value ... 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw\+Headers} & The raw headers string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Headers\+Map An object that maps string keys to string values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a5bef78ad02f6a111fdd52ebb9e548d9b}\label{classlightning_1_1_http_request_a5bef78ad02f6a111fdd52ebb9e548d9b}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!parseHeaders@{parseHeaders}}
+\index{parseHeaders@{parseHeaders}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{parseHeaders()}{parseHeaders()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static auto lightning\+::\+Http\+Request\+::parse\+Headers (\begin{DoxyParamCaption}\item[{std\+::string}]{raw\+Headers }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Parse a string that is structured as specified in the rfc \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-4.2}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/4.\+2}}. General headers sent by the client will be structured as follows\+: Key \char`\"{}\+: \char`\"{} Value CRLF Key \char`\"{}\+: \char`\"{} Value ... 
+
+
+\begin{DoxyParams}{Parameters}
+{\em raw\+Headers} & The raw headers string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Headers\+Map An object that maps string keys to string values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_afaa139b5cffe1937513939f601341086}\label{classlightning_1_1_http_request_afaa139b5cffe1937513939f601341086}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!parseRequestLine@{parseRequestLine}}
+\index{parseRequestLine@{parseRequestLine}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{parseRequestLine()}{parseRequestLine()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+Http\+Request\+::parse\+Request\+Line (\begin{DoxyParamCaption}\item[{std\+::string}]{request\+Line }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Http\+Request\+::\+Request\+Line}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Parse the request line sent by the client. The request line should be as specified in \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5.1}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5.\+1}}. General request line will be structured as follows\+: Method SP Request-\/\+URI SP HTTP-\/\+Version CRLF. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+Line} & The request line to parse. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Http\+Request\+::\+Request\+Line}} An object that contains the method, request uri and http version. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a682ee63ba0a0798c8a881cc885c95e8c}\label{classlightning_1_1_http_request_a682ee63ba0a0798c8a881cc885c95e8c}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!parseRequestLine@{parseRequestLine}}
+\index{parseRequestLine@{parseRequestLine}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{parseRequestLine()}{parseRequestLine()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static auto lightning\+::\+Http\+Request\+::parse\+Request\+Line (\begin{DoxyParamCaption}\item[{std\+::string}]{request\+Line }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Http\+Request\+::\+Request\+Line}}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Parse the request line sent by the client. The request line should be as specified in \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-5.1}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/5.\+1}}. General request line will be structured as follows\+: Method SP Request-\/\+URI SP HTTP-\/\+Version CRLF. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+Line} & The request line to parse. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classlightning_1_1_http_request_ad035b967861364b4b4cabb225a80a45c}{Http\+Request\+::\+Request\+Line}} An object that contains the method, request uri and http version. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classlightning_1_1_http_request_a5d193ac36bc007776f44b917b23a808f}\label{classlightning_1_1_http_request_a5d193ac36bc007776f44b917b23a808f}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!frameworkInfo@{frameworkInfo}}
+\index{frameworkInfo@{frameworkInfo}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{frameworkInfo}{frameworkInfo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structlightning_1_1_framework_info}{Framework\+Info}} lightning\+::\+Http\+Request\+::framework\+Info\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a94afd5465061e6e50d2c86e1887d18eb}\label{classlightning_1_1_http_request_a94afd5465061e6e50d2c86e1887d18eb}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!headers@{headers}}
+\index{headers@{headers}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{headers}{headers}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacelightning_a064777276f97d7e8b506f2eb4fc6f284}{Headers\+Map}} lightning\+::\+Http\+Request\+::headers\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}\label{classlightning_1_1_http_request_a62c49be768194df8af9a079d3afd888c}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!method@{method}}
+\index{method@{method}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{method}{method}}
+{\footnotesize\ttfamily std\+::string lightning\+::\+Http\+Request\+::method\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a8fbf396178e9e23eb90442a01f327db4}\label{classlightning_1_1_http_request_a8fbf396178e9e23eb90442a01f327db4}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!protocolVersion@{protocolVersion}}
+\index{protocolVersion@{protocolVersion}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{protocolVersion}{protocolVersion}}
+{\footnotesize\ttfamily std\+::string lightning\+::\+Http\+Request\+::protocol\+Version\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a3a795917134cf911c7a1796cf160f99a}\label{classlightning_1_1_http_request_a3a795917134cf911c7a1796cf160f99a}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!rawUri@{rawUri}}
+\index{rawUri@{rawUri}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{rawUri}{rawUri}}
+{\footnotesize\ttfamily std\+::string lightning\+::\+Http\+Request\+::raw\+Uri\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_http_request_a54034c7fbbf4335170b3158d499055b6}\label{classlightning_1_1_http_request_a54034c7fbbf4335170b3158d499055b6}} 
+\index{lightning::HttpRequest@{lightning::HttpRequest}!uriParameters@{uriParameters}}
+\index{uriParameters@{uriParameters}!lightning::HttpRequest@{lightning::HttpRequest}}
+\doxysubsubsection{\texorpdfstring{uriParameters}{uriParameters}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ lightning\+::\+Http\+Request\+::uri\+Parameters\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lightning/request/\mbox{\hyperlink{lightning_2request_2_http_request_8hpp}{Http\+Request.\+hpp}}\item 
+\mbox{\hyperlink{_http_request_8cpp}{Http\+Request.\+cpp}}\end{DoxyCompactItemize}

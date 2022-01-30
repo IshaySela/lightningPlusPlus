@@ -1,0 +1,98 @@
+\hypertarget{namespacelightning_1_1strings}{}\doxysection{lightning\+::strings Namespace Reference}
+\label{namespacelightning_1_1strings}\index{lightning::strings@{lightning::strings}}
+
+
+Helper function for using strings with regex and more.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T  = std\+::string, typename... Ts$>$ }\\auto \mbox{\hyperlink{namespacelightning_1_1strings_ae702b427dc0a86b4d32a5bffcc4e4f52}{format\+Ex}} (const std\+::string \&str, const std\+::string seprator\+Token, T t, Ts... args) -\/$>$ std\+::optional$<$ std\+::string $>$
+\begin{DoxyCompactList}\small\item\em Replace occurences of \{\} with the corresponding replacements pass as variadic template. If 1 replacement was provided and multiple $<$seprator\+Token$>$ where found, all occurrences of $<$seprator\+Token$>$ will be replaced with the single replacer. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T  = std\+::string, typename... Ts$>$ }\\auto \mbox{\hyperlink{namespacelightning_1_1strings_a9659537e594437e2a27b73c5e8caa80d}{format}} (const std\+::string \&str, T t, Ts... args)
+\item 
+auto \mbox{\hyperlink{namespacelightning_1_1strings_a336b81a9db3a0a94b15b017bbad4cc68}{sanitize\+For\+Regex}} (std\+::string \&str) -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Santize a string to be literal regex value, by appending all of the special characters \mbox{[}-\/.\textbackslash{}+$\ast$?\textbackslash{}\mbox{[}$^\wedge$\textbackslash{}\mbox{]}\$()\{\}=!$<$$>$$\vert$\+:\textbackslash{}\textbackslash{}\mbox{]} with backslash. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{namespacelightning_1_1strings_ad84aa085c65287178d2d9d28b4bc4acc}{sanitize\+Execpt\+Wildcard\+For\+Regex}} (std\+::string \&str) -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Sanitize all but the $\ast$ for wildcard. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Helper function for using strings with regex and more. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacelightning_1_1strings_a9659537e594437e2a27b73c5e8caa80d}\label{namespacelightning_1_1strings_a9659537e594437e2a27b73c5e8caa80d}} 
+\index{lightning::strings@{lightning::strings}!format@{format}}
+\index{format@{format}!lightning::strings@{lightning::strings}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}}
+{\footnotesize\ttfamily template$<$typename T  = std\+::string, typename... Ts$>$ \\
+auto lightning\+::strings\+::format (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str,  }\item[{T}]{t,  }\item[{Ts...}]{args }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacelightning_1_1strings_ae702b427dc0a86b4d32a5bffcc4e4f52}\label{namespacelightning_1_1strings_ae702b427dc0a86b4d32a5bffcc4e4f52}} 
+\index{lightning::strings@{lightning::strings}!formatEx@{formatEx}}
+\index{formatEx@{formatEx}!lightning::strings@{lightning::strings}}
+\doxysubsubsection{\texorpdfstring{formatEx()}{formatEx()}}
+{\footnotesize\ttfamily template$<$typename T  = std\+::string, typename... Ts$>$ \\
+auto lightning\+::strings\+::format\+Ex (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str,  }\item[{const std\+::string}]{seprator\+Token,  }\item[{T}]{t,  }\item[{Ts...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::optional$<$std\+::string$>$     }
+
+
+
+Replace occurences of \{\} with the corresponding replacements pass as variadic template. If 1 replacement was provided and multiple $<$seprator\+Token$>$ where found, all occurrences of $<$seprator\+Token$>$ will be replaced with the single replacer. 
+
+Exapmles\+: format(\char`\"{}\+Hello \{\}\char`\"{}, \char`\"{}\+World\char`\"{}) -\/$>$ \char`\"{}\+Hello World\char`\"{} format(\char`\"{}\+Hello \{\} \{\}\char`\"{}, \char`\"{}\+World\char`\"{}) -\/$>$ \char`\"{}\+Hello World World\char`\"{} format(\char`\"{}\+Hello \{\}\char`\"{},\char`\"{}\+World\char`\"{}, \char`\"{}break\char`\"{}) -\/$>$ \char`\"{}\char`\"{}
+
+// TODO\+: Rephrase this comment and use more verbose language.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of the array. This is used to ensure that at least 1 argument is passed, and to verify that all arguments are of the same type. \\
+\hline
+{\em Ts} & A variadic parameter pack of all the replacers string to use. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The string to format. \\
+\hline
+{\em t} & The replacer. This is used to verify that at least 1 argument is passed, and ensure the type of args. \\
+\hline
+{\em args} & The replacers list. \\
+\hline
+{\em sperator\+Token} & The token to find in str and replace with args\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::optional$<$std\+::string$>$ The formmated string. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacelightning_1_1strings_ad84aa085c65287178d2d9d28b4bc4acc}\label{namespacelightning_1_1strings_ad84aa085c65287178d2d9d28b4bc4acc}} 
+\index{lightning::strings@{lightning::strings}!sanitizeExecptWildcardForRegex@{sanitizeExecptWildcardForRegex}}
+\index{sanitizeExecptWildcardForRegex@{sanitizeExecptWildcardForRegex}!lightning::strings@{lightning::strings}}
+\doxysubsubsection{\texorpdfstring{sanitizeExecptWildcardForRegex()}{sanitizeExecptWildcardForRegex()}}
+{\footnotesize\ttfamily auto lightning\+::strings\+::sanitize\+Execpt\+Wildcard\+For\+Regex (\begin{DoxyParamCaption}\item[{std\+::string \&}]{str }\end{DoxyParamCaption}) -\/$>$  std\+::string}
+
+
+
+Sanitize all but the $\ast$ for wildcard. 
+
+\begin{DoxyReturn}{Returns}
+std\+::string The sanitized string. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacelightning_1_1strings_a336b81a9db3a0a94b15b017bbad4cc68}\label{namespacelightning_1_1strings_a336b81a9db3a0a94b15b017bbad4cc68}} 
+\index{lightning::strings@{lightning::strings}!sanitizeForRegex@{sanitizeForRegex}}
+\index{sanitizeForRegex@{sanitizeForRegex}!lightning::strings@{lightning::strings}}
+\doxysubsubsection{\texorpdfstring{sanitizeForRegex()}{sanitizeForRegex()}}
+{\footnotesize\ttfamily auto lightning\+::strings\+::sanitize\+For\+Regex (\begin{DoxyParamCaption}\item[{std\+::string \&}]{str }\end{DoxyParamCaption}) -\/$>$  std\+::string}
+
+
+
+Santize a string to be literal regex value, by appending all of the special characters \mbox{[}-\/.\textbackslash{}+$\ast$?\textbackslash{}\mbox{[}$^\wedge$\textbackslash{}\mbox{]}\$()\{\}=!$<$$>$$\vert$\+:\textbackslash{}\textbackslash{}\mbox{]} with backslash. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The string to sanitize \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string The santizied string. 
+\end{DoxyReturn}

@@ -1,0 +1,24 @@
+\hypertarget{lightning_2_smart_resource_8hpp}{}\doxysection{lightning/\+Smart\+Resource.hpp File Reference}
+\label{lightning_2_smart_resource_8hpp}\index{lightning/SmartResource.hpp@{lightning/SmartResource.hpp}}
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$openssl/ssl.\+h$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacelightning}{lightning}}
+\item 
+ \mbox{\hyperlink{namespacelightning_1_1_smart_ssl_resource}{lightning\+::\+Smart\+Ssl\+Resource}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{lightning\+::\+Smart\+Resource}} = std\+::unique\+\_\+ptr$<$ T, std\+::function$<$ void(T $\ast$)$>$ $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{namespacelightning_1_1_smart_ssl_resource_ad964559126da2b519e37285725a150dc}{lightning\+::\+Smart\+Ssl\+Resource\+::ssl\+Object\+Deleter}} (SSL $\ast$ssl) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Delete the ssl object provided by calling SSL\+\_\+shutdown and SSL\+\_\+free. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{namespacelightning_1_1_smart_ssl_resource_a138f45efa47e63eb20e874149b4d26e4}{lightning\+::\+Smart\+Ssl\+Resource\+::construct\+Smart\+Ssl\+Resource}} (SSL $\ast$ssl) -\/$>$ Smart\+Resource$<$ SSL $>$
+\begin{DoxyCompactList}\small\item\em Create new Smart\+Resource$<$\+SSL$>$ with ssl\+Object\+Deleter as the deleter. \end{DoxyCompactList}\end{DoxyCompactItemize}

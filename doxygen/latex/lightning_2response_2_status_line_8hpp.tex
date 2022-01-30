@@ -1,0 +1,27 @@
+\hypertarget{lightning_2response_2_status_line_8hpp}{}\doxysection{lightning/response/\+Status\+Line.hpp File Reference}
+\label{lightning_2response_2_status_line_8hpp}\index{lightning/response/StatusLine.hpp@{lightning/response/StatusLine.hpp}}
+{\ttfamily \#include $<$sstream$>$}\newline
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacelightning}{lightning}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacelightning_ac80b48212f0bcd07bb12aa92293f61f1}{lightning\+::\+Status\+Line}} = struct Status\+Line \{ int status\+Code
+\begin{DoxyCompactList}\small\item\em Construct a new Status Line object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacelightning_a75a61060f119a8d1891e0ba6600453f0}{lightning\+::\+Status\+Line}} (int status\+Code, std\+::string status\+Phrase, std\+::string http\+Version)
+\begin{DoxyCompactList}\small\item\em Construct a new Status Line object. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{namespacelightning_a6bf7cedf30ce4ba0a85dd92301c356f6}{lightning\+::create\+Status\+Line}} () -\/$>$ std\+::string
+\begin{DoxyCompactList}\small\item\em Create the status line as specified in the rfc \href{https://datatracker.ietf.org/doc/html/rfc2616\#section-6.1}{\texttt{ https\+://datatracker.\+ietf.\+org/doc/html/rfc2616\#section-\/6.\+1}}. A status line would be structured as follows\+: HTTP-\/\+Version SP Status-\/\+Code SP Reason-\/\+Phrase CRLF. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{namespacelightning_a949f26205582246ce81c5f8815c73e9f}{lightning\+::status\+Phrase}}
+\item 
+std\+::string \mbox{\hyperlink{namespacelightning_a3bd858af1089de6c1b760c1285f6d87f}{lightning\+::http\+Version}}
+\end{DoxyCompactItemize}

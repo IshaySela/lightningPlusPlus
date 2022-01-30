@@ -1,0 +1,84 @@
+\hypertarget{namespacelightning_1_1handlers}{}\doxysection{lightning\+::handlers Namespace Reference}
+\label{namespacelightning_1_1handlers}\index{lightning::handlers@{lightning::handlers}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{namespacelightning_1_1handlers_a81729a0ce25b5b54e0aa3b458e5d1779}{uri\+To\+Static\+File}} (std\+::string path, std\+::string content\+Type=\char`\"{}text/html\char`\"{}, Resolver not\+Found\+Resolver=\mbox{\hyperlink{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}{NOT\+\_\+\+FOUND\+\_\+\+RESOLVER}}) -\/$>$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}
+\begin{DoxyCompactList}\small\item\em Create a resolver for a static file. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{namespacelightning_1_1handlers_a6c5de38ca627647b73a72ba5fc70e358}{serve\+Folder}} (std\+::string path, \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}} not\+Found\+Resolver=\mbox{\hyperlink{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}{NOT\+\_\+\+FOUND\+\_\+\+RESOLVER}}) -\/$>$ \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}
+\begin{DoxyCompactList}\small\item\em Serve entire folder based on the request uri. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const auto \mbox{\hyperlink{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}{NOT\+\_\+\+FOUND\+\_\+\+RESOLVER}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacelightning_1_1handlers_a6c5de38ca627647b73a72ba5fc70e358}\label{namespacelightning_1_1handlers_a6c5de38ca627647b73a72ba5fc70e358}} 
+\index{lightning::handlers@{lightning::handlers}!serveFolder@{serveFolder}}
+\index{serveFolder@{serveFolder}!lightning::handlers@{lightning::handlers}}
+\doxysubsubsection{\texorpdfstring{serveFolder()}{serveFolder()}}
+{\footnotesize\ttfamily auto lightning\+::handlers\+::serve\+Folder (\begin{DoxyParamCaption}\item[{std\+::string}]{path,  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{not\+Found\+Resolver = {\ttfamily \mbox{\hyperlink{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}{NOT\+\_\+\+FOUND\+\_\+\+RESOLVER}}} }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}
+
+
+
+Serve entire folder based on the request uri. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path to the folder \\
+\hline
+{\em not\+Found\+Resolver} & Resolver that is called if the file coult not be read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resolver The resolver for serving the folder. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacelightning_1_1handlers_a81729a0ce25b5b54e0aa3b458e5d1779}\label{namespacelightning_1_1handlers_a81729a0ce25b5b54e0aa3b458e5d1779}} 
+\index{lightning::handlers@{lightning::handlers}!uriToStaticFile@{uriToStaticFile}}
+\index{uriToStaticFile@{uriToStaticFile}!lightning::handlers@{lightning::handlers}}
+\doxysubsubsection{\texorpdfstring{uriToStaticFile()}{uriToStaticFile()}}
+{\footnotesize\ttfamily auto lightning\+::handlers\+::uri\+To\+Static\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{path,  }\item[{std\+::string}]{content\+Type = {\ttfamily \char`\"{}text/html\char`\"{}},  }\item[{\mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}]{not\+Found\+Resolver = {\ttfamily \mbox{\hyperlink{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}{NOT\+\_\+\+FOUND\+\_\+\+RESOLVER}}} }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{namespacelightning_a826a9fcd2ab07cc4dd990627232025e1}{Resolver}}}
+
+
+
+Create a resolver for a static file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path to the file. \\
+\hline
+{\em content\+Type} & the content type header in the response to the client. \\
+\hline
+{\em not\+Found\+Resolver} & Resolver that is called if the file coult not be read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Resolver The resolver that is serving the file. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}\label{namespacelightning_1_1handlers_ab262565e8179f4dc59f17bf5338e0198}} 
+\index{lightning::handlers@{lightning::handlers}!NOT\_FOUND\_RESOLVER@{NOT\_FOUND\_RESOLVER}}
+\index{NOT\_FOUND\_RESOLVER@{NOT\_FOUND\_RESOLVER}!lightning::handlers@{lightning::handlers}}
+\doxysubsubsection{\texorpdfstring{NOT\_FOUND\_RESOLVER}{NOT\_FOUND\_RESOLVER}}
+{\footnotesize\ttfamily const auto lightning\+::handlers\+::\+NOT\+\_\+\+FOUND\+\_\+\+RESOLVER}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= [](HttpRequest request) -\/> HttpResponse}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        \textcolor{keyword}{static} \textcolor{keyword}{const} std::string body = \textcolor{stringliteral}{"{}<h1>404 Not Found</h1>"{}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} HttpResponseBuilder::create()}
+\DoxyCodeLine{            .withStatusCode(404)}
+\DoxyCodeLine{            .withStatusPhrase(\textcolor{stringliteral}{"{}Not Found"{}})}
+\DoxyCodeLine{            .withBody(body)}
+\DoxyCodeLine{            .withHeader(\textcolor{stringliteral}{"{}Content-\/Type"{}}, \textcolor{stringliteral}{"{}text/html"{}})}
+\DoxyCodeLine{            .withHeader(\textcolor{stringliteral}{"{}Content-\/Length"{}}, std::to\_string(body.size()))}
+\DoxyCodeLine{            .build();}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}

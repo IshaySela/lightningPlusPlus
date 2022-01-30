@@ -1,0 +1,121 @@
+\hypertarget{classlightning_1_1_s_s_l_client}{}\doxysection{lightning\+::SSLClient Class Reference}
+\label{classlightning_1_1_s_s_l_client}\index{lightning::SSLClient@{lightning::SSLClient}}
+
+
+{\ttfamily \#include $<$SSLClient.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlightning_1_1_s_s_l_client_ae483e823e04f4f7e9b599d734ab8b9eb}{SSLClient}} (int fd, \mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$ \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a5127232b97369578c72570cec21273b0}{ssl}})
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a8d2b1d84f4beb733a85c2d31666c4760}{get\+Ssl}} () const -\/$>$ SSL $\ast$
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a8ffdaf47b4e14e67da35a252877aff9a}{get\+Stream}} () -\/$>$ \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream}{stream\+::\+SSLStream}} \&
+\item 
+\mbox{\hyperlink{classlightning_1_1_s_s_l_client_ae483e823e04f4f7e9b599d734ab8b9eb}{SSLClient}} (int fd, \mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$ \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a5127232b97369578c72570cec21273b0}{ssl}})
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a8d2b1d84f4beb733a85c2d31666c4760}{get\+Ssl}} () const -\/$>$ SSL $\ast$
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a8ffdaf47b4e14e67da35a252877aff9a}{get\+Stream}} () -\/$>$ \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream}{stream\+::\+SSLStream}} \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$ \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a5127232b97369578c72570cec21273b0}{ssl}}
+\item 
+\mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream}{stream\+::\+SSLStream}} \mbox{\hyperlink{classlightning_1_1_s_s_l_client_accbc0f1832035f3e02d371683c5d1732}{ssl\+Stream}}
+\item 
+int \mbox{\hyperlink{classlightning_1_1_s_s_l_client_a127ac949689c106c2d346888b8c7ca47}{raw\+Fd}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_ae483e823e04f4f7e9b599d734ab8b9eb}\label{classlightning_1_1_s_s_l_client_ae483e823e04f4f7e9b599d734ab8b9eb}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!SSLClient@{SSLClient}}
+\index{SSLClient@{SSLClient}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{SSLClient()}{SSLClient()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily lightning\+::\+SSLClient\+::\+SSLClient (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{\mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$}]{ssl }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fd} & The raw socket fd. \\
+\hline
+{\em ssl} & The ssl object. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_ae483e823e04f4f7e9b599d734ab8b9eb}\label{classlightning_1_1_s_s_l_client_ae483e823e04f4f7e9b599d734ab8b9eb}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!SSLClient@{SSLClient}}
+\index{SSLClient@{SSLClient}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{SSLClient()}{SSLClient()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily lightning\+::\+SSLClient\+::\+SSLClient (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{\mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$}]{ssl }\end{DoxyParamCaption})}
+
+
+
+Construct a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fd} & The raw socket fd. \\
+\hline
+{\em ssl} & The ssl object. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_a8d2b1d84f4beb733a85c2d31666c4760}\label{classlightning_1_1_s_s_l_client_a8d2b1d84f4beb733a85c2d31666c4760}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!getSsl@{getSsl}}
+\index{getSsl@{getSsl}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{getSsl()}{getSsl()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLClient\+::get\+Ssl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ SSL $\ast$}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_a8d2b1d84f4beb733a85c2d31666c4760}\label{classlightning_1_1_s_s_l_client_a8d2b1d84f4beb733a85c2d31666c4760}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!getSsl@{getSsl}}
+\index{getSsl@{getSsl}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{getSsl()}{getSsl()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLClient\+::get\+Ssl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$  SSL $\ast$}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_a8ffdaf47b4e14e67da35a252877aff9a}\label{classlightning_1_1_s_s_l_client_a8ffdaf47b4e14e67da35a252877aff9a}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!getStream@{getStream}}
+\index{getStream@{getStream}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{getStream()}{getStream()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLClient\+::get\+Stream (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream}{stream\+::\+SSLStream}}\&}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_a8ffdaf47b4e14e67da35a252877aff9a}\label{classlightning_1_1_s_s_l_client_a8ffdaf47b4e14e67da35a252877aff9a}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!getStream@{getStream}}
+\index{getStream@{getStream}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{getStream()}{getStream()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLClient\+::get\+Stream (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream}{stream\+::\+SSLStream}} \&}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_a127ac949689c106c2d346888b8c7ca47}\label{classlightning_1_1_s_s_l_client_a127ac949689c106c2d346888b8c7ca47}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!rawFd@{rawFd}}
+\index{rawFd@{rawFd}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{rawFd}{rawFd}}
+{\footnotesize\ttfamily int lightning\+::\+SSLClient\+::raw\+Fd\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_a5127232b97369578c72570cec21273b0}\label{classlightning_1_1_s_s_l_client_a5127232b97369578c72570cec21273b0}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!ssl@{ssl}}
+\index{ssl@{ssl}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{ssl}{ssl}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$ lightning\+::\+SSLClient\+::ssl\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_client_accbc0f1832035f3e02d371683c5d1732}\label{classlightning_1_1_s_s_l_client_accbc0f1832035f3e02d371683c5d1732}} 
+\index{lightning::SSLClient@{lightning::SSLClient}!sslStream@{sslStream}}
+\index{sslStream@{sslStream}!lightning::SSLClient@{lightning::SSLClient}}
+\doxysubsubsection{\texorpdfstring{sslStream}{sslStream}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classlightning_1_1stream_1_1_s_s_l_stream}{stream\+::\+SSLStream}} lightning\+::\+SSLClient\+::ssl\+Stream\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lightning/\mbox{\hyperlink{lightning_2_s_s_l_client_8hpp}{SSLClient.\+hpp}}\item 
+\mbox{\hyperlink{_s_s_l_client_8cpp}{SSLClient.\+cpp}}\end{DoxyCompactItemize}

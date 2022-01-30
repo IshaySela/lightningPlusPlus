@@ -1,0 +1,188 @@
+\hypertarget{classlightning_1_1_s_s_l_server}{}\doxysection{lightning\+::SSLServer Class Reference}
+\label{classlightning_1_1_s_s_l_server}\index{lightning::SSLServer@{lightning::SSLServer}}
+
+
+The class \mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} handles the basic TLS/\+SSL communication with the client. In future version, the context will be passed in the constructor and a builder will be provided.  
+
+
+
+
+{\ttfamily \#include $<$SSLServer.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlightning_1_1_s_s_l_server_a68db65495268d8e2b40366e3c6c0ff22}{SSLServer}} (int \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a8dfb5e5b533ba46638e7f8fd2337385c}{port}}, const char $\ast$cert\+Path, const char $\ast$\mbox{\hyperlink{classlightning_1_1_s_s_l_server_a9d6a5263e5d3474520f2f8585b1cafd3}{private\+Key\+Path}})
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a6b2192ba439d7d81a080ac3e30e93e05}{accept}} () -\/$>$ \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}}
+\begin{DoxyCompactList}\small\item\em Accept a new client and return a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classlightning_1_1_s_s_l_server_a68db65495268d8e2b40366e3c6c0ff22}{SSLServer}} (int \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a8dfb5e5b533ba46638e7f8fd2337385c}{port}}, const char $\ast$cert\+Path, const char $\ast$\mbox{\hyperlink{classlightning_1_1_s_s_l_server_a9d6a5263e5d3474520f2f8585b1cafd3}{private\+Key\+Path}})
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a6b2192ba439d7d81a080ac3e30e93e05}{accept}} () -\/$>$ \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}}
+\begin{DoxyCompactList}\small\item\em Accept a new client and return a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ae3a4fe956201adf0e609f6547ade0a0b}{configure\+Contex}} () -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Configure \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}{SSLServer\+::ssl\+Context}} to use the certificate and private key provided, the port to use and other protocol metadata. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a91d31c1ae77c8b3a2c0c352553e8ffd0}{create\+Socket}} () -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Create and configure the raw socket fd of the server. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_acbcb54044da3d078779570651ab3b291}{handle\+Ssl\+Accept\+Error}} (SSL $\ast$ssl, int ret) -\/$>$ void
+\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ae3a4fe956201adf0e609f6547ade0a0b}{configure\+Contex}} () -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Configure \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}{SSLServer\+::ssl\+Context}} to use the certificate and private key provided, the port to use and other protocol metadata. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a91d31c1ae77c8b3a2c0c352553e8ffd0}{create\+Socket}} () -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Create and configure the raw socket fd of the server. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classlightning_1_1_s_s_l_server_acbcb54044da3d078779570651ab3b291}{handle\+Ssl\+Accept\+Error}} (SSL $\ast$ssl, int ret) -\/$>$ void
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a8dfb5e5b533ba46638e7f8fd2337385c}{port}}
+\item 
+int \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a73fe2db0ce08fb6c2b2c401d416d8540}{raw\+Socket\+Fd}}
+\item 
+const char $\ast$ \mbox{\hyperlink{classlightning_1_1_s_s_l_server_af2edb4a0634bb6690324ef3e01d37744}{certificate\+Path}}
+\item 
+const char $\ast$ \mbox{\hyperlink{classlightning_1_1_s_s_l_server_a9d6a5263e5d3474520f2f8585b1cafd3}{private\+Key\+Path}}
+\item 
+SSL\+\_\+\+CTX $\ast$ \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}{ssl\+Context}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The class \mbox{\hyperlink{classlightning_1_1_s_s_l_server}{SSLServer}} handles the basic TLS/\+SSL communication with the client. In future version, the context will be passed in the constructor and a builder will be provided. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a68db65495268d8e2b40366e3c6c0ff22}\label{classlightning_1_1_s_s_l_server_a68db65495268d8e2b40366e3c6c0ff22}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!SSLServer@{SSLServer}}
+\index{SSLServer@{SSLServer}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{SSLServer()}{SSLServer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily lightning\+::\+SSLServer\+::\+SSLServer (\begin{DoxyParamCaption}\item[{int}]{port,  }\item[{const char $\ast$}]{cert\+Path,  }\item[{const char $\ast$}]{private\+Key\+Path }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a68db65495268d8e2b40366e3c6c0ff22}\label{classlightning_1_1_s_s_l_server_a68db65495268d8e2b40366e3c6c0ff22}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!SSLServer@{SSLServer}}
+\index{SSLServer@{SSLServer}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{SSLServer()}{SSLServer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily lightning\+::\+SSLServer\+::\+SSLServer (\begin{DoxyParamCaption}\item[{int}]{port,  }\item[{const char $\ast$}]{cert\+Path,  }\item[{const char $\ast$}]{private\+Key\+Path }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a6b2192ba439d7d81a080ac3e30e93e05}\label{classlightning_1_1_s_s_l_server_a6b2192ba439d7d81a080ac3e30e93e05}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!accept@{accept}}
+\index{accept@{accept}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{accept()}{accept()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::accept (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}}}
+
+
+
+Accept a new client and return a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} The \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object that was constructed. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a6b2192ba439d7d81a080ac3e30e93e05}\label{classlightning_1_1_s_s_l_server_a6b2192ba439d7d81a080ac3e30e93e05}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!accept@{accept}}
+\index{accept@{accept}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{accept()}{accept()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::accept (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}}}
+
+
+
+Accept a new client and return a new \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object. 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} The \mbox{\hyperlink{classlightning_1_1_s_s_l_client}{SSLClient}} object that was constructed. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_ae3a4fe956201adf0e609f6547ade0a0b}\label{classlightning_1_1_s_s_l_server_ae3a4fe956201adf0e609f6547ade0a0b}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!configureContex@{configureContex}}
+\index{configureContex@{configureContex}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{configureContex()}{configureContex()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::configure\+Contex (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Configure \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}{SSLServer\+::ssl\+Context}} to use the certificate and private key provided, the port to use and other protocol metadata. 
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_ae3a4fe956201adf0e609f6547ade0a0b}\label{classlightning_1_1_s_s_l_server_ae3a4fe956201adf0e609f6547ade0a0b}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!configureContex@{configureContex}}
+\index{configureContex@{configureContex}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{configureContex()}{configureContex()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::configure\+Contex (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Configure \mbox{\hyperlink{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}{SSLServer\+::ssl\+Context}} to use the certificate and private key provided, the port to use and other protocol metadata. 
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a91d31c1ae77c8b3a2c0c352553e8ffd0}\label{classlightning_1_1_s_s_l_server_a91d31c1ae77c8b3a2c0c352553e8ffd0}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!createSocket@{createSocket}}
+\index{createSocket@{createSocket}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{createSocket()}{createSocket()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::create\+Socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Create and configure the raw socket fd of the server. 
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a91d31c1ae77c8b3a2c0c352553e8ffd0}\label{classlightning_1_1_s_s_l_server_a91d31c1ae77c8b3a2c0c352553e8ffd0}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!createSocket@{createSocket}}
+\index{createSocket@{createSocket}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{createSocket()}{createSocket()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::create\+Socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$  void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Create and configure the raw socket fd of the server. 
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_acbcb54044da3d078779570651ab3b291}\label{classlightning_1_1_s_s_l_server_acbcb54044da3d078779570651ab3b291}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!handleSslAcceptError@{handleSslAcceptError}}
+\index{handleSslAcceptError@{handleSslAcceptError}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{handleSslAcceptError()}{handleSslAcceptError()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::handle\+Ssl\+Accept\+Error (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl,  }\item[{int}]{ret }\end{DoxyParamCaption}) -\/$>$ void\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_acbcb54044da3d078779570651ab3b291}\label{classlightning_1_1_s_s_l_server_acbcb54044da3d078779570651ab3b291}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!handleSslAcceptError@{handleSslAcceptError}}
+\index{handleSslAcceptError@{handleSslAcceptError}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{handleSslAcceptError()}{handleSslAcceptError()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto lightning\+::\+SSLServer\+::handle\+Ssl\+Accept\+Error (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl,  }\item[{int}]{ret }\end{DoxyParamCaption}) -\/$>$  void\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_af2edb4a0634bb6690324ef3e01d37744}\label{classlightning_1_1_s_s_l_server_af2edb4a0634bb6690324ef3e01d37744}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!certificatePath@{certificatePath}}
+\index{certificatePath@{certificatePath}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{certificatePath}{certificatePath}}
+{\footnotesize\ttfamily const char $\ast$ lightning\+::\+SSLServer\+::certificate\+Path\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a8dfb5e5b533ba46638e7f8fd2337385c}\label{classlightning_1_1_s_s_l_server_a8dfb5e5b533ba46638e7f8fd2337385c}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!port@{port}}
+\index{port@{port}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily int lightning\+::\+SSLServer\+::port\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a9d6a5263e5d3474520f2f8585b1cafd3}\label{classlightning_1_1_s_s_l_server_a9d6a5263e5d3474520f2f8585b1cafd3}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!privateKeyPath@{privateKeyPath}}
+\index{privateKeyPath@{privateKeyPath}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{privateKeyPath}{privateKeyPath}}
+{\footnotesize\ttfamily const char $\ast$ lightning\+::\+SSLServer\+::private\+Key\+Path\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_a73fe2db0ce08fb6c2b2c401d416d8540}\label{classlightning_1_1_s_s_l_server_a73fe2db0ce08fb6c2b2c401d416d8540}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!rawSocketFd@{rawSocketFd}}
+\index{rawSocketFd@{rawSocketFd}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{rawSocketFd}{rawSocketFd}}
+{\footnotesize\ttfamily int lightning\+::\+SSLServer\+::raw\+Socket\+Fd\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}\label{classlightning_1_1_s_s_l_server_ab9e899bc7dc94e9343cb894611e0e818}} 
+\index{lightning::SSLServer@{lightning::SSLServer}!sslContext@{sslContext}}
+\index{sslContext@{sslContext}!lightning::SSLServer@{lightning::SSLServer}}
+\doxysubsubsection{\texorpdfstring{sslContext}{sslContext}}
+{\footnotesize\ttfamily SSL\+\_\+\+CTX $\ast$ lightning\+::\+SSLServer\+::ssl\+Context\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lightning/\mbox{\hyperlink{lightning_2_s_s_l_server_8hpp}{SSLServer.\+hpp}}\item 
+\mbox{\hyperlink{_s_s_l_server_8cpp}{SSLServer.\+cpp}}\end{DoxyCompactItemize}

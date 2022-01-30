@@ -1,0 +1,45 @@
+\hypertarget{namespacelightning_1_1_smart_ssl_resource}{}\doxysection{lightning\+::Smart\+Ssl\+Resource Namespace Reference}
+\label{namespacelightning_1_1_smart_ssl_resource}\index{lightning::SmartSslResource@{lightning::SmartSslResource}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \mbox{\hyperlink{namespacelightning_1_1_smart_ssl_resource_ad964559126da2b519e37285725a150dc}{ssl\+Object\+Deleter}} (SSL $\ast$ssl) -\/$>$ void
+\begin{DoxyCompactList}\small\item\em Delete the ssl object provided by calling SSL\+\_\+shutdown and SSL\+\_\+free. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{namespacelightning_1_1_smart_ssl_resource_a138f45efa47e63eb20e874149b4d26e4}{construct\+Smart\+Ssl\+Resource}} (SSL $\ast$ssl) -\/$>$ \mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$
+\begin{DoxyCompactList}\small\item\em Create new Smart\+Resource$<$\+SSL$>$ with ssl\+Object\+Deleter as the deleter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacelightning_1_1_smart_ssl_resource_a138f45efa47e63eb20e874149b4d26e4}\label{namespacelightning_1_1_smart_ssl_resource_a138f45efa47e63eb20e874149b4d26e4}} 
+\index{lightning::SmartSslResource@{lightning::SmartSslResource}!constructSmartSslResource@{constructSmartSslResource}}
+\index{constructSmartSslResource@{constructSmartSslResource}!lightning::SmartSslResource@{lightning::SmartSslResource}}
+\doxysubsubsection{\texorpdfstring{constructSmartSslResource()}{constructSmartSslResource()}}
+{\footnotesize\ttfamily auto lightning\+::\+Smart\+Ssl\+Resource\+::construct\+Smart\+Ssl\+Resource (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{namespacelightning_a2d0235951823fe7e04262c78ec125c3a}{Smart\+Resource}}$<$ SSL $>$}
+
+
+
+Create new Smart\+Resource$<$\+SSL$>$ with ssl\+Object\+Deleter as the deleter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ssl} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Smart\+Resource$<$\+SSL$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacelightning_1_1_smart_ssl_resource_ad964559126da2b519e37285725a150dc}\label{namespacelightning_1_1_smart_ssl_resource_ad964559126da2b519e37285725a150dc}} 
+\index{lightning::SmartSslResource@{lightning::SmartSslResource}!sslObjectDeleter@{sslObjectDeleter}}
+\index{sslObjectDeleter@{sslObjectDeleter}!lightning::SmartSslResource@{lightning::SmartSslResource}}
+\doxysubsubsection{\texorpdfstring{sslObjectDeleter()}{sslObjectDeleter()}}
+{\footnotesize\ttfamily auto lightning\+::\+Smart\+Ssl\+Resource\+::ssl\+Object\+Deleter (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl }\end{DoxyParamCaption}) -\/$>$  void}
+
+
+
+Delete the ssl object provided by calling SSL\+\_\+shutdown and SSL\+\_\+free. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ssl} & The ssl object to delete. \\
+\hline
+\end{DoxyParams}
