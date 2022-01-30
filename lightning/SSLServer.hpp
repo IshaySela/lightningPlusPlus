@@ -1,6 +1,8 @@
 #pragma once
 #include <openssl/ssl.h>
+#include "sockets.hpp"
 #include "SSLClient.hpp"
+
 
 namespace lightning
 {

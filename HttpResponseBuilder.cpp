@@ -33,9 +33,21 @@ namespace lightning
         return *this;
     }
 
+    auto HttpResponseBuilder::withBody(std::string body) -> HttpResponseBuilder &
+    {
+        return this->withBody(std::vector<char>(body.begin(), body.end()));
+    }
     auto HttpResponseBuilder::withBody(std::vector<char> body) -> HttpResponseBuilder &
     {
         this->body = body;
+
+        this->withHeader("Content-Length", std::to_string(body.size()));
+        return *this;
+    }
+
+    auto HttpResponseBuilder::withHeader(std::string key, std::string value) -> HttpResponseBuilder &
+    {
+        this->headers.insert_or_assign(key, value);
         return *this;
     }
 

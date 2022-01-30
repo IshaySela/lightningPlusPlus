@@ -21,7 +21,9 @@ namespace lightning
         auto withStatusCode(int statusCode) -> HttpResponseBuilder &;
         auto withStatusPhrase(const char *statusPhrase) -> HttpResponseBuilder &;
         auto withHttpVersion(const char *httpVersion) -> HttpResponseBuilder &;
+        auto withHeader(std::string key, std::string value) -> HttpResponseBuilder &;
 
+        auto withBody(std::string body) -> HttpResponseBuilder&;
         auto withBody(std::vector<char> body) -> HttpResponseBuilder &;
 
         /**

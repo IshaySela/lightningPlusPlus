@@ -33,6 +33,12 @@ namespace lightning::stream
          * @return std::vector<char> The buffer read from the source without the token.
          */
         virtual auto readUntilToken(std::string token) -> std::vector<char> = 0;
+
+        /**
+         * @brief Close the connection.The behaviour of a call to IStream::read and IStream::write
+         * is not defined.
+         */
+        virtual auto close() -> void = 0;
     };
 
 } // namespace lightning::stream

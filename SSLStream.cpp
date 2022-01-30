@@ -1,5 +1,6 @@
 #include "lightning/stream/SSLStream.hpp"
 #include "lightning/LowLevelApiException.hpp"
+#include <openssl/err.h>
 
 namespace lightning::stream
 {
@@ -47,7 +48,7 @@ namespace lightning::stream
 
         while (readResult == SSLStream::SSL_NO_ERROR && !foundToken)
         {
-            readResult = SSL_read_ex(this->ssl, chunk.data(), 1024, &chunkBytesRead);
+            readResult = SSL_read_ex(this->ssl, reinterpret_cast<void *>(chunk.data()), 1024, &chunkBytesRead);
 
             if (readResult < SSLStream::SSL_NO_ERROR)
             {
@@ -68,7 +69,7 @@ namespace lightning::stream
         std::string leftover(buffer.begin() + static_cast<int>(tokenPosition) + token.length(), buffer.end());
 
         // Only the header
-        std::vector headersBuffer(buffer.begin(), buffer.begin() + static_cast<int>(tokenPosition));
+        std::vector<char> headersBuffer(buffer.begin(), buffer.begin() + static_cast<int>(tokenPosition));
 
         return headersBuffer;
     }
@@ -99,12 +100,10 @@ namespace lightning::stream
 
         switch (error)
         {
-        case SSL_ERROR_SSL:
-            throw lightning::LowLevelApiException("A non-recoverable, fatal error has occurred while reading data from the peer", error);
-
-            // Non fatal errors can be ignored.
         case SSL_ERROR_ZERO_RETURN:
         case SSL_ERROR_SYSCALL:
+        case SSL_ERROR_SSL:
+            throw lightning::LowLevelApiException("A non-recoverable, fatal error has occurred while reading data from the peer", error);
         default:
             break;
         }
@@ -129,6 +128,15 @@ namespace lightning::stream
         this->leftoverBuffer.resize(this->leftoverBuffer.size() - amount);
 
         return buffer;
+    }
+
+    auto SSLStream::close() -> void
+    {
+        SSL_shutdown(this->ssl);
+
+        // The SSLStream class is not responsible for freeing
+        // the ssl object. The entity that has provided the SSL* should own the object and free it.
+        // SSL_free(this->ssl);
     }
 
 }

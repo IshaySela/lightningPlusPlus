@@ -31,5 +31,7 @@
 *.out
 *.app
 
-build/
-cert/
+/build
+/cert
+/tests
+/.vscode

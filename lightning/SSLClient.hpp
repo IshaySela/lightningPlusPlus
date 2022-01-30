@@ -17,7 +17,6 @@ namespace lightning
          * @param ssl The ssl object.
          */
         SSLClient(int fd, SmartResource<SSL> ssl);
-
         auto getSsl() const -> SSL *;
         auto getStream() -> stream::SSLStream&;
 

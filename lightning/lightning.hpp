@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+#include <functional>
 
 namespace lightning
 {
@@ -9,4 +10,7 @@ namespace lightning
 
     using HeadersMap = std::unordered_map<std::string, std::string>;
 
+    class HttpResponse;
+    class HttpRequest;
+    using Resolver = std::function<HttpResponse(HttpRequest request)>;
 }

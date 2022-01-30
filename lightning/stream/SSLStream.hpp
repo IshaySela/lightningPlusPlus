@@ -41,6 +41,7 @@ namespace lightning::stream
         auto read(int amount) -> std::vector<char> override;
         auto write(const char *buffer, int size) -> int override;
         auto readUntilToken(std::string token) -> std::vector<char> override;
+        auto close() -> void override;
 
         auto getSsl() const -> SSL *;
     };

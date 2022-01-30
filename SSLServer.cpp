@@ -1,5 +1,4 @@
 #include "lightning/SSLServer.hpp"
-#include "winsock2.h"
 #include <openssl/err.h>
 #include <stdexcept>
 #include "lightning/LowLevelApiException.hpp"
@@ -69,7 +68,7 @@ namespace lightning
     auto SSLServer::accept() -> SSLClient
     {
         struct sockaddr_in addr;
-        int addrlen = sizeof(addr);
+        socklen_t addrlen = sizeof(addr);
 
         int clientFd = ::accept(this->rawSocketFd, (struct sockaddr *)&addr, &addrlen);
 

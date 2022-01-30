@@ -34,4 +34,27 @@ namespace lightning
         return this->headers;
     }
 
+    auto HttpResponse::toHttpResponse() -> std::vector<char>
+    {
+        std::stringstream responseBuffer;
+        responseBuffer << this->statusLine.createStatusLine();
+
+        for (auto &[key, value] : this->headers)
+        {
+            responseBuffer << key << ':' << value << "\r\n";
+        }
+
+        // Denote the end of the headers
+        responseBuffer << "\r\n";
+
+        if (this->body.size() > 0)
+        {
+            responseBuffer << this->body.data();
+        }
+
+        auto buffer = responseBuffer.str();
+   
+        return std::vector<char>(buffer.begin(), buffer.end());
+    }
+
 }

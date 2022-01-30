@@ -16,7 +16,6 @@ namespace lightning
         StatusLine statusLine;
         HeadersMap headers;
         std::vector<char> body;
-
     public:
         HttpResponse(StatusLine statusLine, HeadersMap headers, std::vector<char> body);
 
@@ -26,6 +25,13 @@ namespace lightning
 
         auto getStatusLine() -> StatusLine &;
         auto getHeaders() -> HeadersMap &;
+    
+        /**
+         * @brief Convert the response to a http response, as sepcified in https://www.rfc-editor.org/rfc/rfc2616.html#section-6
+         * 
+         * @return std::vector<char> The raw buffer containing the response.
+         */
+        auto toHttpResponse() -> std::vector<char>;
     };
 
 } // namespace lightning

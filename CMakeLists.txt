@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(http
     ./source.cpp
-    ./lightning/WSAInitializer.hpp ./WSAInitializer.cpp
+    ./lightning/sockets.hpp ./sockets.cpp
     ./lightning/SSLServer.hpp ./SSLServer.cpp
     ./lightning/LowLevelApiException.hpp ./LowLevelApiException.cpp
     ./lightning/SmartResource.hpp ./SmartResource.cpp
@@ -17,9 +17,19 @@ add_executable(http
     ./lightning/stream/SSLStream.hpp ./SSLStream.cpp
 
     ./lightning/request/HttpRequest.hpp ./HttpRequest.cpp
+    ./lightning/request/FrameworkInfo.hpp
     ./lightning/response/HttpResponse.hpp ./HttpResponse.cpp
     ./lightning/response/StatusLine.hpp
     ./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp
+    ./lightning/HttpProtocol.hpp
+    ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
+
+    ./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
+    ./lightning/uriMapper/Strings.hpp ./Strings.cpp
+
+    ./lightning/TaskExecutor.hpp
+
+    ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 )
 
 find_package(OpenSSL REQUIRED)
