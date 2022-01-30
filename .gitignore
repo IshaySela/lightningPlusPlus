@@ -35,3 +35,6 @@
 /cert
 /tests
 /.vscode
+/unit-tests/build/*
+/doxygen/*
+!/doxygen/.gitkeep
