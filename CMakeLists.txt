@@ -35,7 +35,7 @@ add_library(http STATIC
 find_package(OpenSSL REQUIRED)
 target_link_libraries(http OpenSSL::SSL)
 
-set(CMAKE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 
 if(WIN32)
