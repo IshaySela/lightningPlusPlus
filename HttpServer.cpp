@@ -36,11 +36,11 @@ namespace lightning
 
             try
             {
-                requestBuffer = client.getStream().readUntilToken("\r\n\r\n");
+                requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
             }
             catch (const LowLevelApiException &e)
             {
-                client.getStream().close();
+                client->getStream().close();
                 continue;
             }
 
@@ -49,8 +49,9 @@ namespace lightning
             auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
 
             request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
-
-            this->tasks.add_task(new ResolveAndSend(std::move(client), resolver, request), true);
+            
+            auto resolveAndSend = new ResolveAndSend(std::move(client), resolver, request);
+            this->tasks.add_task( resolveAndSend, true);
         }
     }
 
@@ -130,10 +131,10 @@ namespace lightning
         request.computeUriParameters();
 
         auto response = this->resolver(request).toHttpResponse();
-        this->client.getStream().write(response.data(), response.size());
+        this->client->getStream().write(response.data(), response.size());
     }
 
-    HttpServer::ResolveAndSend::ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request) {}
+    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request) {}
 
     auto HttpServer::getTimeSinceEpoch() -> std::uint64_t
     {

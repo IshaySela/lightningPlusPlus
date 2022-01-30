@@ -90,6 +90,7 @@ namespace lightning
          * @brief Default resolver that returns 404 Not Found with no headers.
          */
         static const Resolver defaultResolver;
+
     private:
         SSLServer lowLevelServer;
         HttpServer::ResolversMap resolvers;
@@ -99,14 +100,14 @@ namespace lightning
         static auto getTimeSinceEpoch() -> std::uint64_t;
 
         /**
-         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to 
+         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to
          * the function that is invoked by TaskExecutor.
-         * 
+         *
          */
         class ResolveAndSend
         {
         public:
-            ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request);
+            ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request);
 
             /**
              * @brief Call resolver with request and send the result back to the client.
@@ -115,7 +116,7 @@ namespace lightning
             void operator()();
 
         private:
-            SSLClient client;
+            std::unique_ptr<IClient> client;
             Resolver resolver;
             HttpRequest request;
         };

@@ -65,7 +65,7 @@ namespace lightning
         }
     }
 
-    auto SSLServer::accept() -> SSLClient
+    auto SSLServer::accept() -> std::unique_ptr<IClient>
     {
         struct sockaddr_in addr;
         socklen_t addrlen = sizeof(addr);
@@ -88,7 +88,7 @@ namespace lightning
             this->handleSslAcceptError(ssl.get(), acceptRet);
         }
         
-        return SSLClient(clientFd, std::move(ssl));
+        return std::make_unique<SSLClient>(clientFd, std::move(ssl));
     }
 
     auto SSLServer::handleSslAcceptError(SSL *ssl, int ret) -> void

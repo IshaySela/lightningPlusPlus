@@ -1,8 +1,9 @@
 #pragma once
+#include "IClient.hpp"
+#include <memory>
 
 namespace lightning
 {
-    template <typename TClient>
     class LowLevelSocketServer
     {
     public:
@@ -11,7 +12,6 @@ namespace lightning
          *
          * @return TClient The accepted client.
          */
-        virtual auto accept() -> TClient = 0;
-        virtual ~LowLevelSocketServer() = 0;
+        virtual auto accept() -> std::unique_ptr<IClient> = 0;
     };
 } // namespace lightning
