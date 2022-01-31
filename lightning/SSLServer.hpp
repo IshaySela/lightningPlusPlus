@@ -2,7 +2,7 @@
 #include <openssl/ssl.h>
 #include "sockets.hpp"
 #include "SSLClient.hpp"
-
+#include "LowLevelSocketServer.hpp"
 
 namespace lightning
 {
@@ -11,21 +11,22 @@ namespace lightning
      * @brief The class SSLServer handles the basic TLS/SSL communication with the client.
      * In future version, the context will be passed in the constructor and a builder will be provided.
      */
-    class SSLServer
+    class SSLServer : public ILowLevelSocketServer
     {
     public:
         SSLServer(int port, const char *certPath, const char *privateKeyPath);
 
         /**
          * @brief Accept a new client and return a new SSLClient object.
-         * 
+         *
          * @return SSLClient The SSLClient object that was constructed.
          */
-        auto accept() -> SSLClient;
+        virtual auto accept() -> std::unique_ptr<IClient> override;
 
+        ~SSLServer() {};
     private:
         /**
-         * @brief Configure SSLServer::sslContext to use the certificate and private key provided, 
+         * @brief Configure SSLServer::sslContext to use the certificate and private key provided,
          * the port to use and other protocol metadata.
          */
         auto configureContex() -> void;
@@ -35,7 +36,7 @@ namespace lightning
          */
         auto createSocket() -> void;
 
-        auto handleSslAcceptError(SSL* ssl, int ret) -> void;
+        auto handleSslAcceptError(SSL *ssl, int ret) -> void;
 
         int port;
         int rawSocketFd;

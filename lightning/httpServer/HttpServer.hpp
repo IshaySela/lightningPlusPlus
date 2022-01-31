@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <chrono>
 #include "../TaskExecutor.hpp"
+#include "../LowLevelSocketServer.hpp"
 
 namespace lightning
 {
@@ -19,6 +20,7 @@ namespace lightning
     public:
         // An unordered_map that maps methods to maps of URIs.
         using ResolversMap = std::unordered_map<std::string, UriMapper>;
+        using ShouldStopPredicate = std::function<bool(HttpServer &server)>;
 
         /**
          * @brief Construct a new Http Server object, and initilize the resolver to contain an empty map
@@ -29,12 +31,16 @@ namespace lightning
          * @param threadCount The argument to pass to the constructor of HttpServer::tasks. Controls how many
          * threads the tasks executor will use, must be positive number above 0.
          */
-        HttpServer(SSLServer lowLevelServer, const int threadCount = 1);
+        HttpServer(std::unique_ptr<ILowLevelSocketServer> lowLevelServer, const int threadCount = 1);
 
         /**
          * @brief Start handling clients from the server.
+         * @param shouldStop A function that recives a reference to the server and determenies
+         * if it should stop accepting clients or not.
+         * Usefull primarly for debugging purposes.
+         * In any case, HttpServer::start will accept at least 1 client, and only then call shouldStop.
          */
-        auto start() -> void;
+        auto start(ShouldStopPredicate shouldStop = HttpServer::neverStop) -> void;
 
         /**
          * @brief Call HttpServer::adResolver with the method parameter as "GET"
@@ -90,8 +96,9 @@ namespace lightning
          * @brief Default resolver that returns 404 Not Found with no headers.
          */
         static const Resolver defaultResolver;
+        static const ShouldStopPredicate neverStop;
     private:
-        SSLServer lowLevelServer;
+        std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
         HttpServer::ResolversMap resolvers;
 
         Resolver defaultGetResolver;
@@ -99,23 +106,23 @@ namespace lightning
         static auto getTimeSinceEpoch() -> std::uint64_t;
 
         /**
-         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to 
+         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to
          * the function that is invoked by TaskExecutor.
-         * 
+         *
          */
         class ResolveAndSend
         {
         public:
-            ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request);
+            ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request);
 
             /**
              * @brief Call resolver with request and send the result back to the client.
              * Satisfy the Task<T> constraint.
              */
             void operator()();
-
+            
         private:
-            SSLClient client;
+            std::unique_ptr<IClient> client;
             Resolver resolver;
             HttpRequest request;
         };
