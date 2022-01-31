@@ -1,9 +1,11 @@
 #include <iostream>
-#include <gtest/gtest.h>
 #include <lightning/uriMapper/UriMapper.hpp>
 #include <lightning/response/HttpResponseBuilder.hpp>
 #include <lightning/request/HttpRequest.hpp>
 #include <lightning/uriMapper/Strings.hpp>
+#include "HttpServerTest.hpp"
+#include "mocks/Mocks.hpp"
+#include <lightning/httpServer/HttpServer.hpp>
 
 auto createEmptyHttpRequest() -> lightning::HttpRequest
 {
@@ -78,7 +80,6 @@ TEST(HelperStrings, TestFormat)
     ASSERT_TRUE(basicFormatResult.has_value());
     EXPECT_EQ(basicFormatResult.value(), "Hello tok1");
 
-
     auto withMultiple = lightning::strings::format("Hello {}, this is {}", "tok1", "tok2");
     ASSERT_TRUE(withMultiple.has_value());
     EXPECT_EQ(withMultiple.value(), "Hello tok1, this is tok2");
@@ -90,11 +91,49 @@ TEST(HelperStrings, TestFormat)
 
     auto tooMuchReplacers = lightning::strings::format("Hello {}", "hello", "1 more");
     ASSERT_FALSE(tooMuchReplacers.has_value());
+}
 
+TEST_F(HttpServerTestFixture, TestHappyPath)
+{
+    std::unique_ptr<mocks::MockLowLevelSocketServer> lowLevelServerMock = std::make_unique<mocks::MockLowLevelSocketServer>();
+    mocks::MockStream mockStream;
+    std::unique_ptr<mocks::MockClient> mockClient = std::make_unique<mocks::MockClient>();
+
+    std::string request =
+        "GET /endpoint/param HTTP/1.1\r\n"
+        "First-Header: first value\r\n"
+        "Second-Header: second value \r\n"
+        "\r\n";
+
+    // The mock stream will return the request when readUntilToken is called.
+    EXPECT_CALL(mockStream, readUntilToken("\r\n\r\n"))
+        .WillRepeatedly(testing::Return(std::vector<char>(request.begin(), request.end())));
+
+    // The client will return the mocked stream when getStream is called.
+    EXPECT_CALL(*mockClient.get(), getStream)
+        .WillRepeatedly(testing::ReturnRef(mockStream));
+
+    // The low level socket server mock will return the client mock
+    // When accept is called.
+    EXPECT_CALL(*lowLevelServerMock.get(), accept)
+        .WillRepeatedly(testing::Return(testing::ByMove(std::move(mockClient))));
+
+    lightning::HttpServer testedServer(std::move(lowLevelServerMock));
+
+    testedServer.get("/endpoint/*", [test = this](lightning::HttpRequest request) -> lightning::HttpResponse
+                     {
+        EXPECT_EQ(request.getRawUri(), "/endpoint/param");
+
+        return lightning::HttpResponseBuilder::create()
+            .build(); });
+
+    testedServer.start([](lightning::HttpServer &)
+                       { return true; });
+    
 }
 
 auto main(int argc, char *argv[]) -> int
 {
-    testing::InitGoogleTest(&argc, argv);
+    testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();
 }

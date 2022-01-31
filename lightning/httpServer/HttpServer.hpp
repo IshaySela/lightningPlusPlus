@@ -97,7 +97,6 @@ namespace lightning
          */
         static const Resolver defaultResolver;
         static const ShouldStopPredicate neverStop;
-
     private:
         std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
         HttpServer::ResolversMap resolvers;
@@ -121,7 +120,7 @@ namespace lightning
              * Satisfy the Task<T> constraint.
              */
             void operator()();
-
+            
         private:
             std::unique_ptr<IClient> client;
             Resolver resolver;

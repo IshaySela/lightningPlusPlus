@@ -13,5 +13,7 @@ namespace lightning
          * @return TClient The accepted client.
          */
         virtual auto accept() -> std::unique_ptr<IClient> = 0;
+
+        virtual ~ILowLevelSocketServer() = default;
     };
 } // namespace lightning

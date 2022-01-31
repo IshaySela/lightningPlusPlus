@@ -8,7 +8,7 @@ include(FetchContent)
 
 FetchContent_Declare(
   googletest
-  URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+  URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip
 )
 
 # FetchContent_Declare(
@@ -25,11 +25,16 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ ${CMAKE_CURRENT_SOURCE_DIR}/bui
 
 add_executable(httpTests
   source.cpp
+  ./HttpServerTest.hpp
+  ./mocks/MockStream.hpp
+  ./mocks/MockClient.hpp
+  ./mocks/MockLowLevelSocketServer.hpp
+  ./mocks/Mocks.hpp
 )
 
 target_link_libraries(
   httpTests
-  gtest_main
+  gmock_main
   http)
 
 

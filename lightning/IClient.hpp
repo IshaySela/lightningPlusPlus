@@ -1,6 +1,6 @@
 #pragma once
 #include "stream/IStream.hpp"
-
+#include <iostream>
 
 namespace lightning
 {
@@ -8,5 +8,7 @@ namespace lightning
     {
     public:
         virtual auto getStream() -> stream::IStream& = 0;
+
+        virtual ~IClient();
     };
 }

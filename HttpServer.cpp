@@ -53,8 +53,8 @@ namespace lightning
 
             request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
 
-            auto resolveAndSend = new ResolveAndSend(std::move(client), resolver, request);
-            this->tasks.add_task(resolveAndSend, true);
+            auto resolveAndSend = ResolveAndSend(std::move(client), resolver, request);
+            this->tasks.add_task(std::move(resolveAndSend));
         } while (!shouldStop(*this));
     }
 
@@ -137,7 +137,9 @@ namespace lightning
         this->client->getStream().write(response.data(), response.size());
     }
 
-    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request) {}
+    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(nullptr), resolver(resolver), request(request)
+    {
+    }
 
     auto HttpServer::getTimeSinceEpoch() -> std::uint64_t
     {
