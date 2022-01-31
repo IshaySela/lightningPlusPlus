@@ -8,10 +8,12 @@
 
 namespace lightning
 {
-    // using Task = std::function<void()>;
 
+    template<typename T>
+    concept CopyConstructibleOrAssignable = std::is_copy_constructible_v<T> || std::is_move_assignable_v<T>;
+    // To use std::vector::push_back with T, T must be either copy constructible or move assignable.
     template <typename T>
-    concept Task = requires(T t)
+    concept Task = CopyConstructibleOrAssignable<T> && requires(T t)
     {
         {
             t.operator()()};
@@ -24,7 +26,7 @@ namespace lightning
     public:
         /**
          * @brief Construct a new Task Executor object and the worker thread.
-         * 
+         *
          * @param thread_count The amount of worker threads to create.
          */
         TaskExecutor(const int thread_count) : thread_count(thread_count)
@@ -43,37 +45,45 @@ namespace lightning
          */
         ~TaskExecutor()
         {
+            this->stop_all();
+        }
+
+        /**
+         * @brief Push the task to the tasks vector.
+         *
+         * @param task The task to push.
+         */
+        auto add_task(T task) -> void
+        {
+            mutex.lock();
+
+            if constexpr (std::is_copy_constructible<T>::value)
+                this->tasks.push_back(task);
+            else if (std::is_move_assignable<T>::value)
+                this->tasks.push_back(std::move(task));
+            
+            mutex.unlock();
+
+            this->cv.notify_one();
+        }
+
+        auto stop_all() -> void
+        {
+            this->kill_threads = true;
+            this->cv.notify_all();
+
             for (auto &t : this->threads)
             {
                 t.join();
             }
         }
 
-        /**
-         * @brief Push the task to the tasks vector.
-         * 
-         * @param task The task to push.
-         * @param deleteAfter true if delete should be called on the task after it was called. 
-         * this option is provided for abstract classes or non-copyable data structures that need
-         * to be heap allocated.
-         */
-        auto add_task(T *task, bool deleteAfter = false) -> void
-        {
-            mutex.lock();
-            this->tasks.push_back({task, deleteAfter});
-            mutex.unlock();
-
-            this->cv.notify_one();
-        }
-
-        auto stop_all() -> void;
-
     private:
         static auto thread_worker(TaskExecutor<T> &executor) -> void
         {
             bool die = false;
 
-            while (!die)
+            while (true)
             {
                 std::unique_lock<std::mutex> lock(executor.mutex);
                 executor.cv.wait(lock, [&executor]
@@ -81,26 +91,26 @@ namespace lightning
 
                 die = executor.kill_threads;
 
-                auto [task, shouldDelete] = executor.tasks.front();
+                if (die)
+                    break;
+
+                auto &task = executor.tasks.front();
                 executor.tasks.erase(executor.tasks.begin());
 
                 lock.unlock();
                 executor.cv.notify_one();
 
-                (*task)();
-
-                if(shouldDelete)
-                    delete task;
+                task();
             }
         }
 
-        //The amount of worker threads for this executor.
+        // The amount of worker threads for this executor.
         const int thread_count;
 
         std::vector<std::thread> threads;
 
         using DeleteAfter = bool;
-        std::vector<std::pair<T*, DeleteAfter>> tasks;
+        std::vector<T> tasks;
         std::mutex mutex;
         std::condition_variable cv;
         bool kill_threads = false;

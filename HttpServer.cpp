@@ -4,6 +4,9 @@
 
 namespace lightning
 {
+    const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer &)
+    { return false; };
+
     const Resolver HttpServer::defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
     {
         return HttpResponseBuilder::create()
@@ -12,7 +15,7 @@ namespace lightning
             .build();
     };
 
-    HttpServer::HttpServer(SSLServer lowLevelServer, const int threadCount) : lowLevelServer(lowLevelServer), tasks(threadCount)
+    HttpServer::HttpServer(std::unique_ptr<ILowLevelSocketServer> lowLevelServer, const int threadCount) : lowLevelServer(std::move(lowLevelServer)), tasks(threadCount)
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
         {
@@ -22,13 +25,13 @@ namespace lightning
         }
     }
 
-    auto HttpServer::start() -> void
+    auto HttpServer::start(ShouldStopPredicate shouldStop) -> void
     {
         int counter = 0;
 
-        while (true)
+        do
         {
-            auto client = this->lowLevelServer.accept();
+            auto client = this->lowLevelServer->accept();
             auto requestArrivalTime = HttpServer::getTimeSinceEpoch();
             std::string matchedRegex;
 
@@ -36,11 +39,11 @@ namespace lightning
 
             try
             {
-                requestBuffer = client.getStream().readUntilToken("\r\n\r\n");
+                requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
             }
             catch (const LowLevelApiException &e)
             {
-                client.getStream().close();
+                client->getStream().close();
                 continue;
             }
 
@@ -50,8 +53,9 @@ namespace lightning
 
             request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
 
-            this->tasks.add_task(new ResolveAndSend(std::move(client), resolver, request), true);
-        }
+            auto resolveAndSend = ResolveAndSend(std::move(client), resolver, request);
+            this->tasks.add_task(std::move(resolveAndSend));
+        } while (!shouldStop(*this));
     }
 
     auto HttpServer::get(std::string uri, Resolver resolver) -> void
@@ -130,10 +134,12 @@ namespace lightning
         request.computeUriParameters();
 
         auto response = this->resolver(request).toHttpResponse();
-        this->client.getStream().write(response.data(), response.size());
+        this->client->getStream().write(response.data(), response.size());
     }
 
-    HttpServer::ResolveAndSend::ResolveAndSend(SSLClient client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request) {}
+    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(nullptr), resolver(resolver), request(request)
+    {
+    }
 
     auto HttpServer::getTimeSinceEpoch() -> std::uint64_t
     {

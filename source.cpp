@@ -7,6 +7,8 @@
 #include "lightning/TaskExecutor.hpp"
 #include "lightning/handlers/StaticFile.hpp"
 #include "lightning/uriMapper/UriMapper.hpp"
+#include "lightning/IClient.hpp"
+#include <openssl/ssl.h>
 
 constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
@@ -27,14 +29,5 @@ void test()
 
 int main(int argc, char **argv)
 {
-    try
-    {
-        test();
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-
-    std::cout << "Ended gracefully" << std::endl;
+    test();
 }

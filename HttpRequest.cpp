@@ -142,4 +142,19 @@ namespace lightning
 
         this->uriParameters = params;
     }
+
+    auto HttpRequest::getHeaders() -> HeadersMap&
+    {
+        return this->headers;
+    }
+    
+    auto HttpRequest::getHeader(std::string key) -> std::optional<std::string>
+    {
+        auto it = this->headers.find(key);
+
+        if(it == this->headers.end())
+            return std::nullopt;
+
+        return (*it).second;
+    }
 }

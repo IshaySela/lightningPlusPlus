@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhttp.a CMakeFiles/http.dir/sockets.cpp.o CMakeFiles/http.dir/SSLServer.cpp.o CMakeFiles/http.dir/LowLevelApiException.cpp.o CMakeFiles/http.dir/SmartResource.cpp.o CMakeFiles/http.dir/SSLClient.cpp.o CMakeFiles/http.dir/SSLStream.cpp.o CMakeFiles/http.dir/HttpRequest.cpp.o CMakeFiles/http.dir/HttpResponse.cpp.o CMakeFiles/http.dir/HttpResponseBuilder.cpp.o CMakeFiles/http.dir/HttpServer.cpp.o CMakeFiles/http.dir/UriMapper.cpp.o CMakeFiles/http.dir/Strings.cpp.o CMakeFiles/http.dir/StaticFile.cpp.o
+/usr/bin/ranlib libhttp.a

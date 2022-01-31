@@ -4,10 +4,11 @@
 #include <functional>
 #include "SmartResource.hpp"
 #include "stream/SSLStream.hpp"
+#include "IClient.hpp"
 
 namespace lightning
 {
-    class SSLClient
+    class SSLClient : public IClient
     {
     public:
         /**
@@ -18,7 +19,7 @@ namespace lightning
          */
         SSLClient(int fd, SmartResource<SSL> ssl);
         auto getSsl() const -> SSL *;
-        auto getStream() -> stream::SSLStream&;
+        virtual auto getStream() -> stream::SSLStream& override;
 
 
     private:

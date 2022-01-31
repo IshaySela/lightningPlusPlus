@@ -39,6 +39,8 @@ namespace lightning::stream
          * is not defined.
          */
         virtual auto close() -> void = 0;
+
+        virtual ~IStream() = default;
     };
 
 } // namespace lightning::stream
