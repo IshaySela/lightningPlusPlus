@@ -12,7 +12,7 @@ namespace lightning
             .build();
     };
 
-    HttpServer::HttpServer(SSLServer lowLevelServer, const int threadCount) : lowLevelServer(lowLevelServer), tasks(threadCount)
+    HttpServer::HttpServer(std::unique_ptr<ILowLevelSocketServer> lowLevelServer, const int threadCount) : lowLevelServer(std::move(lowLevelServer)), tasks(threadCount)
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
         {
@@ -28,7 +28,7 @@ namespace lightning
 
         while (true)
         {
-            auto client = this->lowLevelServer.accept();
+            auto client = this->lowLevelServer->accept();
             auto requestArrivalTime = HttpServer::getTimeSinceEpoch();
             std::string matchedRegex;
 

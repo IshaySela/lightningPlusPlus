@@ -4,7 +4,7 @@
 
 namespace lightning
 {
-    class LowLevelSocketServer
+    class ILowLevelSocketServer
     {
     public:
         /**

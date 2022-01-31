@@ -11,7 +11,7 @@ namespace lightning
      * @brief The class SSLServer handles the basic TLS/SSL communication with the client.
      * In future version, the context will be passed in the constructor and a builder will be provided.
      */
-    class SSLServer : public LowLevelSocketServer
+    class SSLServer : public ILowLevelSocketServer
     {
     public:
         SSLServer(int port, const char *certPath, const char *privateKeyPath);

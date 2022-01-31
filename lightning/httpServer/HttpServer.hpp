@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <chrono>
 #include "../TaskExecutor.hpp"
+#include "../LowLevelSocketServer.hpp"
 
 namespace lightning
 {
@@ -29,7 +30,7 @@ namespace lightning
          * @param threadCount The argument to pass to the constructor of HttpServer::tasks. Controls how many
          * threads the tasks executor will use, must be positive number above 0.
          */
-        HttpServer(SSLServer lowLevelServer, const int threadCount = 1);
+        HttpServer(std::unique_ptr<ILowLevelSocketServer> lowLevelServer, const int threadCount = 1);
 
         /**
          * @brief Start handling clients from the server.
@@ -92,7 +93,7 @@ namespace lightning
         static const Resolver defaultResolver;
 
     private:
-        SSLServer lowLevelServer;
+        std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
         HttpServer::ResolversMap resolvers;
 
         Resolver defaultGetResolver;

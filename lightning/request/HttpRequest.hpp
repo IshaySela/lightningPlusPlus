@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <optional>
 #include "../lightning.hpp"
 #include "FrameworkInfo.hpp"
 
@@ -37,6 +38,15 @@ namespace lightning
         auto getProtocolVersion() -> std::string &;
         auto getFrameworkInfo() -> FrameworkInfo &;
         auto getUriParameters() -> std::vector<std::string> &;
+        auto getHeaders() -> HeadersMap&;
+
+        /**
+         * @brief Get a header from the headers map.
+         * 
+         * @param key The header key.
+         * @return std::optional<std::string> An optional value that contains the value of the header if the header exists.
+         */
+        auto getHeader(std::string key) -> std::optional<std::string>;
 
         /**
          * @brief Calculate the uri paramters.
