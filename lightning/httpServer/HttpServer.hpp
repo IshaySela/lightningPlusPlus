@@ -20,6 +20,7 @@ namespace lightning
     public:
         // An unordered_map that maps methods to maps of URIs.
         using ResolversMap = std::unordered_map<std::string, UriMapper>;
+        using ShouldStopPredicate = std::function<bool(HttpServer &server)>;
 
         /**
          * @brief Construct a new Http Server object, and initilize the resolver to contain an empty map
@@ -34,8 +35,12 @@ namespace lightning
 
         /**
          * @brief Start handling clients from the server.
+         * @param shouldStop A function that recives a reference to the server and determenies
+         * if it should stop accepting clients or not.
+         * Usefull primarly for debugging purposes.
+         * In any case, HttpServer::start will accept at least 1 client, and only then call shouldStop.
          */
-        auto start() -> void;
+        auto start(ShouldStopPredicate shouldStop = HttpServer::neverStop) -> void;
 
         /**
          * @brief Call HttpServer::adResolver with the method parameter as "GET"
@@ -91,6 +96,7 @@ namespace lightning
          * @brief Default resolver that returns 404 Not Found with no headers.
          */
         static const Resolver defaultResolver;
+        static const ShouldStopPredicate neverStop;
 
     private:
         std::unique_ptr<ILowLevelSocketServer> lowLevelServer;

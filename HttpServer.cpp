@@ -4,6 +4,9 @@
 
 namespace lightning
 {
+    const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer &)
+    { return false; };
+
     const Resolver HttpServer::defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
     {
         return HttpResponseBuilder::create()
@@ -22,11 +25,11 @@ namespace lightning
         }
     }
 
-    auto HttpServer::start() -> void
+    auto HttpServer::start(ShouldStopPredicate shouldStop) -> void
     {
         int counter = 0;
 
-        while (true)
+        do
         {
             auto client = this->lowLevelServer->accept();
             auto requestArrivalTime = HttpServer::getTimeSinceEpoch();
@@ -49,10 +52,10 @@ namespace lightning
             auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
 
             request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
-            
+
             auto resolveAndSend = new ResolveAndSend(std::move(client), resolver, request);
-            this->tasks.add_task( resolveAndSend, true);
-        }
+            this->tasks.add_task(resolveAndSend, true);
+        } while (!shouldStop(*this));
     }
 
     auto HttpServer::get(std::string uri, Resolver resolver) -> void
