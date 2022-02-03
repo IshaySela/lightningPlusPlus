@@ -1,33 +1,25 @@
-
 #include <iostream>
-#include "lightning/SSLServer.hpp"
-#include "lightning/request/HttpRequest.hpp"
-#include "lightning/response/HttpResponseBuilder.hpp"
-#include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/TaskExecutor.hpp"
-#include "lightning/handlers/StaticFile.hpp"
-#include "lightning/uriMapper/UriMapper.hpp"
-#include "lightning/IClient.hpp"
-#include <openssl/ssl.h>
+#include <lightning/httpServer/ServerBuilder.hpp>
 
-constexpr auto CERT_FILE_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
-constexpr auto PRIVATE_KEY_PATH = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
+constexpr const char *PublicKeyPath = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
+constexpr const char *PrivateKeyPath = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
 
-void test()
+auto main() -> int
 {
-    auto wsaCleaner = initWSData();
+    auto server = lightning::ServerBuilder::createNew(8080)
+                      .withSsl(PublicKeyPath, PrivateKeyPath)
+                      .withThreads(1)
+                      .build();
 
-    lightning::SSLServer sslServer(8080, CERT_FILE_PATH, PRIVATE_KEY_PATH);
+    auto getForcast = [](lightning::HttpRequest request)
+    {
+        int x;
+        return lightning::HttpResponseBuilder::create()
+            .build();
+    };
+    server.get("/forcast", getForcast);
 
-    lightning::HttpServer httpServer(sslServer, 2);
+    server.start();
 
-    int counter = 0;
-
-    httpServer.get("/*", lightning::handlers::serveFolder("../tests"));
-    httpServer.start();
-}
-
-int main(int argc, char **argv)
-{
-    test();
+    return 0;
 }

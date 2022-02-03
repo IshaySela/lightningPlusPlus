@@ -120,7 +120,6 @@ namespace lightning
              * Satisfy the Task<T> constraint.
              */
             void operator()();
-            
         private:
             std::unique_ptr<IClient> client;
             Resolver resolver;

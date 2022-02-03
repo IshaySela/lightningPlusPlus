@@ -9,8 +9,8 @@
 namespace lightning
 {
 
-    template<typename T>
-    concept CopyConstructibleOrAssignable = std::is_copy_constructible_v<T> || std::is_move_assignable_v<T>;
+    template <typename T>
+    concept CopyConstructibleOrAssignable = std::is_copy_constructible_v<T> || std::is_move_constructible_v<T>;
     // To use std::vector::push_back with T, T must be either copy constructible or move assignable.
     template <typename T>
     concept Task = CopyConstructibleOrAssignable<T> && requires(T t)
@@ -61,7 +61,7 @@ namespace lightning
                 this->tasks.push_back(task);
             else if (std::is_move_assignable<T>::value)
                 this->tasks.push_back(std::move(task));
-            
+
             mutex.unlock();
 
             this->cv.notify_one();
@@ -94,13 +94,28 @@ namespace lightning
                 if (die)
                     break;
 
-                auto &task = executor.tasks.front();
-                executor.tasks.erase(executor.tasks.begin());
+                // This is a touch complex.
+                // TODO: Find more elegant solution.
+                if constexpr (std::is_copy_constructible<T>::value)
+                {
+                    auto task = executor.tasks.front();
+                    executor.tasks.erase(executor.tasks.begin());
 
-                lock.unlock();
-                executor.cv.notify_one();
+                    lock.unlock();
+                    executor.cv.notify_one();
 
-                task();
+                    task();
+                }
+                else
+                {
+                    auto task = std::move(executor.tasks.front());
+                    executor.tasks.erase(executor.tasks.begin());
+
+                    lock.unlock();
+                    executor.cv.notify_one();
+
+                    task();
+                }
             }
         }
 
