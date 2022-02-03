@@ -137,7 +137,7 @@ namespace lightning
         this->client->getStream().write(response.data(), response.size());
     }
 
-    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(nullptr), resolver(resolver), request(request)
+    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request)
     {
     }
 
