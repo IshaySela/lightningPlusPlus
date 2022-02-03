@@ -6,6 +6,7 @@
 #include "HttpServerTest.hpp"
 #include "mocks/Mocks.hpp"
 #include <lightning/httpServer/HttpServer.hpp>
+#include <lightning/httpServer/ServerBuilder.hpp>
 
 auto createEmptyHttpRequest() -> lightning::HttpRequest
 {
@@ -129,7 +130,44 @@ TEST_F(HttpServerTestFixture, TestHappyPath)
 
     testedServer.start([](lightning::HttpServer &)
                        { return true; });
-    
+}
+
+TEST(ServerBuilder, TestHappyPath)
+{
+    static constexpr const char *TestPublicKeyPath = "../data/tests.cert";
+    static constexpr const char *TestPrivateKeyPath = "../data/tests.key";
+
+    EXPECT_NO_THROW({
+        lightning::ServerBuilder::createNew(8080)
+            .withSsl(TestPublicKeyPath, TestPrivateKeyPath)
+            .withThreads(2)
+            .build();
+    });
+}
+
+TEST(ServerBuilder, TestBadArguments)
+{
+    // Test invalid argument: non positive thread count
+    EXPECT_THROW({
+        lightning::ServerBuilder::createNew(8080)
+            .withThreads(-1);
+    },
+                 std::runtime_error);
+
+    // Test invalid argument: Bad underlying server.
+    EXPECT_THROW({
+        lightning::ServerBuilder::createNew(8080)
+            .withUnderlyingServer(nullptr);
+    },
+                 std::runtime_error);
+
+    // Test call to build without calling withUnderlyingServer.
+    EXPECT_THROW({
+        lightning::ServerBuilder::createNew(8080)
+            .withThreads(1)
+            .build();
+    },
+                 std::runtime_error);
 }
 
 auto main(int argc, char *argv[]) -> int

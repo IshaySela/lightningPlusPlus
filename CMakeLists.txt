@@ -23,6 +23,7 @@ add_library(http STATIC
     ./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp
     ./lightning/HttpProtocol.hpp
     ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
+    ./lightning/httpServer/ServerBuilder.hpp ./ServerBuilder.cpp
     ./lightning/LowLevelSocketServer.hpp
 
     ./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
