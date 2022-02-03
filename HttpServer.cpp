@@ -27,12 +27,10 @@ namespace lightning
 
     auto HttpServer::start(ShouldStopPredicate shouldStop) -> void
     {
-        int counter = 0;
-
         do
         {
-            auto client = this->lowLevelServer->accept();
-            auto requestArrivalTime = HttpServer::getTimeSinceEpoch();
+            std::unique_ptr<IClient> client = this->lowLevelServer->accept();
+            uint64_t requestArrivalTime = HttpServer::getTimeSinceEpoch();
             std::string matchedRegex;
 
             std::vector<char> requestBuffer;
@@ -53,8 +51,10 @@ namespace lightning
 
             request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
 
-            auto resolveAndSend = ResolveAndSend(std::move(client), resolver, request);
-            this->tasks.add_task(std::move(resolveAndSend));
+            auto test = ResolveAndSend(std::move(client), resolver, request);
+            this->tasks.add_task(std::move(test));
+            
+            std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;
         } while (!shouldStop(*this));
     }
 
@@ -74,29 +74,24 @@ namespace lightning
     {
         this->addResolver(HttpProtocol::Method::Post, uri, resolver);
     }
-
     auto HttpServer::put(std::string uri, Resolver resolver) -> void
     {
         this->addResolver(HttpProtocol::Method::Put, uri, resolver);
     }
-
     auto HttpServer::head(std::string uri, Resolver resolver) -> void
     {
         this->addResolver(HttpProtocol::Method::Head, uri, resolver);
     }
-
     auto HttpServer::resolveDelete(std::string uri, Resolver resolver) -> void
     {
         this->addResolver(HttpProtocol::Method::Delete, uri, resolver);
     }
-
     auto HttpServer::addResolver(HttpProtocol::Method method, std::string uri, Resolver resolver) -> void
     {
         auto methodString = HttpProtocol::convertMethodToString(method);
 
         this->resolvers.at(methodString).add(uri, resolver);
     }
-
     auto HttpServer::getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>
     {
         auto methodMap = this->resolvers.find(method);
@@ -137,7 +132,7 @@ namespace lightning
         this->client->getStream().write(response.data(), response.size());
     }
 
-    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(nullptr), resolver(resolver), request(request)
+    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request)
     {
     }
 

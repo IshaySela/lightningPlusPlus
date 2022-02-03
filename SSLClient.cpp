@@ -2,9 +2,8 @@
 
 namespace lightning
 {
-    SSLClient::SSLClient(int fd, SmartResource<SSL> smartSsl) : ssl(std::move(smartSsl)), rawFd(fd), sslStream(nullptr)
+    SSLClient::SSLClient(int fd, SmartResource<SSL> smartSsl) : ssl(std::move(smartSsl)), rawFd(fd), sslStream(stream::SSLStream(this->ssl.get()))
     {
-        sslStream = stream::SSLStream(this->ssl.get());
     }
 
     auto SSLClient::getSsl() const -> SSL *
