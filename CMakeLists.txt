@@ -24,6 +24,7 @@ add_library(http STATIC
     ./lightning/HttpProtocol.hpp
     ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
     ./lightning/httpServer/MiddlewareContainer.hpp
+    ./lightning/httpServer/ClientHandlerTask.hpp ./ClientHandlerTask.cpp
     ./lightning/httpServer/ServerBuilder.hpp ./ServerBuilder.cpp
     ./lightning/LowLevelSocketServer.hpp
 

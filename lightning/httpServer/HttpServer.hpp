@@ -12,6 +12,7 @@
 #include <chrono>
 #include "../TaskExecutor.hpp"
 #include "../LowLevelSocketServer.hpp"
+#include "MiddlewareContainer.hpp"
 
 namespace lightning
 {
@@ -104,7 +105,6 @@ namespace lightning
         Resolver defaultGetResolver;
 
         static auto getTimeSinceEpoch() -> std::uint64_t;
-
         /**
          * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to
          * the function that is invoked by TaskExecutor.

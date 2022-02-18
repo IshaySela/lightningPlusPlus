@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
+#include "TaskExecutor.hpp"
 
 namespace lightning
 {
@@ -13,4 +14,11 @@ namespace lightning
     class HttpResponse;
     class HttpRequest;
     using Resolver = std::function<HttpResponse(HttpRequest request)>;
+
+
+    template<typename T>
+    struct comply_with_task
+    {
+        static constexpr bool value = Task<T>;
+    };
 }
