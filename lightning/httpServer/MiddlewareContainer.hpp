@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include "../lightning.hpp"
 #include "../request/HttpRequest.hpp"
 #include "../response/HttpResponse.hpp"
 
@@ -18,16 +19,7 @@ namespace lightning
         { m.operator()(response) } -> std::convertible_to<bool>;
     }&& std::copy_constructible<T>;
 
-    using DefaultPostMiddlewareType = std::function<bool(HttpResponse&)>;
-    using PreMiddlewareReturn = std::optional<HttpResponse>;
-    /**
-     * @brief The PreMiddlewareType recives an HttpRequest and returns and optional HttpResponse.
-     * If the optional contains a value, that value will be sent back to the client. Otherwise,
-     * the middleware chain will continue.
-     */
-    using DefaultPreMiddlewareType = std::function<PreMiddlewareReturn (HttpRequest&)>;
-
-    template<typename TPre = DefaultPreMiddlewareType, typename TPost = DefaultPostMiddlewareType> requires PreMiddleware<TPre>&& PostMiddleware<TPost>
+    template<typename TPre = DefaultPreMiddlewareType, typename TPost = DefaultPostMiddlewareType> requires PreMiddleware<TPre> && PostMiddleware<TPost>
     class MiddlewareContainer
     {
     public:

@@ -35,6 +35,8 @@ add_executable(http
     ./lightning/TaskExecutor.hpp
 
     ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
+
+    ./lightning/middlewares/useFolder.hpp
 )
 
 find_package(OpenSSL REQUIRED)

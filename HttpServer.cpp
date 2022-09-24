@@ -5,6 +5,7 @@
 
 namespace lightning
 {
+
     const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer&)
     { return false; };
     const std::vector<char> HttpServer::INTERNAL_SERVER_ERROR = HttpResponseBuilder::create()

@@ -3,10 +3,12 @@
 #include <lightning/httpServer/MiddlewareContainer.hpp>
 #include <lightning/httpServer/ClientHandlerTask.hpp>
 #include <openssl/md5.h>
-#include <lightning/handlers/StaticFile.hpp>
+#include <lightning/middlewares/useFolder.hpp>
 
 constexpr const char* PublicKeyPath = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr const char* PrivateKeyPath = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
+
+using lightning::middleware::useFolder;
 
 auto main() -> int
 {
@@ -24,20 +26,8 @@ auto main() -> int
             .build();
     };
 
-    server.usePreMiddleware([](lightning::HttpRequest& request) -> lightning::PreMiddlewareReturn {
-        static auto fileResolver = lightning::handlers::serveFolder(".");
-
-        auto response = fileResolver(request);
-
-        if (response.getStatusLine().statusCode == 404)
-        {
-            return lightning::Continue;
-        }
-
-        return response;
-        });
-
-    server.get("/forcast", getForcast);
+    server.usePreMiddleware(useFolder("."));
+    server.get("/*", getForcast);
 
     std::cout << "Server has started on port " << 8080 << '\n';
     server.start();
