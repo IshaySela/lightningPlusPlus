@@ -20,6 +20,8 @@
 
 namespace lightning
 {
+    const std::optional<HttpResponse> Continue = std::nullopt;
+
     class HttpServer
     {
     public:

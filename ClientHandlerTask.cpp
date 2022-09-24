@@ -22,11 +22,9 @@ namespace lightning
         for (auto& currPreMiddleware : this->middlewares->getPreMiddlewares())
         {
             preMiddlewareResult = currPreMiddleware(request);
-
             
             if (preMiddlewareResult.has_value())
                 break;
-
         }
 
         // If one of the pre middleware has returned a response, 

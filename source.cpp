@@ -24,12 +24,17 @@ auto main() -> int
             .build();
     };
 
-    server.usePreMiddleware([](lightning::HttpRequest& request) -> auto {
+    server.usePreMiddleware([](lightning::HttpRequest& request) -> lightning::PreMiddlewareReturn {
         static auto fileResolver = lightning::handlers::serveFolder(".");
 
         auto response = fileResolver(request);
 
-        return std::optional<lightning::HttpResponse>(response);
+        if (response.getStatusLine().statusCode == 404)
+        {
+            return lightning::Continue;
+        }
+
+        return response;
         });
 
     server.get("/forcast", getForcast);
