@@ -1,3 +1,4 @@
+#pragma once
 #include "../httpServer/HttpServer.hpp"
 #include "../handlers/StaticFile.hpp"
 

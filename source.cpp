@@ -3,12 +3,13 @@
 #include <lightning/httpServer/MiddlewareContainer.hpp>
 #include <lightning/httpServer/ClientHandlerTask.hpp>
 #include <openssl/md5.h>
-#include <lightning/middlewares/useFolder.hpp>
+#include <lightning/middlewares/middlewares.hpp>
 
 constexpr const char* PublicKeyPath = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.cert";
 constexpr const char* PrivateKeyPath = "/home/ishaysela/projects/lightningPlusPlus/tests/localhost.key";
 
 using lightning::middleware::useFolder;
+using lightning::middleware::addHeaderToResponse;
 
 auto main() -> int
 {
@@ -28,6 +29,9 @@ auto main() -> int
 
     server.usePreMiddleware(useFolder("."));
     server.get("/*", getForcast);
+
+
+    server.usePostMiddleware(addHeaderToResponse("X-APP-HEADER", "SOME-VALUE"));
 
     std::cout << "Server has started on port " << 8080 << '\n';
     server.start();

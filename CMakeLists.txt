@@ -37,6 +37,7 @@ add_executable(http
     ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 
     ./lightning/middlewares/useFolder.hpp
+    ./lightning/middlewares/addHeaderToResponse.hpp
 )
 
 find_package(OpenSSL REQUIRED)
