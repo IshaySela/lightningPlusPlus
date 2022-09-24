@@ -8,11 +8,15 @@
 #include "../uriMapper/UriMapper.hpp"
 #include <functional>
 #include <future>
+#include "../stream/IStream.hpp"
+#include "lightning/OpensslErrorQueueException.hpp"
 #include <unordered_map>
 #include <chrono>
+#include <vector>
 #include "../TaskExecutor.hpp"
 #include "../LowLevelSocketServer.hpp"
 #include "MiddlewareContainer.hpp"
+#include "ClientHandlerTask.hpp"
 
 namespace lightning
 {
@@ -98,34 +102,29 @@ namespace lightning
          */
         static const Resolver defaultResolver;
         static const ShouldStopPredicate neverStop;
+
+        using PostMiddlewareType = std::function<bool(HttpResponse&)>;
+        using PreMiddlewareType = std::function<bool(HttpRequest&)>;
+        /**
+         * @brief Add a new post middleware to the post middleware chain.
+         * @param middleware The middleware to add.
+         */
+        auto usePostMiddleware(PostMiddlewareType middleware) -> void;
+        /**
+         * @brief Add a new pre middleware to the pre middleware chain.
+         * 
+         * @param middleware The middleware to add.
+         */
+        auto usePreMiddleware(PreMiddlewareType middleware) -> void;
     private:
+        auto sendInternalServerError(stream::IStream& stream) -> void;
         std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
         HttpServer::ResolversMap resolvers;
-
         Resolver defaultGetResolver;
+        MiddlewareContainer<PreMiddlewareType, PostMiddlewareType> middlewares;
 
         static auto getTimeSinceEpoch() -> std::uint64_t;
-        /**
-         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to
-         * the function that is invoked by TaskExecutor.
-         *
-         */
-        class ResolveAndSend
-        {
-        public:
-            ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request);
-
-            /**
-             * @brief Call resolver with request and send the result back to the client.
-             * Satisfy the Task<T> constraint.
-             */
-            void operator()();
-        private:
-            std::unique_ptr<IClient> client;
-            Resolver resolver;
-            HttpRequest request;
-        };
-
-        TaskExecutor<ResolveAndSend> tasks;
+        TaskExecutor<ClientHandlerTask> tasks;
+        static const std::vector<char> INTERNAL_SERVER_ERROR;
     };
 } // namespace lightning

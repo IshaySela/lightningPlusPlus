@@ -25,7 +25,6 @@ namespace lightning
     class MiddlewareContainer
     {
     public:
-
         auto addPost(TPost postMiddleware) -> void
         {
             this->postMiddlewares.push_back(postMiddleware);

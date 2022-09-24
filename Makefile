@@ -57,28 +57,18 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ishaysela/projects/lightningPlusPlus/unit-tests
+CMAKE_SOURCE_DIR = /home/ishaysela/projects/lightningPlusPlus
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ishaysela/projects/lightningPlusPlus/unit-tests/build
+CMAKE_BINARY_DIR = /home/ishaysela/projects/lightningPlusPlus
 
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/opt/cmake-3.22.1-linux-x86_64/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -95,61 +85,16 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/ishaysela/projects/lightningPlusPlus/unit-tests/build/CMakeFiles /home/ishaysela/projects/lightningPlusPlus//CMakeFiles/progress.marks
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ../../all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ishaysela/projects/lightningPlusPlus/unit-tests/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ishaysela/projects/lightningPlusPlus/CMakeFiles /home/ishaysela/projects/lightningPlusPlus//CMakeFiles/progress.marks
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ishaysela/projects/lightningPlusPlus/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ../../clean
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
 .PHONY : clean
 
 # The main clean target
@@ -158,39 +103,62 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ../../preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ../../preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-../..//CMakeFiles/http.dir/rule:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ../..//CMakeFiles/http.dir/rule
-.PHONY : ../..//CMakeFiles/http.dir/rule
+#=============================================================================
+# Target rules for targets named http
 
-# Convenience name for target.
-http: ../..//CMakeFiles/http.dir/rule
+# Build rule for target.
+http: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 http
 .PHONY : http
 
 # fast build rule for target.
 http/fast:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/build
 .PHONY : http/fast
+
+ClientHandlerTask.o: ClientHandlerTask.cpp.o
+.PHONY : ClientHandlerTask.o
+
+# target to build an object file
+ClientHandlerTask.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/ClientHandlerTask.cpp.o
+.PHONY : ClientHandlerTask.cpp.o
+
+ClientHandlerTask.i: ClientHandlerTask.cpp.i
+.PHONY : ClientHandlerTask.i
+
+# target to preprocess a source file
+ClientHandlerTask.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/ClientHandlerTask.cpp.i
+.PHONY : ClientHandlerTask.cpp.i
+
+ClientHandlerTask.s: ClientHandlerTask.cpp.s
+.PHONY : ClientHandlerTask.s
+
+# target to generate assembly for a file
+ClientHandlerTask.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/ClientHandlerTask.cpp.s
+.PHONY : ClientHandlerTask.cpp.s
 
 HttpRequest.o: HttpRequest.cpp.o
 .PHONY : HttpRequest.o
 
 # target to build an object file
 HttpRequest.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpRequest.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpRequest.cpp.o
 .PHONY : HttpRequest.cpp.o
 
 HttpRequest.i: HttpRequest.cpp.i
@@ -198,7 +166,7 @@ HttpRequest.i: HttpRequest.cpp.i
 
 # target to preprocess a source file
 HttpRequest.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpRequest.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpRequest.cpp.i
 .PHONY : HttpRequest.cpp.i
 
 HttpRequest.s: HttpRequest.cpp.s
@@ -206,7 +174,7 @@ HttpRequest.s: HttpRequest.cpp.s
 
 # target to generate assembly for a file
 HttpRequest.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpRequest.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpRequest.cpp.s
 .PHONY : HttpRequest.cpp.s
 
 HttpResponse.o: HttpResponse.cpp.o
@@ -214,7 +182,7 @@ HttpResponse.o: HttpResponse.cpp.o
 
 # target to build an object file
 HttpResponse.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpResponse.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponse.cpp.o
 .PHONY : HttpResponse.cpp.o
 
 HttpResponse.i: HttpResponse.cpp.i
@@ -222,7 +190,7 @@ HttpResponse.i: HttpResponse.cpp.i
 
 # target to preprocess a source file
 HttpResponse.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpResponse.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponse.cpp.i
 .PHONY : HttpResponse.cpp.i
 
 HttpResponse.s: HttpResponse.cpp.s
@@ -230,7 +198,7 @@ HttpResponse.s: HttpResponse.cpp.s
 
 # target to generate assembly for a file
 HttpResponse.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpResponse.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponse.cpp.s
 .PHONY : HttpResponse.cpp.s
 
 HttpResponseBuilder.o: HttpResponseBuilder.cpp.o
@@ -238,7 +206,7 @@ HttpResponseBuilder.o: HttpResponseBuilder.cpp.o
 
 # target to build an object file
 HttpResponseBuilder.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpResponseBuilder.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponseBuilder.cpp.o
 .PHONY : HttpResponseBuilder.cpp.o
 
 HttpResponseBuilder.i: HttpResponseBuilder.cpp.i
@@ -246,7 +214,7 @@ HttpResponseBuilder.i: HttpResponseBuilder.cpp.i
 
 # target to preprocess a source file
 HttpResponseBuilder.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpResponseBuilder.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponseBuilder.cpp.i
 .PHONY : HttpResponseBuilder.cpp.i
 
 HttpResponseBuilder.s: HttpResponseBuilder.cpp.s
@@ -254,7 +222,7 @@ HttpResponseBuilder.s: HttpResponseBuilder.cpp.s
 
 # target to generate assembly for a file
 HttpResponseBuilder.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpResponseBuilder.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpResponseBuilder.cpp.s
 .PHONY : HttpResponseBuilder.cpp.s
 
 HttpServer.o: HttpServer.cpp.o
@@ -262,7 +230,7 @@ HttpServer.o: HttpServer.cpp.o
 
 # target to build an object file
 HttpServer.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpServer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpServer.cpp.o
 .PHONY : HttpServer.cpp.o
 
 HttpServer.i: HttpServer.cpp.i
@@ -270,7 +238,7 @@ HttpServer.i: HttpServer.cpp.i
 
 # target to preprocess a source file
 HttpServer.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpServer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpServer.cpp.i
 .PHONY : HttpServer.cpp.i
 
 HttpServer.s: HttpServer.cpp.s
@@ -278,7 +246,7 @@ HttpServer.s: HttpServer.cpp.s
 
 # target to generate assembly for a file
 HttpServer.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/HttpServer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/HttpServer.cpp.s
 .PHONY : HttpServer.cpp.s
 
 LowLevelApiException.o: LowLevelApiException.cpp.o
@@ -286,7 +254,7 @@ LowLevelApiException.o: LowLevelApiException.cpp.o
 
 # target to build an object file
 LowLevelApiException.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/LowLevelApiException.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/LowLevelApiException.cpp.o
 .PHONY : LowLevelApiException.cpp.o
 
 LowLevelApiException.i: LowLevelApiException.cpp.i
@@ -294,7 +262,7 @@ LowLevelApiException.i: LowLevelApiException.cpp.i
 
 # target to preprocess a source file
 LowLevelApiException.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/LowLevelApiException.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/LowLevelApiException.cpp.i
 .PHONY : LowLevelApiException.cpp.i
 
 LowLevelApiException.s: LowLevelApiException.cpp.s
@@ -302,7 +270,7 @@ LowLevelApiException.s: LowLevelApiException.cpp.s
 
 # target to generate assembly for a file
 LowLevelApiException.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/LowLevelApiException.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/LowLevelApiException.cpp.s
 .PHONY : LowLevelApiException.cpp.s
 
 SSLClient.o: SSLClient.cpp.o
@@ -310,7 +278,7 @@ SSLClient.o: SSLClient.cpp.o
 
 # target to build an object file
 SSLClient.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLClient.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLClient.cpp.o
 .PHONY : SSLClient.cpp.o
 
 SSLClient.i: SSLClient.cpp.i
@@ -318,7 +286,7 @@ SSLClient.i: SSLClient.cpp.i
 
 # target to preprocess a source file
 SSLClient.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLClient.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLClient.cpp.i
 .PHONY : SSLClient.cpp.i
 
 SSLClient.s: SSLClient.cpp.s
@@ -326,7 +294,7 @@ SSLClient.s: SSLClient.cpp.s
 
 # target to generate assembly for a file
 SSLClient.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLClient.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLClient.cpp.s
 .PHONY : SSLClient.cpp.s
 
 SSLServer.o: SSLServer.cpp.o
@@ -334,7 +302,7 @@ SSLServer.o: SSLServer.cpp.o
 
 # target to build an object file
 SSLServer.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLServer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLServer.cpp.o
 .PHONY : SSLServer.cpp.o
 
 SSLServer.i: SSLServer.cpp.i
@@ -342,7 +310,7 @@ SSLServer.i: SSLServer.cpp.i
 
 # target to preprocess a source file
 SSLServer.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLServer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLServer.cpp.i
 .PHONY : SSLServer.cpp.i
 
 SSLServer.s: SSLServer.cpp.s
@@ -350,7 +318,7 @@ SSLServer.s: SSLServer.cpp.s
 
 # target to generate assembly for a file
 SSLServer.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLServer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLServer.cpp.s
 .PHONY : SSLServer.cpp.s
 
 SSLStream.o: SSLStream.cpp.o
@@ -358,7 +326,7 @@ SSLStream.o: SSLStream.cpp.o
 
 # target to build an object file
 SSLStream.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLStream.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLStream.cpp.o
 .PHONY : SSLStream.cpp.o
 
 SSLStream.i: SSLStream.cpp.i
@@ -366,7 +334,7 @@ SSLStream.i: SSLStream.cpp.i
 
 # target to preprocess a source file
 SSLStream.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLStream.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLStream.cpp.i
 .PHONY : SSLStream.cpp.i
 
 SSLStream.s: SSLStream.cpp.s
@@ -374,15 +342,39 @@ SSLStream.s: SSLStream.cpp.s
 
 # target to generate assembly for a file
 SSLStream.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SSLStream.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SSLStream.cpp.s
 .PHONY : SSLStream.cpp.s
+
+ServerBuilder.o: ServerBuilder.cpp.o
+.PHONY : ServerBuilder.o
+
+# target to build an object file
+ServerBuilder.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/ServerBuilder.cpp.o
+.PHONY : ServerBuilder.cpp.o
+
+ServerBuilder.i: ServerBuilder.cpp.i
+.PHONY : ServerBuilder.i
+
+# target to preprocess a source file
+ServerBuilder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/ServerBuilder.cpp.i
+.PHONY : ServerBuilder.cpp.i
+
+ServerBuilder.s: ServerBuilder.cpp.s
+.PHONY : ServerBuilder.s
+
+# target to generate assembly for a file
+ServerBuilder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/ServerBuilder.cpp.s
+.PHONY : ServerBuilder.cpp.s
 
 SmartResource.o: SmartResource.cpp.o
 .PHONY : SmartResource.o
 
 # target to build an object file
 SmartResource.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SmartResource.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SmartResource.cpp.o
 .PHONY : SmartResource.cpp.o
 
 SmartResource.i: SmartResource.cpp.i
@@ -390,7 +382,7 @@ SmartResource.i: SmartResource.cpp.i
 
 # target to preprocess a source file
 SmartResource.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SmartResource.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SmartResource.cpp.i
 .PHONY : SmartResource.cpp.i
 
 SmartResource.s: SmartResource.cpp.s
@@ -398,7 +390,7 @@ SmartResource.s: SmartResource.cpp.s
 
 # target to generate assembly for a file
 SmartResource.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/SmartResource.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/SmartResource.cpp.s
 .PHONY : SmartResource.cpp.s
 
 StaticFile.o: StaticFile.cpp.o
@@ -406,7 +398,7 @@ StaticFile.o: StaticFile.cpp.o
 
 # target to build an object file
 StaticFile.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/StaticFile.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/StaticFile.cpp.o
 .PHONY : StaticFile.cpp.o
 
 StaticFile.i: StaticFile.cpp.i
@@ -414,7 +406,7 @@ StaticFile.i: StaticFile.cpp.i
 
 # target to preprocess a source file
 StaticFile.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/StaticFile.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/StaticFile.cpp.i
 .PHONY : StaticFile.cpp.i
 
 StaticFile.s: StaticFile.cpp.s
@@ -422,7 +414,7 @@ StaticFile.s: StaticFile.cpp.s
 
 # target to generate assembly for a file
 StaticFile.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/StaticFile.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/StaticFile.cpp.s
 .PHONY : StaticFile.cpp.s
 
 Strings.o: Strings.cpp.o
@@ -430,7 +422,7 @@ Strings.o: Strings.cpp.o
 
 # target to build an object file
 Strings.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/Strings.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/Strings.cpp.o
 .PHONY : Strings.cpp.o
 
 Strings.i: Strings.cpp.i
@@ -438,7 +430,7 @@ Strings.i: Strings.cpp.i
 
 # target to preprocess a source file
 Strings.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/Strings.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/Strings.cpp.i
 .PHONY : Strings.cpp.i
 
 Strings.s: Strings.cpp.s
@@ -446,7 +438,7 @@ Strings.s: Strings.cpp.s
 
 # target to generate assembly for a file
 Strings.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/Strings.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/Strings.cpp.s
 .PHONY : Strings.cpp.s
 
 UriMapper.o: UriMapper.cpp.o
@@ -454,7 +446,7 @@ UriMapper.o: UriMapper.cpp.o
 
 # target to build an object file
 UriMapper.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/UriMapper.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/UriMapper.cpp.o
 .PHONY : UriMapper.cpp.o
 
 UriMapper.i: UriMapper.cpp.i
@@ -462,7 +454,7 @@ UriMapper.i: UriMapper.cpp.i
 
 # target to preprocess a source file
 UriMapper.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/UriMapper.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/UriMapper.cpp.i
 .PHONY : UriMapper.cpp.i
 
 UriMapper.s: UriMapper.cpp.s
@@ -470,7 +462,7 @@ UriMapper.s: UriMapper.cpp.s
 
 # target to generate assembly for a file
 UriMapper.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/UriMapper.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/UriMapper.cpp.s
 .PHONY : UriMapper.cpp.s
 
 sockets.o: sockets.cpp.o
@@ -478,7 +470,7 @@ sockets.o: sockets.cpp.o
 
 # target to build an object file
 sockets.cpp.o:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/sockets.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/sockets.cpp.o
 .PHONY : sockets.cpp.o
 
 sockets.i: sockets.cpp.i
@@ -486,7 +478,7 @@ sockets.i: sockets.cpp.i
 
 # target to preprocess a source file
 sockets.cpp.i:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/sockets.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/sockets.cpp.i
 .PHONY : sockets.cpp.i
 
 sockets.s: sockets.cpp.s
@@ -494,8 +486,32 @@ sockets.s: sockets.cpp.s
 
 # target to generate assembly for a file
 sockets.cpp.s:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(MAKE) $(MAKESILENT) -f ../..//CMakeFiles/http.dir/build.make ../..//CMakeFiles/http.dir/sockets.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/sockets.cpp.s
 .PHONY : sockets.cpp.s
+
+source.o: source.cpp.o
+.PHONY : source.o
+
+# target to build an object file
+source.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/source.cpp.o
+.PHONY : source.cpp.o
+
+source.i: source.cpp.i
+.PHONY : source.i
+
+# target to preprocess a source file
+source.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/source.cpp.i
+.PHONY : source.cpp.i
+
+source.s: source.cpp.s
+.PHONY : source.s
+
+# target to generate assembly for a file
+source.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/source.cpp.s
+.PHONY : source.cpp.s
 
 # Help Target
 help:
@@ -504,13 +520,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... test"
 	@echo "... http"
+	@echo "... ClientHandlerTask.o"
+	@echo "... ClientHandlerTask.i"
+	@echo "... ClientHandlerTask.s"
 	@echo "... HttpRequest.o"
 	@echo "... HttpRequest.i"
 	@echo "... HttpRequest.s"
@@ -535,6 +549,9 @@ help:
 	@echo "... SSLStream.o"
 	@echo "... SSLStream.i"
 	@echo "... SSLStream.s"
+	@echo "... ServerBuilder.o"
+	@echo "... ServerBuilder.i"
+	@echo "... ServerBuilder.s"
 	@echo "... SmartResource.o"
 	@echo "... SmartResource.i"
 	@echo "... SmartResource.s"
@@ -550,6 +567,9 @@ help:
 	@echo "... sockets.o"
 	@echo "... sockets.i"
 	@echo "... sockets.s"
+	@echo "... source.o"
+	@echo "... source.i"
+	@echo "... source.s"
 .PHONY : help
 
 
@@ -561,6 +581,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ishaysela/projects/lightningPlusPlus/unit-tests/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

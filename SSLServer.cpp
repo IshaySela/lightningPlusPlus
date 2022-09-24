@@ -56,12 +56,12 @@ namespace lightning
 
         if (bind(this->rawSocketFd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
         {
-            throw LowLevelApiException("Calling bind() has failed", GetLastError());
+            throw LowLevelApiException("Calling bind() has failed", GetLastError(), errno);
         }
 
         if (listen(this->rawSocketFd, 1) < 0)
         {
-            throw LowLevelApiException("Calling listen() has failed", GetLastError());
+            throw LowLevelApiException("Calling listen() has failed", GetLastError(), errno);
         }
     }
 

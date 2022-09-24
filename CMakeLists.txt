@@ -5,12 +5,13 @@ project(http)
 set(CMAKE_CXX_STANDARD 20)
 
 
-add_library(http STATIC
+add_executable(http
+    ./source.cpp
     ./lightning/sockets.hpp ./sockets.cpp
     ./lightning/SSLServer.hpp ./SSLServer.cpp
     ./lightning/LowLevelApiException.hpp ./LowLevelApiException.cpp
     ./lightning/SmartResource.hpp ./SmartResource.cpp
-    
+    ./lightning/OpensslErrorQueueException.hpp ./OpensslErrorQueueException.cpp
     ./lightning/IClient.hpp
     ./lightning/SSLClient.hpp ./SSLClient.cpp
     ./lightning/stream/IStream.hpp

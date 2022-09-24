@@ -57,4 +57,8 @@ namespace lightning
         return std::vector<char>(buffer.begin(), buffer.end());
     }
 
+    auto HttpResponse::getBody() const -> const std::vector<char>&
+    {
+        return this->body;
+    }
 }

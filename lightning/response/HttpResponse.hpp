@@ -25,6 +25,8 @@ namespace lightning
 
         auto getStatusLine() -> StatusLine &;
         auto getHeaders() -> HeadersMap &;
+
+        auto getBody() const -> const std::vector<char>&;
     
         /**
          * @brief Convert the response to a http response, as sepcified in https://www.rfc-editor.org/rfc/rfc2616.html#section-6
