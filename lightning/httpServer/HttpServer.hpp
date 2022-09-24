@@ -103,30 +103,23 @@ namespace lightning
         static const Resolver defaultResolver;
         static const ShouldStopPredicate neverStop;
 
-        using PostMiddlewareType = std::function<bool(HttpResponse&)>;
-        /**
-         * @brief The PreMiddlewareType recives an HttpRequest and returns and optional HttpResponse.
-         * If the optional contains a value, that value will be sent back to the client. Otherwise,
-         * the middleware chain will continue.
-         */
-        using PreMiddlewareType = std::function<bool (HttpRequest&)>;
         /**
          * @brief Add a new post middleware to the post middleware chain.
          * @param middleware The middleware to add.
          */
-        auto usePostMiddleware(PostMiddlewareType middleware) -> void;
+        auto usePostMiddleware(DefaultPostMiddlewareType middleware) -> void;
         /**
          * @brief Add a new pre middleware to the pre middleware chain.
          *
          * @param middleware The middleware to add.
          */
-        auto usePreMiddleware(PreMiddlewareType middleware) -> void;
+        auto usePreMiddleware(DefaultPreMiddlewareType middleware) -> void;
     private:
         auto sendInternalServerError(stream::IStream& stream) -> void;
         std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
         HttpServer::ResolversMap resolvers;
         Resolver defaultGetResolver;
-        MiddlewareContainer<PreMiddlewareType, PostMiddlewareType> middlewares;
+        MiddlewareContainer<DefaultPreMiddlewareType, DefaultPostMiddlewareType> middlewares;
 
         static auto getTimeSinceEpoch()->std::uint64_t;
         TaskExecutor<ClientHandlerTask> tasks;

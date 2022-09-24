@@ -144,11 +144,11 @@ namespace lightning
             .count();
     }
 
-    auto HttpServer::usePreMiddleware(PreMiddlewareType middleware) -> void
+    auto HttpServer::usePreMiddleware(DefaultPreMiddlewareType middleware) -> void
     {
         this->middlewares.addPre(middleware);
     }
-    auto HttpServer::usePostMiddleware(PostMiddlewareType middleware) -> void
+    auto HttpServer::usePostMiddleware(DefaultPostMiddlewareType middleware) -> void
     {
         this->middlewares.addPost(middleware);
     }

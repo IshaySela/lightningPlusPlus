@@ -6,12 +6,10 @@
 namespace lightning
 {
 
-    // A middleware must have an operator () that takes a lightning::HttpRequest& and returns
-    // Something that can be converted to boolean.
     template<typename T>
     concept PreMiddleware = requires(T m, lightning::HttpRequest & request)
     {
-        {m.operator()(request)} -> std::convertible_to<bool>;
+        {m.operator()(request)} -> std::convertible_to<std::optional<HttpResponse>>;
     }&& std::copy_constructible<T>;
 
     template<typename T>
@@ -20,8 +18,15 @@ namespace lightning
         { m.operator()(response) } -> std::convertible_to<bool>;
     }&& std::copy_constructible<T>;
 
+    using DefaultPostMiddlewareType = std::function<bool(HttpResponse&)>;
+    /**
+     * @brief The PreMiddlewareType recives an HttpRequest and returns and optional HttpResponse.
+     * If the optional contains a value, that value will be sent back to the client. Otherwise,
+     * the middleware chain will continue.
+     */
+    using DefaultPreMiddlewareType = std::function<std::optional<HttpResponse>(HttpRequest&)>;
 
-    template<typename TPre = std::function<bool(lightning::HttpRequest&)>, typename TPost = std::function<bool(lightning::HttpResponse&)>> requires PreMiddleware<TPre>&& PostMiddleware<TPost>
+    template<typename TPre = DefaultPreMiddlewareType, typename TPost = DefaultPostMiddlewareType> requires PreMiddleware<TPre>&& PostMiddleware<TPost>
     class MiddlewareContainer
     {
     public:
