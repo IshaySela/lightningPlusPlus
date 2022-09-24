@@ -67,9 +67,7 @@ namespace lightning
             auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
 
             request.getFrameworkInfo() = lightning::FrameworkInfo{ .matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime };
-
-            auto test = ClientHandlerTask(std::move(client), resolver, request, &this->middlewares);
-            this->tasks.add_task(std::move(test));
+            this->tasks.add_task(ClientHandlerTask(std::move(client), resolver, request, &this->middlewares));
 
 
             std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;

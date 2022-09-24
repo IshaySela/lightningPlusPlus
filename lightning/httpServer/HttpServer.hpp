@@ -25,7 +25,7 @@ namespace lightning
     public:
         // An unordered_map that maps methods to maps of URIs.
         using ResolversMap = std::unordered_map<std::string, UriMapper>;
-        using ShouldStopPredicate = std::function<bool(HttpServer &server)>;
+        using ShouldStopPredicate = std::function<bool(HttpServer& server)>;
 
         /**
          * @brief Construct a new Http Server object, and initilize the resolver to contain an empty map
@@ -84,8 +84,8 @@ namespace lightning
          * @param regexUri The regex that has matched the uri to the resolver.
          * @return std::optional<Resolver> An optinal object that contains the resolver, if one exists.
          */
-        auto getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>;
-        auto getResolver(std::string method, std::string uri) -> std::optional<Resolver>;
+        auto getResolver(std::string method, std::string uri, std::string& regexUri)->std::optional<Resolver>;
+        auto getResolver(std::string method, std::string uri)->std::optional<Resolver>;
 
         /**
          * @brief Call HttpServer::getResolver, if no resolver was found return the default resolver.
@@ -95,7 +95,7 @@ namespace lightning
          * @param uri The uri of the resolver.
          * @return Resolver The return of HttpServer::getResolver, or the default request resolver.
          */
-        auto getResolverOrDefault(std::string method, std::string uri) -> Resolver;
+        auto getResolverOrDefault(std::string method, std::string uri)->Resolver;
 
         /**
          * @brief Default resolver that returns 404 Not Found with no headers.
@@ -104,7 +104,12 @@ namespace lightning
         static const ShouldStopPredicate neverStop;
 
         using PostMiddlewareType = std::function<bool(HttpResponse&)>;
-        using PreMiddlewareType = std::function<bool(HttpRequest&)>;
+        /**
+         * @brief The PreMiddlewareType recives an HttpRequest and returns and optional HttpResponse.
+         * If the optional contains a value, that value will be sent back to the client. Otherwise,
+         * the middleware chain will continue.
+         */
+        using PreMiddlewareType = std::function<bool (HttpRequest&)>;
         /**
          * @brief Add a new post middleware to the post middleware chain.
          * @param middleware The middleware to add.
@@ -112,7 +117,7 @@ namespace lightning
         auto usePostMiddleware(PostMiddlewareType middleware) -> void;
         /**
          * @brief Add a new pre middleware to the pre middleware chain.
-         * 
+         *
          * @param middleware The middleware to add.
          */
         auto usePreMiddleware(PreMiddlewareType middleware) -> void;
@@ -123,7 +128,7 @@ namespace lightning
         Resolver defaultGetResolver;
         MiddlewareContainer<PreMiddlewareType, PostMiddlewareType> middlewares;
 
-        static auto getTimeSinceEpoch() -> std::uint64_t;
+        static auto getTimeSinceEpoch()->std::uint64_t;
         TaskExecutor<ClientHandlerTask> tasks;
         static const std::vector<char> INTERNAL_SERVER_ERROR;
     };
