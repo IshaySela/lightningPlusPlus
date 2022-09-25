@@ -52,7 +52,8 @@ namespace lightning
 
     auto HttpRequest::parseRequestLine(std::string requestLine) -> HttpRequest::RequestLine
     {
-        std::string method, uri, version, delimiter = " ";
+        static const std::string delimiter = " ";
+        std::string method, uri, version;
         int offset = 0;
 
         method = getNextToken(requestLine, delimiter, offset, offset);

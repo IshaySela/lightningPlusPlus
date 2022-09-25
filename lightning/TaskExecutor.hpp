@@ -16,7 +16,8 @@ namespace lightning
     concept Task = CopyConstructibleOrAssignable<T> && requires(T t)
     {
         {
-            t.operator()()};
+            t.operator()()
+        };
     };
 
     template <typename T = std::function<void()>>

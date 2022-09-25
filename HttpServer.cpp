@@ -1,11 +1,18 @@
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/LowLevelApiException.hpp"
 #include <fstream>
+#include <openssl/err.h>
 
 namespace lightning
 {
-    const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer &)
+
+    const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer&)
     { return false; };
+    const std::vector<char> HttpServer::INTERNAL_SERVER_ERROR = HttpResponseBuilder::create()
+        .withStatusCode(500)
+        .withStatusPhrase("InternalError")
+        .build()
+        .toHttpResponse();
 
     const Resolver HttpServer::defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
     {
@@ -19,9 +26,9 @@ namespace lightning
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
         {
-            auto &method = HttpProtocol::supportedHttpMethods[i];
+            auto& method = HttpProtocol::supportedHttpMethods[i];
 
-            this->resolvers.insert({method, UriMapper()});
+            this->resolvers.insert({ method, UriMapper() });
         }
     }
 
@@ -39,9 +46,20 @@ namespace lightning
             {
                 requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
             }
-            catch (const LowLevelApiException &e)
+            catch (const OpenSslErrorQueueException& e)
             {
-                client->getStream().close();
+                std::cout << "Low level openssl error was caught: " << e.what() << '\n';
+                // Print the openssl error queue
+                continue;
+            }
+            catch (const LowLevelApiException& e)
+            {
+                std::cout << "Low level openssl error was caught: " << e.what() << '\n';
+                continue;
+            }
+            catch (const std::runtime_error& e)
+            {
+                this->sendInternalServerError(client->getStream());
                 continue;
             }
 
@@ -49,11 +67,10 @@ namespace lightning
 
             auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
 
-            request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
+            request.getFrameworkInfo() = lightning::FrameworkInfo{ .matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime };
+            this->tasks.add_task(ClientHandlerTask(std::move(client), resolver, request, &this->middlewares));
 
-            auto test = ResolveAndSend(std::move(client), resolver, request);
-            this->tasks.add_task(std::move(test));
-            
+
             std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;
         } while (!shouldStop(*this));
     }
@@ -92,7 +109,7 @@ namespace lightning
 
         this->resolvers.at(methodString).add(uri, resolver);
     }
-    auto HttpServer::getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>
+    auto HttpServer::getResolver(std::string method, std::string uri, std::string& regexUri) -> std::optional<Resolver>
     {
         auto methodMap = this->resolvers.find(method);
 
@@ -120,26 +137,26 @@ namespace lightning
         return this->getResolver(method, uri, discard);
     }
 
-    void HttpServer::ResolveAndSend::operator()()
-    {
-        // Here all of the middlewares (future) and pre resolve tasks execute
-
-        // This is needs to be done on the working thread
-        // And can only be done after frameworkInfo was injected.
-        request.computeUriParameters();
-
-        auto response = this->resolver(request).toHttpResponse();
-        this->client->getStream().write(response.data(), response.size());
-    }
-
-    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request)
-    {
-    }
 
     auto HttpServer::getTimeSinceEpoch() -> std::uint64_t
     {
         return std::chrono::duration_cast<std::chrono::milliseconds>(
-                   std::chrono::system_clock::now().time_since_epoch())
+            std::chrono::system_clock::now().time_since_epoch())
             .count();
+    }
+
+    auto HttpServer::usePreMiddleware(DefaultPreMiddlewareType middleware) -> void
+    {
+        this->middlewares.addPre(middleware);
+    }
+    auto HttpServer::usePostMiddleware(DefaultPostMiddlewareType middleware) -> void
+    {
+        this->middlewares.addPost(middleware);
+    }
+
+    auto HttpServer::sendInternalServerError(stream::IStream& stream) -> void
+    {
+        stream.write(INTERNAL_SERVER_ERROR.data(), INTERNAL_SERVER_ERROR.size());
+        stream.close();
     }
 }

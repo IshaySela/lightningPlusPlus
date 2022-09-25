@@ -4,13 +4,11 @@
 
 namespace lightning
 {
-    LowLevelApiException::LowLevelApiException(const char *msg, int errorCode) : runtime_error("Error " + std::to_string(errorCode) + "::\t" + msg), errorCode(errorCode) 
+    LowLevelApiException::LowLevelApiException(const char* msg, int appErrorCode, int caputredErrno) :
+        runtime_error("Error Code\t" + std::to_string(appErrorCode) + "\twith errno\t" + std::to_string(caputredErrno) + "::\t" + msg),
+        appErrorCode(appErrorCode),
+        capturedErrno(capturedErrno)
     {
-    }
-
-    const char *LowLevelApiException::what() const noexcept
-    {
-        return runtime_error::what();
     }
 
 }

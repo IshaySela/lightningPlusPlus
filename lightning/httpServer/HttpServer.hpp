@@ -8,19 +8,26 @@
 #include "../uriMapper/UriMapper.hpp"
 #include <functional>
 #include <future>
+#include "../stream/IStream.hpp"
+#include "lightning/OpensslErrorQueueException.hpp"
 #include <unordered_map>
 #include <chrono>
+#include <vector>
 #include "../TaskExecutor.hpp"
 #include "../LowLevelSocketServer.hpp"
+#include "MiddlewareContainer.hpp"
+#include "ClientHandlerTask.hpp"
 
 namespace lightning
 {
+    const std::optional<HttpResponse> Continue = std::nullopt;
+
     class HttpServer
     {
     public:
         // An unordered_map that maps methods to maps of URIs.
         using ResolversMap = std::unordered_map<std::string, UriMapper>;
-        using ShouldStopPredicate = std::function<bool(HttpServer &server)>;
+        using ShouldStopPredicate = std::function<bool(HttpServer& server)>;
 
         /**
          * @brief Construct a new Http Server object, and initilize the resolver to contain an empty map
@@ -79,8 +86,8 @@ namespace lightning
          * @param regexUri The regex that has matched the uri to the resolver.
          * @return std::optional<Resolver> An optinal object that contains the resolver, if one exists.
          */
-        auto getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>;
-        auto getResolver(std::string method, std::string uri) -> std::optional<Resolver>;
+        auto getResolver(std::string method, std::string uri, std::string& regexUri)->std::optional<Resolver>;
+        auto getResolver(std::string method, std::string uri)->std::optional<Resolver>;
 
         /**
          * @brief Call HttpServer::getResolver, if no resolver was found return the default resolver.
@@ -90,42 +97,34 @@ namespace lightning
          * @param uri The uri of the resolver.
          * @return Resolver The return of HttpServer::getResolver, or the default request resolver.
          */
-        auto getResolverOrDefault(std::string method, std::string uri) -> Resolver;
+        auto getResolverOrDefault(std::string method, std::string uri)->Resolver;
 
         /**
          * @brief Default resolver that returns 404 Not Found with no headers.
          */
         static const Resolver defaultResolver;
         static const ShouldStopPredicate neverStop;
-    private:
-        std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
-        HttpServer::ResolversMap resolvers;
-
-        Resolver defaultGetResolver;
-
-        static auto getTimeSinceEpoch() -> std::uint64_t;
 
         /**
-         * @brief This class is used to supply the SSLClient, Resolver and HttpRequet to
-         * the function that is invoked by TaskExecutor.
-         *
+         * @brief Add a new post middleware to the post middleware chain.
+         * @param middleware The middleware to add.
          */
-        class ResolveAndSend
-        {
-        public:
-            ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request);
+        auto usePostMiddleware(DefaultPostMiddlewareType middleware) -> void;
+        /**
+         * @brief Add a new pre middleware to the pre middleware chain.
+         *
+         * @param middleware The middleware to add.
+         */
+        auto usePreMiddleware(DefaultPreMiddlewareType middleware) -> void;
+    private:
+        auto sendInternalServerError(stream::IStream& stream) -> void;
+        std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
+        HttpServer::ResolversMap resolvers;
+        Resolver defaultGetResolver;
+        MiddlewareContainer<DefaultPreMiddlewareType, DefaultPostMiddlewareType> middlewares;
 
-            /**
-             * @brief Call resolver with request and send the result back to the client.
-             * Satisfy the Task<T> constraint.
-             */
-            void operator()();
-        private:
-            std::unique_ptr<IClient> client;
-            Resolver resolver;
-            HttpRequest request;
-        };
-
-        TaskExecutor<ResolveAndSend> tasks;
+        static auto getTimeSinceEpoch()->std::uint64_t;
+        TaskExecutor<ClientHandlerTask> tasks;
+        static const std::vector<char> INTERNAL_SERVER_ERROR;
     };
 } // namespace lightning

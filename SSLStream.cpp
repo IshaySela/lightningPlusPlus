@@ -1,12 +1,13 @@
 #include "lightning/stream/SSLStream.hpp"
 #include "lightning/LowLevelApiException.hpp"
+#include "lightning/OpensslErrorQueueException.hpp"
 #include <openssl/err.h>
 
 namespace lightning::stream
 {
     constexpr int SSLStream::SSL_NO_ERROR;
 
-    SSLStream::SSLStream(SSL *ssl) : ssl(ssl) {}
+    SSLStream::SSLStream(SSL* ssl) : ssl(ssl) {}
 
     auto SSLStream::read(int amount) -> std::vector<char>
     {
@@ -21,9 +22,9 @@ namespace lightning::stream
         {
             totalReadBytes += chunkRead;
 
-            char *chunk = buffer.data() + totalReadBytes;
+            char* chunk = buffer.data() + totalReadBytes;
 
-            error = SSL_read_ex(this->ssl, chunk, amount - totalReadBytes, (size_t *)&chunkRead);
+            error = SSL_read_ex(this->ssl, chunk, amount - totalReadBytes, (size_t*)&chunkRead);
 
         } while (totalReadBytes < amount && error == SSLStream::SSL_NO_ERROR);
 
@@ -48,8 +49,9 @@ namespace lightning::stream
 
         while (readResult == SSLStream::SSL_NO_ERROR && !foundToken)
         {
-            readResult = SSL_read_ex(this->ssl, reinterpret_cast<void *>(chunk.data()), 1024, &chunkBytesRead);
-
+            readResult = SSL_read_ex(this->ssl, reinterpret_cast<void*>(chunk.data()), 1024, &chunkBytesRead);
+            const auto caputredErrno = errno;
+            
             if (readResult < SSLStream::SSL_NO_ERROR)
             {
                 this->handleReadError(readResult);
@@ -74,7 +76,7 @@ namespace lightning::stream
         return headersBuffer;
     }
 
-    auto SSLStream::write(const char *buffer, int size) -> int
+    auto SSLStream::write(const char* buffer, int size) -> int
     {
         size_t written = 0;
 
@@ -89,27 +91,46 @@ namespace lightning::stream
         return (int)written;
     }
 
-    auto SSLStream::getSsl() const -> SSL *
+    auto SSLStream::getSsl() const -> SSL*
     {
         return this->ssl;
     }
 
     auto SSLStream::handleReadError(int ret) -> void
     {
-        auto error = SSL_get_error(this->ssl, ret);
+        const auto caputredErrno = errno;
+        auto sslError = SSL_get_error(this->ssl, ret);
 
-        switch (error)
+        switch (sslError)
         {
-        case SSL_ERROR_ZERO_RETURN:
-        case SSL_ERROR_SYSCALL:
         case SSL_ERROR_SSL:
-            throw lightning::LowLevelApiException("A non-recoverable, fatal error has occurred while reading data from the peer", error);
+            /**
+             * SSL_ERROR_SSL
+             * A non-recoverable, fatal error in the SSL library occurred, usually a protocol error.  The OpenSSL error queue contains more information on the
+             * error. If this error occurs then no further I/O operations should be performed on the connection and SSL_shutdown() must not be called.
+             *
+             */
+            throw lightning::OpenSslErrorQueueException("SSL_ERROR_SSL", sslError, caputredErrno);
+        case SSL_ERROR_WANT_READ:
+            break;
+        case SSL_ERROR_SYSCALL:
+            /**
+             * Some non-recoverable, fatal I/O error occurred. The OpenSSL error queue may contain more information on the error. For socket I/O on Unix
+             * systems, consult errno for details. If this error occurs then no further I/O operations should be performed on the connection and SSL_shutdown()
+             * must not be called.
+             * This value can also be returned for other errors, check the error queue for details.
+             */
+            throw lightning::OpenSslErrorQueueException("SSL_ERROR_SYSCALL", sslError, caputredErrno);
+        case SSL_ERROR_WANT_ACCEPT:
+            break;
+        case SSL_ERROR_WANT_ASYNC_JOB:
+            break;
         default:
             break;
         }
     }
 
-    auto SSLStream::readFromLevtover(int amount, int &bytesRead) -> std::vector<char>
+    auto SSLStream::readFromLevtover(int amount, int& bytesRead) -> std::vector<char>
     {
         std::vector<char> buffer(amount);
         bytesRead = 0;

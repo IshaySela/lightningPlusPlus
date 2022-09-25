@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-
+.editorconfig
 /build
 /cert
 /tests
