@@ -27,7 +27,7 @@ auto main() -> int {
             .build();
     });
     // Server static folder
-    httpServer.get("/*", lightning::handlers::serveFolder("./public"));
+    server.get("/*", lightning::handlers::serveFolder("./public"));
     
 	// Run the server
     server.start();
