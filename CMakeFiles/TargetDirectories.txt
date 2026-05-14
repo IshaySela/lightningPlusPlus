@@ -1,3 +1,0 @@
-/home/ishaysela/projects/lightningPlusPlus/CMakeFiles/http.dir
-/home/ishaysela/projects/lightningPlusPlus/CMakeFiles/edit_cache.dir
-/home/ishaysela/projects/lightningPlusPlus/CMakeFiles/rebuild_cache.dir
