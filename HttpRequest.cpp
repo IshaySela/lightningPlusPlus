@@ -148,6 +148,27 @@ namespace lightning
     {
         return this->headers;
     }
+
+    auto HttpRequest::setStream(stream::IStream* stream) -> void
+    {
+        this->stream = stream;
+    }
+
+    auto HttpRequest::getBody() -> std::vector<char>
+    {
+        if (this->stream == nullptr)
+            return {};
+
+        auto contentLengthHeader = getHeader("Content-Length");
+        if (!contentLengthHeader.has_value())
+            return {};
+
+        int contentLength = std::stoi(contentLengthHeader.value());
+        if (contentLength <= 0)
+            return {};
+
+        return this->stream->read(contentLength);
+    }
     
     auto HttpRequest::getHeader(std::string key) -> std::optional<std::string>
     {

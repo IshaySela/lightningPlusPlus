@@ -4,6 +4,7 @@
 #include <vector>
 #include <optional>
 #include "../lightning.hpp"
+#include "../stream/IStream.hpp"
 #include "FrameworkInfo.hpp"
 
 namespace lightning
@@ -18,6 +19,7 @@ namespace lightning
         FrameworkInfo frameworkInfo;
 
         HeadersMap headers;
+        stream::IStream* stream = nullptr;
 
         /**
          * @brief Parse the line and retrive every character from the offset until reaching the delimiter.
@@ -48,8 +50,16 @@ namespace lightning
          */
         auto getHeader(std::string key) -> std::optional<std::string>;
 
+        auto setStream(stream::IStream* stream) -> void;
+
         /**
-         * @brief Calculate the uri paramters.
+         * @brief Read the request body using the Content-Length header.
+         * Returns an empty vector if no stream is set or Content-Length is absent.
+         */
+        auto getBody() -> std::vector<char>;
+
+        /**
+         * @brief Calculate the uri parameters.
          */
         auto computeUriParameters() -> void;
 
