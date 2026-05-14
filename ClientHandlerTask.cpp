@@ -17,6 +17,7 @@ namespace lightning
         // This is needs to be done on the working thread
         // And can only be done after frameworkInfo was injected.
         request.computeUriParameters();
+        request.setStream(&this->client->getStream());
         std::optional<HttpResponse> preMiddlewareResult;
 
         for (auto& currPreMiddleware : this->middlewares->getPreMiddlewares())
