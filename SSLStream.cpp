@@ -17,6 +17,11 @@ namespace lightning::stream
         int totalReadBytes = bytesReadFromLeftover; // Store the amount that was read from the socket.
         int chunkRead = 0;                          // The amount of bytes that where read in the current call.
         int error = SSLStream::SSL_NO_ERROR;
+        
+        if (totalReadBytes >= amount)
+        {
+            return buffer;
+        }
 
         do
         {
@@ -26,8 +31,9 @@ namespace lightning::stream
 
             error = SSL_read_ex(this->ssl, chunk, amount - totalReadBytes, (size_t*)&chunkRead);
 
-        } while (totalReadBytes < amount && error == SSLStream::SSL_NO_ERROR);
-
+        }
+        while (totalReadBytes < amount && error == SSLStream::SSL_NO_ERROR);
+        
         if (error != SSLStream::SSL_NO_ERROR)
         {
             auto errorCode = SSL_get_error(ssl, error);
@@ -69,6 +75,7 @@ namespace lightning::stream
 
         // Get the leftover body that was read with the headers.
         std::string leftover(buffer.begin() + static_cast<int>(tokenPosition) + token.length(), buffer.end());
+        this->leftoverBuffer.insert(this->leftoverBuffer.end(), leftover.begin(), leftover.end());
 
         // Only the header
         std::vector<char> headersBuffer(buffer.begin(), buffer.begin() + static_cast<int>(tokenPosition));
@@ -144,9 +151,9 @@ namespace lightning::stream
         amount = amount > this->leftoverBuffer.size() ? this->leftoverBuffer.size() : amount;
 
         bytesRead = amount;
-
+        std::copy(this->leftoverBuffer.begin(), this->leftoverBuffer.begin() + amount, buffer.begin());
         // Delete the read data.
-        this->leftoverBuffer.resize(this->leftoverBuffer.size() - amount);
+        this->leftoverBuffer.erase(this->leftoverBuffer.begin(), this->leftoverBuffer.begin() + amount);
 
         return buffer;
     }
