@@ -19,6 +19,7 @@ namespace lightning
 
         HeadersMap headers;
         stream::IStream* stream = nullptr;
+        bool bodyRead = false;
 
         /**
          * @brief Parse the line and retrive every character from the offset until reaching the delimiter.
@@ -56,7 +57,9 @@ namespace lightning
          * Returns an empty vector if no stream is set or Content-Length is absent.
          */
         auto getBody() -> std::vector<char>;
-
+        
+        auto isBodyRead() -> bool;
+        
         /**
          * @brief Calculate the uri parameters.
          */

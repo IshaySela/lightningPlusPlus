@@ -168,7 +168,14 @@ namespace lightning
         if (contentLength <= 0)
             return {};
 
-        return this->stream->read(contentLength);
+        auto body = this->stream->read(contentLength);
+        this->bodyRead = true;
+        return body;
+    }
+
+    auto HttpRequest::isBodyRead() -> bool
+    {
+        return this->bodyRead;
     }
     
     auto HttpRequest::getHeader(std::string key) -> std::optional<std::string>
