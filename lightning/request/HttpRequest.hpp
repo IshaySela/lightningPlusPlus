@@ -70,8 +70,8 @@ namespace lightning
          * @param requestLine The raw request line read from the client.
          * @return HttpRequest
          */
-        static auto createRequest(std::string request) -> HttpRequest;
-        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest;
+        static auto createRequest(std::string request) -> std::optional<HttpRequest>;
+        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> std::optional<HttpRequest>;
 
         using RequestLine = struct RequestLine
         {

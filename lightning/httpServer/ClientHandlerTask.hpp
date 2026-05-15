@@ -2,13 +2,12 @@
 #include <functional>
 #include <memory>
 #include "MiddlewareContainer.hpp"
-#include "../request/HttpRequest.hpp"
 #include "../IClient.hpp"
 namespace lightning
 {
     class HttpServer;
     /**
-    * @brief The class ClienetHandlerTask fulfills the constraint Task<T>, and is passed to TaskExecutor::add_task.
+    * @brief The class ClientHandlerTask fulfills the constraint Task<T>, and is passed to TaskExecutor::add_task.
     * The operator() is invoked by TaskExecutor, then the following code executes:
     * 
     * @li The pre middleware chain is called with the httprequest.
