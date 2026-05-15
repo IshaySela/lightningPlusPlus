@@ -17,9 +17,9 @@
 #include "../LowLevelSocketServer.hpp"
 #include "MiddlewareContainer.hpp"
 #include "ClientHandlerTask.hpp"
-
 namespace lightning
 {
+    class ClientHandlerTask;
     const std::optional<HttpResponse> Continue = std::nullopt;
 
     class HttpServer
@@ -117,7 +117,6 @@ namespace lightning
          */
         auto usePreMiddleware(DefaultPreMiddlewareType middleware) -> void;
     private:
-        auto sendInternalServerError(stream::IStream& stream) -> void;
         std::unique_ptr<ILowLevelSocketServer> lowLevelServer;
         HttpServer::ResolversMap resolvers;
         Resolver defaultGetResolver;

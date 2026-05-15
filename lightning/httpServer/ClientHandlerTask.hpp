@@ -1,12 +1,12 @@
 #pragma once
+#include <functional>
 #include <memory>
 #include "MiddlewareContainer.hpp"
 #include "../request/HttpRequest.hpp"
-#include "../response/HttpResponse.hpp"
 #include "../IClient.hpp"
-
 namespace lightning
 {
+    class HttpServer;
     /**
     * @brief The class ClienetHandlerTask fulfills the constraint Task<T>, and is passed to TaskExecutor::add_task.
     * The operator() is invoked by TaskExecutor, then the following code executes:
@@ -24,15 +24,20 @@ namespace lightning
     class ClientHandlerTask
     {
     public:
-        ClientHandlerTask(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request, MiddlewareContainer<>* middlewareChains);
+        ClientHandlerTask(std::unique_ptr<IClient> client, std::reference_wrapper<HttpServer> server, MiddlewareContainer<>* middlewareChains);
         /**
         * @brief Call resolver and both middleware chains, and send the response to the client.
         */
         auto operator()() -> void;
     private:
+        static const std::vector<char> INTERNAL_SERVER_ERROR;
+        static const std::vector<char> BAD_REQUEST_ERROR;
+
         std::unique_ptr<IClient> client;
-        Resolver resolver;
-        HttpRequest request;
+        std::reference_wrapper<HttpServer> server;
         MiddlewareContainer<>* middlewares;
+
+        auto getTimeSinceEpoch() -> std::uint64_t;
+        auto sendInternalServerError(stream::IStream& stream) -> void;
     };
 }
