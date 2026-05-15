@@ -1,6 +1,5 @@
 #include "lightning/httpServer/ClientHandlerTask.hpp"
 #include "lightning/LowLevelApiException.hpp"
-#include "lightning/OpensslErrorQueueException.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
 #include <functional>
