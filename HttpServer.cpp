@@ -1,7 +1,5 @@
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/LowLevelApiException.hpp"
 #include "lightning/httpServer/ClientHandlerTask.hpp"
-#include <fstream>
 #include <openssl/err.h>
 
 namespace lightning
