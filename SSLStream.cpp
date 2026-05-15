@@ -2,6 +2,7 @@
 #include "lightning/LowLevelApiException.hpp"
 #include "lightning/OpensslErrorQueueException.hpp"
 #include <openssl/err.h>
+#include <sys/socket.h>
 
 namespace lightning::stream
 {
@@ -160,8 +161,19 @@ namespace lightning::stream
 
     auto SSLStream::close() -> void
     {
-        SSL_shutdown(this->ssl);
+        if (!SSL_is_init_finished(this->ssl))
+            return;
 
+        int ret = SSL_shutdown(this->ssl);
+
+        if (ret == 0)
+        {
+            struct timeval tv { .tv_sec = 3, .tv_usec = 0 };
+            setsockopt(SSL_get_fd(this->ssl), SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+
+            char drain[256];
+            while (SSL_read(this->ssl, drain, sizeof(drain)) > 0) {}
+        }
         // The SSLStream class is not responsible for freeing
         // the ssl object. The entity that has provided the SSL* should own the object and free it.
         // SSL_free(this->ssl);
