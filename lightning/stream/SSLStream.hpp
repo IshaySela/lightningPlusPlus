@@ -31,7 +31,7 @@ namespace lightning::stream
          * @param bytesRead The amount of bytes that where read from the leftover vector.
          * @return std::vector<char> vector of chars that will at least be size of amount.
          */
-        auto readFromLevtover(int amount, int &bytesRead) -> std::vector<char>;
+        auto readFromLeftover(int amount, int &bytesRead) -> std::vector<char>;
 
     public:
         static constexpr int SSL_NO_ERROR = 1;

@@ -23,7 +23,7 @@ namespace lightning
     class ClientHandlerTask
     {
     public:
-        ClientHandlerTask(std::unique_ptr<IClient> client, std::reference_wrapper<HttpServer> server, MiddlewareContainer<>* middlewareChains);
+        ClientHandlerTask(std::unique_ptr<IClient> client, std::reference_wrapper<HttpServer> server);
         /**
         * @brief Call resolver and both middleware chains, and send the response to the client.
         */
@@ -34,7 +34,6 @@ namespace lightning
 
         std::unique_ptr<IClient> client;
         std::reference_wrapper<HttpServer> server;
-        MiddlewareContainer<>* middlewares;
 
         auto getTimeSinceEpoch() -> std::uint64_t;
         auto sendInternalServerError(stream::IStream& stream) -> void;

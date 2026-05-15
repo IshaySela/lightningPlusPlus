@@ -13,7 +13,7 @@ namespace lightning::stream
     auto SSLStream::read(int amount) -> std::vector<char>
     {
         int bytesReadFromLeftover = 0;
-        std::vector<char> buffer = readFromLevtover(amount, bytesReadFromLeftover);
+        std::vector<char> buffer = readFromLeftover(amount, bytesReadFromLeftover);
 
         int totalReadBytes = bytesReadFromLeftover; // Store the amount that was read from the socket.
         int chunkRead = 0;                          // The amount of bytes that where read in the current call.
@@ -57,7 +57,7 @@ namespace lightning::stream
         while (readResult == SSLStream::SSL_NO_ERROR && !foundToken)
         {
             readResult = SSL_read_ex(this->ssl, reinterpret_cast<void*>(chunk.data()), 1024, &chunkBytesRead);
-            const auto caputredErrno = errno;
+            const auto capturedErrno = errno;
             
             if (readResult < SSLStream::SSL_NO_ERROR)
             {
@@ -106,7 +106,7 @@ namespace lightning::stream
 
     auto SSLStream::handleReadError(int ret) -> void
     {
-        const auto caputredErrno = errno;
+        const auto capturedErrno = errno;
         auto sslError = SSL_get_error(this->ssl, ret);
 
         switch (sslError)
@@ -118,7 +118,7 @@ namespace lightning::stream
              * error. If this error occurs then no further I/O operations should be performed on the connection and SSL_shutdown() must not be called.
              *
              */
-            throw lightning::OpenSslErrorQueueException("SSL_ERROR_SSL", sslError, caputredErrno);
+            throw lightning::OpenSslErrorQueueException("SSL_ERROR_SSL", sslError, capturedErrno);
         case SSL_ERROR_WANT_READ:
             break;
         case SSL_ERROR_SYSCALL:
@@ -128,7 +128,7 @@ namespace lightning::stream
              * must not be called.
              * This value can also be returned for other errors, check the error queue for details.
              */
-            throw lightning::OpenSslErrorQueueException("SSL_ERROR_SYSCALL", sslError, caputredErrno);
+            throw lightning::OpenSslErrorQueueException("SSL_ERROR_SYSCALL", sslError, capturedErrno);
         case SSL_ERROR_WANT_ACCEPT:
             break;
         case SSL_ERROR_WANT_ASYNC_JOB:
@@ -138,7 +138,7 @@ namespace lightning::stream
         }
     }
 
-    auto SSLStream::readFromLevtover(int amount, int& bytesRead) -> std::vector<char>
+    auto SSLStream::readFromLeftover(int amount, int& bytesRead) -> std::vector<char>
     {
         std::vector<char> buffer(amount);
         bytesRead = 0;

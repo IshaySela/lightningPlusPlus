@@ -5,7 +5,6 @@
 #include <openssl/md5.h>
 #include <lightning/middlewares/middlewares.hpp>
 #include <string>
-#include <format>
 #include <lightning/PlainServer.hpp>
 #include "nlohmann/json.hpp"
 
@@ -25,7 +24,17 @@ auto main() -> int
         std::cout << "Handling request for " << request.getRawUri() << "With content length" << contentLengthHeader.value_or("no_header_set") << '\n';
         
         auto body = request.getBody();
-        std::string resp = "hello!";
+        std::string resp;
+        auto obj = nlohmann::json::parse(body.begin(), body.end());
+        
+        if (obj.contains("name"))
+        {
+            resp = "hello " + obj["name"].get<std::string>() + "!";
+        }
+        else
+        {
+            resp = "Hello! Please provide a name in the body as json!";
+        }
 
         return lightning::HttpResponseBuilder::create()
             .withBody(resp)

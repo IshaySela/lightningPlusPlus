@@ -18,10 +18,9 @@ namespace lightning
         .toHttpResponse();
 
 
-    ClientHandlerTask::ClientHandlerTask(std::unique_ptr<IClient> client, std::reference_wrapper<HttpServer> server, MiddlewareContainer<>* middlewareChains)
+    ClientHandlerTask::ClientHandlerTask(std::unique_ptr<IClient> client, std::reference_wrapper<HttpServer> server)
         : client(std::move(client)),
-        server(server),
-        middlewares(middlewareChains)
+        server(server)
     {
     }
     auto ClientHandlerTask::operator()() -> void
@@ -30,7 +29,7 @@ namespace lightning
         uint64_t requestArrivalTime = this->getTimeSinceEpoch();
 
         std::vector<char> requestBuffer;
-
+        
         try
         {
             requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
@@ -61,34 +60,16 @@ namespace lightning
         auto resolver = this->server.get()
             .getResolver(request.value().getMethod(), request.value().getRawUri(), matchedRegex)
             .value_or(HttpServer::defaultResolver);
-
+        
+        // inject framework info to the request, so it will be available for the resolver and the middleware.
         request.value().getFrameworkInfo() = FrameworkInfo{ .matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime };
-
-            
-        // This is needs to be done on the working thread
-        // And can only be done after frameworkInfo was injected.
         request.value().computeUriParameters();
         request.value().setStream(&this->client->getStream());
         std::optional<HttpResponse> preMiddlewareResult;
 
-        for (auto& currPreMiddleware : this->middlewares->getPreMiddlewares())
-        {
-            preMiddlewareResult = currPreMiddleware(request.value());
-            
-            if (preMiddlewareResult.has_value())
-                break;
-        }
+        
+        auto response = resolver(request.value());
 
-        // If one of the pre middleware has returned a response, 
-        // ues that response instead.
-        auto response = preMiddlewareResult.has_value() ? preMiddlewareResult.value() : resolver(request.value());
-
-        for (auto& post : this->middlewares->getPostMiddlewares())
-        {
-            if (!post(response)) {
-                break;
-            }
-        }
         response.setHeader("Connection", "close");
         auto responseBuffer = response.toHttpResponse();
         this->client->getStream().write(responseBuffer.data(), responseBuffer.size());

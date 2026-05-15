@@ -34,7 +34,7 @@ namespace lightning
         {
             std::unique_ptr<IClient> client = this->lowLevelServer->accept();
             
-            this->tasks.add_task(ClientHandlerTask(std::move(client), *this, &this->middlewares));
+            this->tasks.add_task(ClientHandlerTask(std::move(client), *this));
             
 
             std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;
