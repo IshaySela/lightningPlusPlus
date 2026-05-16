@@ -1,6 +1,5 @@
 #pragma once
 #include <unordered_map>
-#include <regex>
 #include <optional>
 #include "../lightning.hpp"
 
@@ -9,7 +8,7 @@ namespace lightning
     /**
      * @brief Map uri to a resolver, support for regex and advanced matching
      * Examples:
-     * For a uri mapper that contains the following keys - { '/test', '*', '/test/*' }
+     * For a uri mapper that contains the following keys - { '/test', '*', '/test / *' }
      */
     class UriMapper
     {
@@ -17,7 +16,7 @@ namespace lightning
         std::unordered_map<std::string, Resolver> resolvers;
 
         /**
-         * @brief Search for the wildcard string /* and return its index.
+         * @brief Search for the wildcard string / * and return its index.
          * Return string::npos if the string does not exists.
          * 
          * @param uri The uri to search in.
@@ -37,10 +36,10 @@ namespace lightning
         static auto createExactMatch(std::string uri) -> std::string;
 
         /**
-         * @brief Convert a uri with wildcard /* to the regex equivelent.
+         * @brief Convert a uri with wildcard / * to the regex equivelent.
          * 
-         * /test/* -> ^\/test(\/.*|$) = /test or /test/<any character set possible>
-         * /test/* /hello -> ^\/test(\/.*|$)\/hello = /test/<any character set possible>/hello
+         * /test/ * -> ^\/test(\/.*|$) = /test or /test/<any character set possible>
+         * /test/ * /hello -> ^\/test(\/.*|$)\/hello = /test/<any character set possible>/hello
          * 
          * @param uri The uri with the wildcard that is used to construct the regex.
          * @return std::string The constructed regex.
@@ -55,7 +54,7 @@ namespace lightning
          * If a wildcard is detected at the end of the uri, the the $ will be dropped,
          * and the uri iteself will be valid:
          *
-         * "/test/*" -> "^\/test\/(.*)|^\/test" ; The string /test/ and then any string, or the string '/test/ iteself.
+         * "/test/ *" -> "^\/test\/(.*)|^\/test" ; The string /test/ and then any string, or the string '/test/ itself.
          *
          * Note: The order of UriMapper::add is important. If 2 expressions
          * will result in a match, the latter experssion will be resolved since it will be stored before it in the 

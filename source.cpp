@@ -42,7 +42,7 @@ auto main() -> int
 
     server.post("/", benchmark);
 
-    std::cout << "Server has started on port " << 8080 << '\n';
+    std::cout << "Server started on port " << 8080 << '\n';
     server.start();
 
     return 0;
