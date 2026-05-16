@@ -1,4 +1,5 @@
 #include "lightning/httpServer/ServerBuilder.hpp"
+#include "lightning/PlainServer.hpp"
 #include "lightning/SSLServer.hpp"
 
 namespace lightning
@@ -38,7 +39,7 @@ namespace lightning
     auto ServerBuilder::build() -> HttpServer
     {
         if(this->underlyingServer.get() == nullptr)
-            throw std::runtime_error("Error: a call to ServerBuilder::withUnderlyingServer must occur in order to build HttpServer.");
+            this->underlyingServer = std::make_unique<PlainServer>(this->port);
 
         return HttpServer(std::move(this->underlyingServer), this->threadCount);
     }

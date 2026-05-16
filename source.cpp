@@ -14,7 +14,6 @@ constexpr const char* PrivateKeyPath = "/home/ishay/projects/lightningPlusPlus/t
 auto main() -> int
 {
     auto server = lightning::ServerBuilder::createNew(8080)
-        .withUnderlyingServer(std::make_unique<lightning::PlainServer>(8080))
         .withThreads(7)
         .build();
 
