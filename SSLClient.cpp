@@ -16,4 +16,9 @@ namespace lightning
         return this->sslStream;
     }
 
+    auto SSLClient::getFd() -> int
+    {
+        return this->rawFd;
+    }
+
 } // namespace lightning

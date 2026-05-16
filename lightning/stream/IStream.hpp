@@ -47,6 +47,8 @@ namespace lightning::stream
          */
         virtual auto setTimeout(int seconds) -> void = 0;
 
+        virtual auto injectBuffer(std::vector<char> data) -> void {}
+
         virtual ~IStream() = default;
     };
 

@@ -9,6 +9,7 @@ namespace lightning
     public:
         PlainClient(int fd);
         auto getStream() -> stream::PlainStream& override;
+        auto getFd() -> int override;
         ~PlainClient() = default;
 
     private:
