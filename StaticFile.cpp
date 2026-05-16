@@ -34,7 +34,10 @@ namespace lightning::handlers
     {
         const auto resolver = [folderPath, notFoundResolver](HttpRequest request) -> HttpResponse
         {
-            std::string path = folderPath + *(request.getUriParameters().end() - 1); // TODO: Add feature to ignore the query string at the end.
+            // TODO: Add feature to ignore the query string at the end.
+            // THIS IS UNSAFE. if the user passes ../ in the raw uri, he can view every file
+            // on the machine.
+            std::string path = folderPath + request.getRawUri(); 
 
             std::ifstream file(path);
 

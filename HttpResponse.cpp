@@ -24,12 +24,12 @@ namespace lightning
         return (*it).second;
     }
 
-    auto HttpResponse::getStatusLine() -> StatusLine &
+    auto HttpResponse::getStatusLine() -> StatusLine&
     {
         return this->statusLine;
     }
 
-    auto HttpResponse::getHeaders() -> HeadersMap &
+    auto HttpResponse::getHeaders() -> HeadersMap&
     {
         return this->headers;
     }
@@ -39,7 +39,7 @@ namespace lightning
         std::stringstream responseBuffer;
         responseBuffer << this->statusLine.createStatusLine();
 
-        for (auto &[key, value] : this->headers)
+        for (auto& [key, value] : this->headers)
         {
             responseBuffer << key << ':' << value << "\r\n";
         }
@@ -53,8 +53,17 @@ namespace lightning
         }
 
         auto buffer = responseBuffer.str();
-   
+
         return std::vector<char>(buffer.begin(), buffer.end());
     }
 
+    auto HttpResponse::getBody() const -> const std::vector<char>&
+    {
+        return this->body;
+    }
+
+    HttpResponse::operator std::optional<HttpResponse>()
+    {
+        return std::optional<HttpResponse>(*this);
+    }
 }

@@ -1,11 +1,13 @@
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/LowLevelApiException.hpp"
-#include <fstream>
+#include "lightning/httpServer/ClientHandlerTask.hpp"
+#include <openssl/err.h>
 
 namespace lightning
 {
-    const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer &)
+
+    const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer&)
     { return false; };
+    
 
     const Resolver HttpServer::defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
     {
@@ -19,41 +21,22 @@ namespace lightning
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
         {
-            auto &method = HttpProtocol::supportedHttpMethods[i];
+            auto& method = HttpProtocol::supportedHttpMethods[i];
 
-            this->resolvers.insert({method, UriMapper()});
+            this->resolvers.insert({ method, UriMapper() });
         }
     }
 
     auto HttpServer::start(ShouldStopPredicate shouldStop) -> void
     {
+        
         do
         {
             std::unique_ptr<IClient> client = this->lowLevelServer->accept();
-            uint64_t requestArrivalTime = HttpServer::getTimeSinceEpoch();
-            std::string matchedRegex;
-
-            std::vector<char> requestBuffer;
-
-            try
-            {
-                requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
-            }
-            catch (const LowLevelApiException &e)
-            {
-                client->getStream().close();
-                continue;
-            }
-
-            lightning::HttpRequest request = lightning::HttpRequest::createRequest(requestBuffer.begin(), requestBuffer.end());
-
-            auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
-
-            request.getFrameworkInfo() = lightning::FrameworkInfo{.matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime};
-
-            auto test = ResolveAndSend(std::move(client), resolver, request);
-            this->tasks.add_task(std::move(test));
             
+            this->tasks.add_task(ClientHandlerTask(std::move(client), *this));
+            
+
             std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;
         } while (!shouldStop(*this));
     }
@@ -92,7 +75,7 @@ namespace lightning
 
         this->resolvers.at(methodString).add(uri, resolver);
     }
-    auto HttpServer::getResolver(std::string method, std::string uri, std::string &regexUri) -> std::optional<Resolver>
+    auto HttpServer::getResolver(std::string method, std::string uri, std::string& regexUri) -> std::optional<Resolver>
     {
         auto methodMap = this->resolvers.find(method);
 
@@ -120,26 +103,20 @@ namespace lightning
         return this->getResolver(method, uri, discard);
     }
 
-    void HttpServer::ResolveAndSend::operator()()
-    {
-        // Here all of the middlewares (future) and pre resolve tasks execute
-
-        // This is needs to be done on the working thread
-        // And can only be done after frameworkInfo was injected.
-        request.computeUriParameters();
-
-        auto response = this->resolver(request).toHttpResponse();
-        this->client->getStream().write(response.data(), response.size());
-    }
-
-    HttpServer::ResolveAndSend::ResolveAndSend(std::unique_ptr<IClient> client, Resolver resolver, HttpRequest request) : client(std::move(client)), resolver(resolver), request(request)
-    {
-    }
 
     auto HttpServer::getTimeSinceEpoch() -> std::uint64_t
     {
         return std::chrono::duration_cast<std::chrono::milliseconds>(
-                   std::chrono::system_clock::now().time_since_epoch())
+            std::chrono::system_clock::now().time_since_epoch())
             .count();
+    }
+
+    auto HttpServer::usePreMiddleware(DefaultPreMiddlewareType middleware) -> void
+    {
+        this->middlewares.addPre(middleware);
+    }
+    auto HttpServer::usePostMiddleware(DefaultPostMiddlewareType middleware) -> void
+    {
+        this->middlewares.addPost(middleware);
     }
 }

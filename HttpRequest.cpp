@@ -1,5 +1,6 @@
 #include "lightning/request/HttpRequest.hpp"
 #include <cstring>
+#include <optional>
 #include <sstream>
 #include <array>
 #include <regex>
@@ -52,7 +53,8 @@ namespace lightning
 
     auto HttpRequest::parseRequestLine(std::string requestLine) -> HttpRequest::RequestLine
     {
-        std::string method, uri, version, delimiter = " ";
+        static const std::string delimiter = " ";
+        std::string method, uri, version;
         int offset = 0;
 
         method = getNextToken(requestLine, delimiter, offset, offset);
@@ -84,13 +86,13 @@ namespace lightning
         return headersMap;
     }
 
-    auto HttpRequest::createRequest(std::string request) -> HttpRequest
+    auto HttpRequest::createRequest(std::string request) -> std::optional<HttpRequest>
     {
         int requestLineEnd = request.find(lightning::CRLF);
 
         if (requestLineEnd == std::string::npos)
         {
-            throw std::runtime_error("Invalid request sent by client");
+            return {};
         }
 
         auto [method, uri, version] = parseRequestLine(std::string(request.begin(), request.begin() + requestLineEnd));
@@ -102,7 +104,7 @@ namespace lightning
         return HttpRequest(method, uri, version, headers, FrameworkInfo{.matchedRegex = "", .requestArrivalTime = 0});
     }
 
-    auto HttpRequest::createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest
+    auto HttpRequest::createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> std::optional<HttpRequest>
     {
         return HttpRequest::createRequest(std::string(beg, end));
     }
@@ -146,6 +148,34 @@ namespace lightning
     auto HttpRequest::getHeaders() -> HeadersMap&
     {
         return this->headers;
+    }
+
+    auto HttpRequest::setStream(stream::IStream* stream) -> void
+    {
+        this->stream = stream;
+    }
+
+    auto HttpRequest::getBody() -> std::vector<char>
+    {
+        if (this->stream == nullptr)
+            return {};
+
+        auto contentLengthHeader = getHeader("Content-Length");
+        if (!contentLengthHeader.has_value())
+            return {};
+
+        int contentLength = std::stoi(contentLengthHeader.value());
+        if (contentLength <= 0)
+            return {};
+
+        auto body = this->stream->read(contentLength);
+        this->bodyRead = true;
+        return body;
+    }
+
+    auto HttpRequest::isBodyRead() -> bool
+    {
+        return this->bodyRead;
     }
     
     auto HttpRequest::getHeader(std::string key) -> std::optional<std::string>

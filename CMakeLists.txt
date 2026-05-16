@@ -3,35 +3,55 @@ cmake_minimum_required(VERSION 3.21.4)
 project(http)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(PROJECT_SOURCE_FILES
+./lightning/sockets.hpp ./sockets.cpp
+./lightning/SSLServer.hpp ./SSLServer.cpp
+./lightning/LowLevelApiException.hpp ./LowLevelApiException.cpp
+./lightning/SmartResource.hpp ./SmartResource.cpp
+./lightning/OpensslErrorQueueException.hpp ./OpensslErrorQueueException.cpp
+./lightning/IClient.hpp
+./lightning/SSLClient.hpp ./SSLClient.cpp
+./lightning/stream/IStream.hpp
+./lightning/stream/SSLStream.hpp ./SSLStream.cpp
+./lightning/stream/PlainStream.hpp ./PlainStream.cpp
 
-add_library(http STATIC
-    ./lightning/sockets.hpp ./sockets.cpp
-    ./lightning/SSLServer.hpp ./SSLServer.cpp
-    ./lightning/LowLevelApiException.hpp ./LowLevelApiException.cpp
-    ./lightning/SmartResource.hpp ./SmartResource.cpp
-    
-    ./lightning/IClient.hpp
-    ./lightning/SSLClient.hpp ./SSLClient.cpp
-    ./lightning/stream/IStream.hpp
-    ./lightning/stream/SSLStream.hpp ./SSLStream.cpp
+./lightning/PlainClient.hpp ./PlainClient.cpp
+./lightning/PlainServer.hpp ./PlainServer.cpp
 
-    ./lightning/request/HttpRequest.hpp ./HttpRequest.cpp
-    ./lightning/request/FrameworkInfo.hpp
-    ./lightning/response/HttpResponse.hpp ./HttpResponse.cpp
-    ./lightning/response/StatusLine.hpp
-    ./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp
-    ./lightning/HttpProtocol.hpp
-    ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
-    ./lightning/httpServer/ServerBuilder.hpp ./ServerBuilder.cpp
-    ./lightning/LowLevelSocketServer.hpp
+./lightning/request/HttpRequest.hpp ./HttpRequest.cpp
+./lightning/request/FrameworkInfo.hpp
+./lightning/response/HttpResponse.hpp ./HttpResponse.cpp
+./lightning/response/StatusLine.hpp
+./lightning/response/HttpResponseBuilder.hpp ./HttpResponseBuilder.cpp
+./lightning/HttpProtocol.hpp
+./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
+./lightning/httpServer/MiddlewareContainer.hpp
+./lightning/httpServer/ClientHandlerTask.hpp ./ClientHandlerTask.cpp
+./lightning/httpServer/ServerBuilder.hpp ./ServerBuilder.cpp
+./lightning/LowLevelSocketServer.hpp
 
-    ./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
-    ./lightning/uriMapper/Strings.hpp ./Strings.cpp
+./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
+./lightning/uriMapper/Strings.hpp ./Strings.cpp
 
-    ./lightning/TaskExecutor.hpp
+./lightning/TaskExecutor.hpp
 
-    ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
+./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
+
+./lightning/middlewares/useFolder.hpp
+./lightning/middlewares/addHeaderToResponse.hpp
+ )
+
+add_executable(
+  http
+  ./source.cpp
+  ${PROJECT_SOURCE_FILES}
+)
+
+add_library(
+  httpServer
+  ${PROJECT_SOURCE_FILES}
 )
 
 find_package(OpenSSL REQUIRED)

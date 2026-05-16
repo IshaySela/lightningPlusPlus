@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-
+.editorconfig
 /build
 /cert
 /tests
@@ -38,3 +38,17 @@
 /unit-tests/build/*
 /doxygen/*
 !/doxygen/.gitkeep
+.vscode/*
+
+# clangd
+.cache/*
+
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+CMakeFiles/*
+# output binary
+http

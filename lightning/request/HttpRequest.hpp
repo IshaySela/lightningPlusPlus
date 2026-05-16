@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-#include <unordered_map>
 #include <vector>
 #include <optional>
 #include "../lightning.hpp"
+#include "../stream/IStream.hpp"
 #include "FrameworkInfo.hpp"
 
 namespace lightning
@@ -18,6 +18,8 @@ namespace lightning
         FrameworkInfo frameworkInfo;
 
         HeadersMap headers;
+        stream::IStream* stream = nullptr;
+        bool bodyRead = false;
 
         /**
          * @brief Parse the line and retrive every character from the offset until reaching the delimiter.
@@ -48,8 +50,18 @@ namespace lightning
          */
         auto getHeader(std::string key) -> std::optional<std::string>;
 
+        auto setStream(stream::IStream* stream) -> void;
+
         /**
-         * @brief Calculate the uri paramters.
+         * @brief Read the request body using the Content-Length header.
+         * Returns an empty vector if no stream is set or Content-Length is absent.
+         */
+        auto getBody() -> std::vector<char>;
+        
+        auto isBodyRead() -> bool;
+        
+        /**
+         * @brief Calculate the uri parameters.
          */
         auto computeUriParameters() -> void;
 
@@ -60,8 +72,8 @@ namespace lightning
          * @param requestLine The raw request line read from the client.
          * @return HttpRequest
          */
-        static auto createRequest(std::string request) -> HttpRequest;
-        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest;
+        static auto createRequest(std::string request) -> std::optional<HttpRequest>;
+        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> std::optional<HttpRequest>;
 
         using RequestLine = struct RequestLine
         {

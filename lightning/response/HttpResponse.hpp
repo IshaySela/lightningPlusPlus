@@ -21,17 +21,28 @@ namespace lightning
 
         auto setHeader(std::string key, std::string value) -> void;
 
-        auto getHeader(std::string key) -> std::optional<std::string>;
+        auto getHeader(std::string key)->std::optional<std::string>;
 
-        auto getStatusLine() -> StatusLine &;
-        auto getHeaders() -> HeadersMap &;
-    
+        auto getStatusLine()->StatusLine&;
+        auto getHeaders()->HeadersMap&;
+
+        auto getBody() const -> const std::vector<char>&;
+
         /**
          * @brief Convert the response to a http response, as sepcified in https://www.rfc-editor.org/rfc/rfc2616.html#section-6
-         * 
+         *
          * @return std::vector<char> The raw buffer containing the response.
          */
-        auto toHttpResponse() -> std::vector<char>;
+        auto toHttpResponse()->std::vector<char>;
+
+        /**
+         * @brief Creates a copy of the request as std::optional<HttpRequest>
+         * this is mainly created for middleware to return the httpresponse without explictly 
+         * converting it to std::optional.
+         * 
+         * @return std::optional<HttpResponse> 
+         */
+        operator std::optional<HttpResponse>();
     };
 
 } // namespace lightning

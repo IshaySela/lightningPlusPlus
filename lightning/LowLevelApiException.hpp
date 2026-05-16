@@ -11,11 +11,12 @@ namespace lightning
          * @brief Describe a general error that has occured while consuming a low level C API.
          * 
          * @param msg The message string to pass to runtime_error.
-         * @param errorCode The error code for the exception.
+         * @param appErrorCode The error code for the exception.
+         * @param capturedErrno The errno value of the error
          */
-        LowLevelApiException(const char *msg, int errorCode);
-        const char *what() const noexcept override;
+        LowLevelApiException(const char *msg, int appErrorCode, int capturedErrno = 0);
 
-        const int errorCode;
+        const int appErrorCode;
+        const int capturedErrno;
     };
 }
