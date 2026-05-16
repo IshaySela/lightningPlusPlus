@@ -35,7 +35,7 @@ add_executable(httpTests
 target_link_libraries(
   httpTests
   gmock_main
-  http)
+  httpServer)
 
 
 

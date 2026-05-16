@@ -55,7 +55,7 @@ TEST(HttpRequest, RequestParsingHappyPath)
     lightning::HttpRequest request = createEmptyHttpRequest();
 
     ASSERT_NO_THROW({
-        request = lightning::HttpRequest::createRequest(regularRawHttpRequest);
+        request = lightning::HttpRequest::createRequest(regularRawHttpRequest).value();
     });
 
     lightning::HeadersMap expctedHeaders{{"First-Header", "value"}};
@@ -161,13 +161,12 @@ TEST(ServerBuilder, TestBadArguments)
     },
                  std::runtime_error);
 
-    // Test call to build without calling withUnderlyingServer.
-    EXPECT_THROW({
+    // build() without withUnderlyingServer defaults to PlainServer, so no throw.
+    EXPECT_NO_THROW({
         lightning::ServerBuilder::createNew(8080)
             .withThreads(1)
             .build();
-    },
-                 std::runtime_error);
+    });
 }
 
 auto main(int argc, char *argv[]) -> int

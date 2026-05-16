@@ -56,6 +56,7 @@ add_library(
 
 find_package(OpenSSL REQUIRED)
 target_link_libraries(http OpenSSL::SSL)
+target_link_libraries(httpServer OpenSSL::SSL)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
