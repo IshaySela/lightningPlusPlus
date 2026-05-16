@@ -1,7 +1,9 @@
 #include "lightning/httpServer/ClientHandlerTask.hpp"
 #include "lightning/LowLevelApiException.hpp"
+#include "lightning/response/HttpResponse.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
+#include <cerrno>
 #include <functional>
 #include <string>
 
@@ -26,59 +28,37 @@ namespace lightning
     }
     auto ClientHandlerTask::operator()() -> void
     {
-        std::string matchedRegex;
         uint64_t requestArrivalTime = 0;
         bool connectionKeepAlive = false;
-        std::vector<char> requestBuffer;
-        
+
         do {
             requestArrivalTime = this->getTimeSinceEpoch();
-            try
-            {
-                requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
-            }
-            catch (const LowLevelApiException& e)
-            {
-                std::cout << "Low level api error was caught: " << e.what() << "closing gracefully\n";
-                client.get()->getStream().close();
-                ERR_print_errors_fp(stderr);
+            auto requestBuffer = readRequest(connectionKeepAlive);
+            if (!requestBuffer)
                 return;
-            }
-            catch (const std::runtime_error& e)
-            {
-                this->sendInternalServerError(client->getStream());
-                return;
-            }
-            
-            std::optional<HttpRequest> request = HttpRequest::createRequest(requestBuffer.begin(), requestBuffer.end());;
+
+            std::optional<HttpRequest> request = HttpRequest::createRequest(requestBuffer->begin(), requestBuffer->end());;
             
             if (!request.has_value())
             {
                 this->sendBadRequestError(client->getStream());
                 return;
             }
-            
 
-            auto resolver = this->server.get()
-                .getResolver(request.value().getMethod(), request.value().getRawUri(), matchedRegex)
-                .value_or(HttpServer::defaultResolver);
             
-            // inject framework info to the request, so it will be available for the resolver and the middleware.
-            request.value().getFrameworkInfo() = FrameworkInfo{ .matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime };
-            request.value().computeUriParameters();
-            request.value().setStream(&this->client->getStream());
             std::optional<std::string> connectionHeader = request.value().getHeader("Connection");
             
             if (!connectionKeepAlive && connectionHeader.has_value() && connectionHeader.value() == "keep-alive")
             {
                 connectionKeepAlive = true;
+                client->getStream().setTimeout(3);
             }
             else if (connectionHeader.has_value() && connectionHeader.value() == "close")
             {
                 connectionKeepAlive = false;
             }
 
-            auto response = resolver(request.value());
+            auto response = runRequestResolver(request.value(), requestArrivalTime);
 
             response.setHeader("Connection", connectionKeepAlive ? "keep-alive" : "close");
             auto responseBuffer = response.toHttpResponse();
@@ -95,6 +75,36 @@ namespace lightning
             .count();
     }
 
+    auto ClientHandlerTask::readRequest(bool connectionKeepAlive) -> std::optional<std::vector<char>>
+    {
+        try
+        {
+            return client->getStream().readUntilToken("\r\n\r\n");
+        }
+        catch (const LowLevelApiException& e)
+        {
+            handleLowLevelApiError(e, connectionKeepAlive);
+            return std::nullopt;
+        }
+        catch (const std::runtime_error& e)
+        {
+            sendInternalServerError(client->getStream());
+            return std::nullopt;
+        }
+    }
+
+    auto ClientHandlerTask::handleLowLevelApiError(const LowLevelApiException& e, bool connectionKeepAlive) -> void
+    {
+        if (connectionKeepAlive && (e.capturedErrno == EAGAIN || e.capturedErrno == EWOULDBLOCK))
+        {
+            client->getStream().close();
+            return;
+        }
+        std::cout << "Low level api error was caught: " << e.what() << " closing gracefully\n";
+        client->getStream().close();
+        ERR_print_errors_fp(stderr);
+    }
+
     auto ClientHandlerTask::sendInternalServerError(stream::IStream& stream) -> void
     {
         stream.write(INTERNAL_SERVER_ERROR.data(), INTERNAL_SERVER_ERROR.size());
@@ -105,5 +115,20 @@ namespace lightning
     {
         stream.write(BAD_REQUEST_ERROR.data(), BAD_REQUEST_ERROR.size());
         stream.close();
+    }
+
+    auto ClientHandlerTask::runRequestResolver(HttpRequest& request, std::uint64_t requestArrivalTime) -> HttpResponse
+    {
+        std::string matchedRegex;
+
+        auto resolver = this->server.get()
+            .getResolver(request.getMethod(), request.getRawUri(), matchedRegex)
+            .value_or(HttpServer::defaultResolver);
+        
+        // inject framework info to the request, so it will be available for the resolver and the middleware.
+        request.getFrameworkInfo() = FrameworkInfo{ .matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime };
+        request.computeUriParameters();
+        request.setStream(&this->client->getStream());
+        return resolver(request);
     }
 } // namespace lightning

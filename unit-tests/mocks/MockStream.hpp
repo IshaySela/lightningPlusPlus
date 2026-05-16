@@ -12,5 +12,6 @@ namespace mocks
         MOCK_METHOD(int, write, (const char *buffer, int size), (override));
         MOCK_METHOD(std::vector<char>, readUntilToken, (std::string token), (override));
         MOCK_METHOD(void, close, (), (override));
+        MOCK_METHOD(void, setTimeout, (int seconds), (override));
     };
 }
