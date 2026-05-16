@@ -36,5 +36,6 @@ namespace lightning
 
         auto getTimeSinceEpoch() -> std::uint64_t;
         auto sendInternalServerError(stream::IStream& stream) -> void;
+        auto sendBadRequestError(stream::IStream& stream) -> void;
     };
 }

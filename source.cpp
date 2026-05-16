@@ -20,9 +20,9 @@ auto main() -> int
     auto benchmark = [](lightning::HttpRequest request)
     {
         auto contentLengthHeader = request.getHeader("Content-Length");
-        std::cout << "Handling request for " << request.getRawUri() << "With content length" << contentLengthHeader.value_or("no_header_set") << '\n';
+        std::cout << "Handling request for " << request.getRawUri() << '\n';
         
-        auto body = request.getBody();
+        std::vector<char> body = request.getBody();
         std::string resp;
         auto obj = nlohmann::json::parse(body.begin(), body.end());
         

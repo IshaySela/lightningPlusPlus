@@ -27,11 +27,12 @@ namespace lightning
     auto ClientHandlerTask::operator()() -> void
     {
         std::string matchedRegex;
-        uint64_t requestArrivalTime = this->getTimeSinceEpoch();
+        uint64_t requestArrivalTime = 0;
         bool connectionKeepAlive = false;
         std::vector<char> requestBuffer;
         
         do {
+            requestArrivalTime = this->getTimeSinceEpoch();
             try
             {
                 requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
@@ -53,8 +54,7 @@ namespace lightning
             
             if (!request.has_value())
             {
-                client->getStream().write(BAD_REQUEST_ERROR.data(), BAD_REQUEST_ERROR.size());
-                client.get()->getStream().close();
+                this->sendBadRequestError(client->getStream());
                 return;
             }
             
@@ -72,6 +72,10 @@ namespace lightning
             if (!connectionKeepAlive && connectionHeader.has_value() && connectionHeader.value() == "keep-alive")
             {
                 connectionKeepAlive = true;
+            }
+            else if (connectionHeader.has_value() && connectionHeader.value() == "close")
+            {
+                connectionKeepAlive = false;
             }
 
             auto response = resolver(request.value());
@@ -94,6 +98,12 @@ namespace lightning
     auto ClientHandlerTask::sendInternalServerError(stream::IStream& stream) -> void
     {
         stream.write(INTERNAL_SERVER_ERROR.data(), INTERNAL_SERVER_ERROR.size());
+        stream.close();
+    }
+
+    auto ClientHandlerTask::sendBadRequestError(stream::IStream& stream) -> void
+    {
+        stream.write(BAD_REQUEST_ERROR.data(), BAD_REQUEST_ERROR.size());
         stream.close();
     }
 } // namespace lightning
