@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <unordered_map>
 #include <vector>
 #include <optional>
 #include "../lightning.hpp"
@@ -20,6 +19,7 @@ namespace lightning
 
         HeadersMap headers;
         stream::IStream* stream = nullptr;
+        bool bodyRead = false;
 
         /**
          * @brief Parse the line and retrive every character from the offset until reaching the delimiter.
@@ -57,7 +57,9 @@ namespace lightning
          * Returns an empty vector if no stream is set or Content-Length is absent.
          */
         auto getBody() -> std::vector<char>;
-
+        
+        auto isBodyRead() -> bool;
+        
         /**
          * @brief Calculate the uri parameters.
          */
@@ -70,8 +72,8 @@ namespace lightning
          * @param requestLine The raw request line read from the client.
          * @return HttpRequest
          */
-        static auto createRequest(std::string request) -> HttpRequest;
-        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest;
+        static auto createRequest(std::string request) -> std::optional<HttpRequest>;
+        static auto createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> std::optional<HttpRequest>;
 
         using RequestLine = struct RequestLine
         {

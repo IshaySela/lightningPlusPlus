@@ -1,5 +1,6 @@
 #include "lightning/request/HttpRequest.hpp"
 #include <cstring>
+#include <optional>
 #include <sstream>
 #include <array>
 #include <regex>
@@ -85,13 +86,13 @@ namespace lightning
         return headersMap;
     }
 
-    auto HttpRequest::createRequest(std::string request) -> HttpRequest
+    auto HttpRequest::createRequest(std::string request) -> std::optional<HttpRequest>
     {
         int requestLineEnd = request.find(lightning::CRLF);
 
         if (requestLineEnd == std::string::npos)
         {
-            throw std::runtime_error("Invalid request sent by client");
+            return {};
         }
 
         auto [method, uri, version] = parseRequestLine(std::string(request.begin(), request.begin() + requestLineEnd));
@@ -103,7 +104,7 @@ namespace lightning
         return HttpRequest(method, uri, version, headers, FrameworkInfo{.matchedRegex = "", .requestArrivalTime = 0});
     }
 
-    auto HttpRequest::createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> HttpRequest
+    auto HttpRequest::createRequest(std::vector<char>::iterator beg, std::vector<char>::iterator end) -> std::optional<HttpRequest>
     {
         return HttpRequest::createRequest(std::string(beg, end));
     }
@@ -167,7 +168,14 @@ namespace lightning
         if (contentLength <= 0)
             return {};
 
-        return this->stream->read(contentLength);
+        auto body = this->stream->read(contentLength);
+        this->bodyRead = true;
+        return body;
+    }
+
+    auto HttpRequest::isBodyRead() -> bool
+    {
+        return this->bodyRead;
     }
     
     auto HttpRequest::getHeader(std::string key) -> std::optional<std::string>

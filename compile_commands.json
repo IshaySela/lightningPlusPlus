@@ -1,0 +1,236 @@
+[
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/source.cpp.o -c /home/ishay/projects/lightningPlusPlus/source.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/source.cpp",
+  "output": "CMakeFiles/http.dir/source.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/sockets.cpp.o -c /home/ishay/projects/lightningPlusPlus/sockets.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/sockets.cpp",
+  "output": "CMakeFiles/http.dir/sockets.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/SSLServer.cpp.o -c /home/ishay/projects/lightningPlusPlus/SSLServer.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SSLServer.cpp",
+  "output": "CMakeFiles/http.dir/SSLServer.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/LowLevelApiException.cpp.o -c /home/ishay/projects/lightningPlusPlus/LowLevelApiException.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/LowLevelApiException.cpp",
+  "output": "CMakeFiles/http.dir/LowLevelApiException.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/SmartResource.cpp.o -c /home/ishay/projects/lightningPlusPlus/SmartResource.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SmartResource.cpp",
+  "output": "CMakeFiles/http.dir/SmartResource.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/OpensslErrorQueueException.cpp.o -c /home/ishay/projects/lightningPlusPlus/OpensslErrorQueueException.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/OpensslErrorQueueException.cpp",
+  "output": "CMakeFiles/http.dir/OpensslErrorQueueException.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/SSLClient.cpp.o -c /home/ishay/projects/lightningPlusPlus/SSLClient.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SSLClient.cpp",
+  "output": "CMakeFiles/http.dir/SSLClient.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/SSLStream.cpp.o -c /home/ishay/projects/lightningPlusPlus/SSLStream.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SSLStream.cpp",
+  "output": "CMakeFiles/http.dir/SSLStream.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/PlainStream.cpp.o -c /home/ishay/projects/lightningPlusPlus/PlainStream.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/PlainStream.cpp",
+  "output": "CMakeFiles/http.dir/PlainStream.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/PlainClient.cpp.o -c /home/ishay/projects/lightningPlusPlus/PlainClient.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/PlainClient.cpp",
+  "output": "CMakeFiles/http.dir/PlainClient.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/PlainServer.cpp.o -c /home/ishay/projects/lightningPlusPlus/PlainServer.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/PlainServer.cpp",
+  "output": "CMakeFiles/http.dir/PlainServer.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/HttpRequest.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpRequest.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpRequest.cpp",
+  "output": "CMakeFiles/http.dir/HttpRequest.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/HttpResponse.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpResponse.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpResponse.cpp",
+  "output": "CMakeFiles/http.dir/HttpResponse.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/HttpResponseBuilder.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpResponseBuilder.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpResponseBuilder.cpp",
+  "output": "CMakeFiles/http.dir/HttpResponseBuilder.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/HttpServer.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpServer.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpServer.cpp",
+  "output": "CMakeFiles/http.dir/HttpServer.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/ClientHandlerTask.cpp.o -c /home/ishay/projects/lightningPlusPlus/ClientHandlerTask.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/ClientHandlerTask.cpp",
+  "output": "CMakeFiles/http.dir/ClientHandlerTask.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/ServerBuilder.cpp.o -c /home/ishay/projects/lightningPlusPlus/ServerBuilder.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/ServerBuilder.cpp",
+  "output": "CMakeFiles/http.dir/ServerBuilder.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/UriMapper.cpp.o -c /home/ishay/projects/lightningPlusPlus/UriMapper.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/UriMapper.cpp",
+  "output": "CMakeFiles/http.dir/UriMapper.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/Strings.cpp.o -c /home/ishay/projects/lightningPlusPlus/Strings.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/Strings.cpp",
+  "output": "CMakeFiles/http.dir/Strings.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/http.dir/StaticFile.cpp.o -c /home/ishay/projects/lightningPlusPlus/StaticFile.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/StaticFile.cpp",
+  "output": "CMakeFiles/http.dir/StaticFile.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/sockets.cpp.o -c /home/ishay/projects/lightningPlusPlus/sockets.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/sockets.cpp",
+  "output": "CMakeFiles/httpServer.dir/sockets.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/SSLServer.cpp.o -c /home/ishay/projects/lightningPlusPlus/SSLServer.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SSLServer.cpp",
+  "output": "CMakeFiles/httpServer.dir/SSLServer.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/LowLevelApiException.cpp.o -c /home/ishay/projects/lightningPlusPlus/LowLevelApiException.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/LowLevelApiException.cpp",
+  "output": "CMakeFiles/httpServer.dir/LowLevelApiException.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/SmartResource.cpp.o -c /home/ishay/projects/lightningPlusPlus/SmartResource.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SmartResource.cpp",
+  "output": "CMakeFiles/httpServer.dir/SmartResource.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/OpensslErrorQueueException.cpp.o -c /home/ishay/projects/lightningPlusPlus/OpensslErrorQueueException.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/OpensslErrorQueueException.cpp",
+  "output": "CMakeFiles/httpServer.dir/OpensslErrorQueueException.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/SSLClient.cpp.o -c /home/ishay/projects/lightningPlusPlus/SSLClient.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SSLClient.cpp",
+  "output": "CMakeFiles/httpServer.dir/SSLClient.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/SSLStream.cpp.o -c /home/ishay/projects/lightningPlusPlus/SSLStream.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/SSLStream.cpp",
+  "output": "CMakeFiles/httpServer.dir/SSLStream.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/PlainStream.cpp.o -c /home/ishay/projects/lightningPlusPlus/PlainStream.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/PlainStream.cpp",
+  "output": "CMakeFiles/httpServer.dir/PlainStream.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/PlainClient.cpp.o -c /home/ishay/projects/lightningPlusPlus/PlainClient.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/PlainClient.cpp",
+  "output": "CMakeFiles/httpServer.dir/PlainClient.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/PlainServer.cpp.o -c /home/ishay/projects/lightningPlusPlus/PlainServer.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/PlainServer.cpp",
+  "output": "CMakeFiles/httpServer.dir/PlainServer.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/HttpRequest.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpRequest.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpRequest.cpp",
+  "output": "CMakeFiles/httpServer.dir/HttpRequest.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/HttpResponse.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpResponse.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpResponse.cpp",
+  "output": "CMakeFiles/httpServer.dir/HttpResponse.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/HttpResponseBuilder.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpResponseBuilder.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpResponseBuilder.cpp",
+  "output": "CMakeFiles/httpServer.dir/HttpResponseBuilder.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/HttpServer.cpp.o -c /home/ishay/projects/lightningPlusPlus/HttpServer.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/HttpServer.cpp",
+  "output": "CMakeFiles/httpServer.dir/HttpServer.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/ClientHandlerTask.cpp.o -c /home/ishay/projects/lightningPlusPlus/ClientHandlerTask.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/ClientHandlerTask.cpp",
+  "output": "CMakeFiles/httpServer.dir/ClientHandlerTask.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/ServerBuilder.cpp.o -c /home/ishay/projects/lightningPlusPlus/ServerBuilder.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/ServerBuilder.cpp",
+  "output": "CMakeFiles/httpServer.dir/ServerBuilder.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/UriMapper.cpp.o -c /home/ishay/projects/lightningPlusPlus/UriMapper.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/UriMapper.cpp",
+  "output": "CMakeFiles/httpServer.dir/UriMapper.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/Strings.cpp.o -c /home/ishay/projects/lightningPlusPlus/Strings.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/Strings.cpp",
+  "output": "CMakeFiles/httpServer.dir/Strings.cpp.o"
+},
+{
+  "directory": "/home/ishay/projects/lightningPlusPlus",
+  "command": "/usr/bin/c++  -I/home/ishay/projects/lightningPlusPlus -std=gnu++20 -o CMakeFiles/httpServer.dir/StaticFile.cpp.o -c /home/ishay/projects/lightningPlusPlus/StaticFile.cpp",
+  "file": "/home/ishay/projects/lightningPlusPlus/StaticFile.cpp",
+  "output": "CMakeFiles/httpServer.dir/StaticFile.cpp.o"
+}
+]

@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(PROJECT_SOURCE_FILES
-./nlohmann/json.hpp
 ./lightning/sockets.hpp ./sockets.cpp
 ./lightning/SSLServer.hpp ./SSLServer.cpp
 ./lightning/LowLevelApiException.hpp ./LowLevelApiException.cpp
@@ -16,6 +15,10 @@ set(PROJECT_SOURCE_FILES
 ./lightning/SSLClient.hpp ./SSLClient.cpp
 ./lightning/stream/IStream.hpp
 ./lightning/stream/SSLStream.hpp ./SSLStream.cpp
+./lightning/stream/PlainStream.hpp ./PlainStream.cpp
+
+./lightning/PlainClient.hpp ./PlainClient.cpp
+./lightning/PlainServer.hpp ./PlainServer.cpp
 
 ./lightning/request/HttpRequest.hpp ./HttpRequest.cpp
 ./lightning/request/FrameworkInfo.hpp

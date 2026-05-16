@@ -1,6 +1,5 @@
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/LowLevelApiException.hpp"
-#include <fstream>
+#include "lightning/httpServer/ClientHandlerTask.hpp"
 #include <openssl/err.h>
 
 namespace lightning
@@ -8,11 +7,7 @@ namespace lightning
 
     const HttpServer::ShouldStopPredicate HttpServer::neverStop = [](HttpServer&)
     { return false; };
-    const std::vector<char> HttpServer::INTERNAL_SERVER_ERROR = HttpResponseBuilder::create()
-        .withStatusCode(500)
-        .withStatusPhrase("InternalError")
-        .build()
-        .toHttpResponse();
+    
 
     const Resolver HttpServer::defaultResolver = [](HttpRequest request) -> lightning::HttpResponse
     {
@@ -34,42 +29,13 @@ namespace lightning
 
     auto HttpServer::start(ShouldStopPredicate shouldStop) -> void
     {
+        
         do
         {
             std::unique_ptr<IClient> client = this->lowLevelServer->accept();
-            uint64_t requestArrivalTime = HttpServer::getTimeSinceEpoch();
-            std::string matchedRegex;
-
-            std::vector<char> requestBuffer;
-
-            try
-            {
-                requestBuffer = client->getStream().readUntilToken("\r\n\r\n");
-            }
-            catch (const OpenSslErrorQueueException& e)
-            {
-                std::cout << "Low level openssl error was caught: " << e.what() << '\n';
-                // Print the openssl error queue
-                continue;
-            }
-            catch (const LowLevelApiException& e)
-            {
-                std::cout << "Low level openssl error was caught: " << e.what() << '\n';
-                continue;
-            }
-            catch (const std::runtime_error& e)
-            {
-                this->sendInternalServerError(client->getStream());
-                continue;
-            }
-
-            lightning::HttpRequest request = lightning::HttpRequest::createRequest(requestBuffer.begin(), requestBuffer.end());
-
-            auto resolver = this->getResolver(request.getMethod(), request.getRawUri(), matchedRegex).value_or(HttpServer::defaultResolver);
-
-            request.getFrameworkInfo() = lightning::FrameworkInfo{ .matchedRegex = matchedRegex, .requestArrivalTime = requestArrivalTime };
-            this->tasks.add_task(ClientHandlerTask(std::move(client), resolver, request, &this->middlewares));
-
+            
+            this->tasks.add_task(ClientHandlerTask(std::move(client), *this));
+            
 
             std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;
         } while (!shouldStop(*this));
@@ -152,11 +118,5 @@ namespace lightning
     auto HttpServer::usePostMiddleware(DefaultPostMiddlewareType middleware) -> void
     {
         this->middlewares.addPost(middleware);
-    }
-
-    auto HttpServer::sendInternalServerError(stream::IStream& stream) -> void
-    {
-        stream.write(INTERNAL_SERVER_ERROR.data(), INTERNAL_SERVER_ERROR.size());
-        stream.close();
     }
 }
