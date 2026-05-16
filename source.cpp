@@ -28,17 +28,15 @@ auto main() -> int
         
         if (obj.contains("name"))
         {
-            resp = "hello " + obj["name"].get<std::string>() + "!";
+            resp = "<h1>Hello, " + obj["name"].get<std::string>() + "!</h1>";
         }
         else
         {
-            resp = "Hello! Please provide a name in the body as json!";
+            resp = "<h1>Hello! Please provide a name in the body as json!</h1>";
         }
 
         return lightning::HttpResponseBuilder::create()
-            .withBody(resp)
-            .withHeader("Content-Type", "text/html")
-            .withHeader("Content-Length", std::to_string(resp.size()))
+            .withHtmlBody(resp)
             .build();
     };
 
