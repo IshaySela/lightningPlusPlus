@@ -1,7 +1,6 @@
 #pragma once
 #include <functional>
 #include <memory>
-#include "MiddlewareContainer.hpp"
 #include "../IClient.hpp"
 namespace lightning
 {
