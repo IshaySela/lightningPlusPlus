@@ -53,7 +53,7 @@ graph LR
     D --> E[Write Response]
 ```
 
-When a client connection is accepted, the request is parsed and immediately dispatched to a worker thread. This decoupled nature ensures that the main acceptance loop remains unblocked, allowing the server to scale linearly with the number of available CPU cores. By leveraging **C++20** features and optimized string processing, the framework minimizes overhead during request routing and header parsing, making it an ideal choice for latency-sensitive applications. 
+When a client connection is accepted, it is immediately pushed to the thread pool — parsing and endpoint resolution happen entirely inside the worker thread. This keeps the main acceptance loop as tight as possible, so it can pick up the next connection without waiting for any request processing. By moving all per-request work (header parsing, URI matching, handler dispatch) off the hot path, the server scales linearly with the number of available CPU cores and remains an ideal choice for latency-sensitive, high-concurrency applications.
 
  
 ## 🗺️ Roadmap
