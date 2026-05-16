@@ -1,6 +1,5 @@
 #pragma once
 #include <unordered_map>
-#include <regex>
 #include <optional>
 #include "../lightning.hpp"
 
@@ -9,7 +8,7 @@ namespace lightning
     /**
      * @brief Map uri to a resolver, support for regex and advanced matching
      * Examples:
-     * For a uri mapper that contains the following keys - { '/test', '*', '/test/*' }
+     * For a uri mapper that contains the following keys - { '/test', '*', '/test / *' }
      */
     class UriMapper
     {
@@ -17,8 +16,8 @@ namespace lightning
         std::unordered_map<std::string, Resolver> resolvers;
 
         /**
-         * @brief Search for the wildcard string /* and return its index.
-         * Return string::npos if the string does not exists.
+         * @brief Search for the wildcard string / * and return its index.
+         * Return string::npos if the string does not exist.
          * 
          * @param uri The uri to search in.
          * @return size_t The index of the wildcard, or string::npos if none was found.
@@ -37,10 +36,10 @@ namespace lightning
         static auto createExactMatch(std::string uri) -> std::string;
 
         /**
-         * @brief Convert a uri with wildcard /* to the regex equivelent.
+         * @brief Convert a uri with wildcard / * to the regex equivalent.
          * 
-         * /test/* -> ^\/test(\/.*|$) = /test or /test/<any character set possible>
-         * /test/* /hello -> ^\/test(\/.*|$)\/hello = /test/<any character set possible>/hello
+         * /test/ * -> ^\/test(\/.*|$) = /test or /test/<any character set possible>
+         * /test/ * /hello -> ^\/test(\/.*|$)\/hello = /test/<any character set possible>/hello
          * 
          * @param uri The uri with the wildcard that is used to construct the regex.
          * @return std::string The constructed regex.
@@ -49,26 +48,26 @@ namespace lightning
 
         /**
          * @brief Add a new resolver to the resolvers map.
-         * If no special characters are detect (wildcard *, id [] etc), an exact match will occur.
+         * If no special characters are detected (wildcard *, id [] etc), an exact match will occur.
          * "/test" -> "^\/test$"
          *
-         * If a wildcard is detected at the end of the uri, the the $ will be dropped,
-         * and the uri iteself will be valid:
+         * If a wildcard is detected at the end of the uri, the $ will be dropped,
+         * and the uri itself will be valid:
          *
-         * "/test/*" -> "^\/test\/(.*)|^\/test" ; The string /test/ and then any string, or the string '/test/ iteself.
+         * "/test/ *" -> "^\/test\/(.*)|^\/test" ; The string /test/ and then any string, or the string '/test/ itself.
          *
          * Note: The order of UriMapper::add is important. If 2 expressions
-         * will result in a match, the latter experssion will be resolved since it will be stored before it in the 
+         * will result in a match, the latter expression will be resolved since it will be stored before it in the 
          * unordered_map.
          * 
-         * @param experssion The regex expression.
+         * @param expression The regex expression.
          * @param resolver The resolver.
          * @returns The resolver that was passed in.
          */
-        auto add(std::string experssion, Resolver resolver) -> Resolver;
+        auto add(std::string expression, Resolver resolver) -> Resolver;
 
         /**
-         * @brief Return the value (resolver) of the first key (regex expression) that mathces to the uri provided, and the 
+         * @brief Return the value (resolver) of the first key (regex expression) that matches the uri provided, and the
          * regex that was matched.
          *
          * @param uri The uri to match against.

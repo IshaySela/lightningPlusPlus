@@ -12,6 +12,7 @@ namespace lightning::stream
         auto write(const char *buffer, int size) -> int override;
         auto readUntilToken(std::string token) -> std::vector<char> override;
         auto close() -> void override;
+        auto setTimeout(int seconds) -> void override;
 
     private:
         int fd;

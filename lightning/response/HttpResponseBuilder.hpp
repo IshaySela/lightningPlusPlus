@@ -25,7 +25,9 @@ namespace lightning
 
         auto withBody(std::string body) -> HttpResponseBuilder&;
         auto withBody(std::vector<char> body) -> HttpResponseBuilder &;
-
+        auto withJsonBody(std::string json) -> HttpResponseBuilder&;
+        auto withHtmlBody(std::string html) -> HttpResponseBuilder&;
+        
         /**
          * @brief Create the http response from all of the data provided.
          */

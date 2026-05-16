@@ -14,38 +14,35 @@ constexpr const char* PrivateKeyPath = "/home/ishay/projects/lightningPlusPlus/t
 auto main() -> int
 {
     auto server = lightning::ServerBuilder::createNew(8080)
-        .withUnderlyingServer(std::make_unique<lightning::PlainServer>(8080))
         .withThreads(7)
         .build();
 
     auto benchmark = [](lightning::HttpRequest request)
     {
         auto contentLengthHeader = request.getHeader("Content-Length");
-        std::cout << "Handling request for " << request.getRawUri() << "With content length" << contentLengthHeader.value_or("no_header_set") << '\n';
+        std::cout << "Handling request for " << request.getRawUri() << '\n';
         
-        auto body = request.getBody();
+        std::vector<char> body = request.getBody();
         std::string resp;
         auto obj = nlohmann::json::parse(body.begin(), body.end());
         
         if (obj.contains("name"))
         {
-            resp = "hello " + obj["name"].get<std::string>() + "!";
+            resp = "<h1>Hello, " + obj["name"].get<std::string>() + "!</h1>";
         }
         else
         {
-            resp = "Hello! Please provide a name in the body as json!";
+            resp = "<h1>Hello! Please provide a name in the body as json!</h1>";
         }
 
         return lightning::HttpResponseBuilder::create()
-            .withBody(resp)
-            .withHeader("Content-Type", "text/html")
-            .withHeader("Content-Length", std::to_string(resp.size()))
+            .withHtmlBody(resp)
             .build();
     };
 
     server.post("/", benchmark);
 
-    std::cout << "Server has started on port " << 8080 << '\n';
+    std::cout << "Server started on port " << 8080 << '\n';
     server.start();
 
     return 0;

@@ -1,10 +1,13 @@
 #pragma once
 #include <functional>
 #include <memory>
-#include "MiddlewareContainer.hpp"
+#include <optional>
+#include <vector>
 #include "../IClient.hpp"
+#include "lightning/request/HttpRequest.hpp"
 namespace lightning
 {
+    class LowLevelApiException;
     class HttpServer;
     /**
     * @brief The class ClientHandlerTask fulfills the constraint Task<T>, and is passed to TaskExecutor::add_task.
@@ -36,6 +39,11 @@ namespace lightning
         std::reference_wrapper<HttpServer> server;
 
         auto getTimeSinceEpoch() -> std::uint64_t;
+        auto readRequest(bool connectionKeepAlive) -> std::optional<std::vector<char>>;
         auto sendInternalServerError(stream::IStream& stream) -> void;
+        auto sendBadRequestError(stream::IStream& stream) -> void;
+        auto handleLowLevelApiError(const LowLevelApiException& e, bool connectionKeepAlive) -> void;
+        auto runRequestResolver(HttpRequest& request, std::uint64_t requestArrivalTime) -> HttpResponse;
+
     };
 }

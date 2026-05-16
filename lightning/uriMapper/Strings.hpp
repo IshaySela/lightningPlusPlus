@@ -86,5 +86,5 @@ namespace lightning::strings
      * 
      * @return std::string The sanitized string.
      */
-    auto sanitizeExecptWildcardForRegex(std::string& str) -> std::string;
+    auto sanitizeExceptWildcardForRegex(std::string& str) -> std::string;
 }

@@ -74,6 +74,12 @@ namespace lightning::stream
         ::close(this->fd);
     }
 
+    auto PlainStream::setTimeout(int seconds) -> void
+    {
+        struct timeval tv { .tv_sec = seconds, .tv_usec = 0 };
+        setsockopt(this->fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+    }
+
     auto PlainStream::readFromLeftover(int amount, int &bytesRead) -> std::vector<char>
     {
         std::vector<char> buffer(amount);

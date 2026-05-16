@@ -22,7 +22,7 @@ namespace lightning
         bool bodyRead = false;
 
         /**
-         * @brief Parse the line and retrive every character from the offset until reaching the delimiter.
+         * @brief Parse the line and retrieve every character from the offset until reaching the delimiter.
          *
          * @param line The string to get the substr from.
          * @param del The delimiter to find.

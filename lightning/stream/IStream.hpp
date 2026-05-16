@@ -40,6 +40,13 @@ namespace lightning::stream
          */
         virtual auto close() -> void = 0;
 
+        /**
+         * @brief Set a receive timeout on the underlying socket.
+         *
+         * @param seconds Number of seconds before a read times out (0 disables the timeout).
+         */
+        virtual auto setTimeout(int seconds) -> void = 0;
+
         virtual ~IStream() = default;
     };
 

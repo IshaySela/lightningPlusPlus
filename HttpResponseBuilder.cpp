@@ -51,4 +51,16 @@ namespace lightning
         return *this;
     }
 
+    auto HttpResponseBuilder::withJsonBody(std::string json) -> HttpResponseBuilder&
+    {
+        this->withHeader("Content-Type", "application/json");
+        return this->withBody(std::string(json));
+    }
+
+    auto HttpResponseBuilder::withHtmlBody(std::string html) -> HttpResponseBuilder&
+    {
+        this->withHeader("Content-Type", "text/html");
+        return this->withBody(std::string(html));
+    }
+
 }

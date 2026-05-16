@@ -159,6 +159,12 @@ namespace lightning::stream
         return buffer;
     }
 
+    auto SSLStream::setTimeout(int seconds) -> void
+    {
+        struct timeval tv { .tv_sec = seconds, .tv_usec = 0 };
+        setsockopt(SSL_get_fd(this->ssl), SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+    }
+
     auto SSLStream::close() -> void
     {
         if (!SSL_is_init_finished(this->ssl))
