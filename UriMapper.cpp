@@ -1,6 +1,6 @@
 #include "lightning/uriMapper/UriMapper.hpp"
 #include "lightning/uriMapper/Strings.hpp"
-
+#include <regex>
 namespace lightning
 {
     auto UriMapper::createExactMatch(std::string uri) -> std::string
@@ -35,11 +35,11 @@ namespace lightning
     auto UriMapper::createWithWildcard(std::string uri) -> std::string
     {
         static const std::string wildcardRegex = "(\\/.*|$)";
-        static const std::string seprator = "\\/*";
+        static const std::string separator = "\\/*";
 
-        auto cleanUri = strings::sanitizeExecptWildcardForRegex(uri);
+        auto cleanUri = strings::sanitizeExceptWildcardForRegex(uri);
 
-        return strings::formatEx<std::string>(cleanUri, seprator, wildcardRegex).value_or(uri); // TODO: Figure out a general way to handle optional values.
+        return strings::formatEx<std::string>(cleanUri, separator, wildcardRegex).value_or(uri); // TODO: Figure out a general way to handle optional values.
     }
 
     auto UriMapper::add(std::string uri, Resolver resolver) -> Resolver

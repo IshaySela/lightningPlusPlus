@@ -11,7 +11,7 @@ namespace lightning::strings
         return std::regex_replace(str, specialCharacters, "\\$&");
     }
 
-    auto sanitizeExecptWildcardForRegex(std::string& str) -> std::string
+    auto sanitizeExceptWildcardForRegex(std::string& str) -> std::string
     {
         static const std::regex specialCharactersWithoutWildcard("\\[|\\]|\\/|\\?");
 
