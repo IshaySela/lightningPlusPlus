@@ -41,11 +41,16 @@ The project follows a modular, interface-driven design that strictly separates p
 ### Request Lifecycle
 ```mermaid
 graph LR
-    A[Accept Client] --> B[Parse Request &<br>Map to Endpoint]
-    B --> C[Push Task to Thread<br>Pool]
-    C --> D[Run Endpoint]
-    D --> E[Write response]
-    C --> |Concurrent| A
+    Client1[Client] -->|request| A
+    Client2[Client] -->|request| A
+    Client3[Client] -->|request| A
+    Client4[...] -->|request| A
+
+    A[Accept Client] --> B[Push Task to<br>Thread Pool]
+    B --> |Concurrent| A
+    B --> C[Parse Request &<br>Resolve Endpoint]
+    C --> D[Run Handler]
+    D --> E[Write Response]
 ```
 
 When a client connection is accepted, the request is parsed and immediately dispatched to a worker thread. This decoupled nature ensures that the main acceptance loop remains unblocked, allowing the server to scale linearly with the number of available CPU cores. By leveraging **C++20** features and optimized string processing, the framework minimizes overhead during request routing and header parsing, making it an ideal choice for latency-sensitive applications. 
