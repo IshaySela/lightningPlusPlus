@@ -16,7 +16,6 @@ At its core, **lightning++** is engineered for high-concurrency environments. Th
 auto main() -> int {
     // Configure & build the server
     auto server = lightning::ServerBuilder::createNew(8080)
-                      .withSsl("cert.pem", "key.pem")
                       .withThreads(8)
                       .build();
 
