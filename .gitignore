@@ -52,3 +52,8 @@ CTestTestfile.cmake
 CMakeFiles/*
 # output binary
 http
+
+# profiling artifacts
+perf.data
+perf.data.old
+*.perf
