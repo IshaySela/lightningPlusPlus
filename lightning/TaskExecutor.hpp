@@ -1,10 +1,9 @@
 #pragma once
+#include <deque>
 #include <functional>
 #include <vector>
 #include <thread>
 #include <condition_variable>
-#include <shared_mutex>
-#include <concepts>
 
 namespace lightning
 {
@@ -126,7 +125,7 @@ namespace lightning
         std::vector<std::thread> threads;
 
         using DeleteAfter = bool;
-        std::vector<T> tasks;
+        std::deque<T> tasks;
         std::mutex mutex;
         std::condition_variable cv;
         bool kill_threads = false;

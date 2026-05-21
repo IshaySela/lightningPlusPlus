@@ -12,7 +12,6 @@ constexpr const char* PrivateKeyPath = "/home/ishay/projects/lightningPlusPlus/t
 
 auto main() -> int
 {
-    std::cout.rdbuf(nullptr);
     auto server = lightning::ServerBuilder::createNew(8080)
         .withThreads(32)
         .build();
@@ -23,6 +22,8 @@ auto main() -> int
 
         return lightning::HttpResponseBuilder::create()
             .withHtmlBody("<h1>Hello!</h1>")
+            .withStatusCode(200)
+            .withStatusPhrase("OK")
             .build();
     };
 
