@@ -1,6 +1,8 @@
 #include "lightning/httpServer/HttpServer.hpp"
-#include "lightning/httpServer/ClientHandlerTask.hpp"
-#include <openssl/err.h>
+#include "lightning/httpServer/NonblockingClientManagerTask.hpp"
+#include <fcntl.h>
+#include <thread>
+#include <unistd.h>
 
 namespace lightning
 {
@@ -17,7 +19,8 @@ namespace lightning
             .build();
     };
 
-    HttpServer::HttpServer(std::unique_ptr<ILowLevelSocketServer> lowLevelServer, const int threadCount) : lowLevelServer(std::move(lowLevelServer)), tasks(threadCount)
+    HttpServer::HttpServer(std::unique_ptr<ILowLevelSocketServer> lowLevelServer, const int threadCount)
+        : lowLevelServer(std::move(lowLevelServer)), threadCount(threadCount)
     {
         for (int i = 0; i < HttpProtocol::supportedHttpMethods.size(); i++)
         {
@@ -29,16 +32,43 @@ namespace lightning
 
     auto HttpServer::start(ShouldStopPredicate shouldStop) -> void
     {
-        
+        int newFdPipe[2];
+        int returnPipe[2];
+        pipe2(newFdPipe, O_NONBLOCK | O_CLOEXEC);
+        pipe2(returnPipe, O_NONBLOCK | O_CLOEXEC);
+
+        newFdChannel.pipeRead   = newFdPipe[0];
+        newFdChannel.pipeWrite  = newFdPipe[1];
+        returnChannel.pipeRead  = returnPipe[0];
+        returnChannel.pipeWrite = returnPipe[1];
+
+        int tc = this->threadCount;
+        std::thread epollThread([this, tc]() {
+            NonblockingClientManagerTask manager(newFdChannel, returnChannel, tc, *this);
+            manager();
+        });
+
         do
         {
             std::unique_ptr<IClient> client = this->lowLevelServer->accept();
-            
-            this->tasks.add_task(ClientHandlerTask(std::move(client), *this));
-            
+            int fd = client->getFd();
+            fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK);
 
-            std::cout << "Client request parsed and passed to TaskExecutor" << std::endl;
+            {
+                std::lock_guard lock(newFdChannel.m);
+                newFdChannel.clients.push_back(std::move(client));
+            }
+            char byte = 'x';
+            ::write(newFdChannel.pipeWrite, &byte, 1);
         } while (!shouldStop(*this));
+
+        ::close(newFdChannel.pipeWrite);
+        newFdChannel.pipeWrite = -1;
+        epollThread.join();
+
+        ::close(newFdChannel.pipeRead);
+        ::close(returnChannel.pipeRead);
+        ::close(returnChannel.pipeWrite);
     }
 
     auto HttpServer::get(std::string uri, Resolver resolver) -> void

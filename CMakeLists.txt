@@ -28,7 +28,9 @@ set(PROJECT_SOURCE_FILES
 ./lightning/HttpProtocol.hpp
 ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
 ./lightning/httpServer/MiddlewareContainer.hpp
-./lightning/httpServer/ClientHandlerTask.hpp ./ClientHandlerTask.cpp
+./lightning/httpServer/FdChannels.hpp
+./lightning/httpServer/ClientRequestHandler.hpp ./ClientRequestHandler.cpp
+./lightning/httpServer/NonblockingClientManagerTask.hpp ./NonblockingClientManagerTask.cpp
 ./lightning/httpServer/ServerBuilder.hpp ./ServerBuilder.cpp
 ./lightning/LowLevelSocketServer.hpp
 

@@ -138,6 +138,21 @@ namespace lightning::stream
         }
     }
 
+    auto SSLStream::peek(int amount) -> std::string_view
+    {
+        while ((int)this->leftoverBuffer.size() < amount)
+        {
+            int needed = amount - (int)this->leftoverBuffer.size();
+            std::vector<char> tmp(needed);
+            size_t bytesRead = 0;
+            int error = SSL_read_ex(this->ssl, tmp.data(), needed, &bytesRead);
+            if (error != SSLStream::SSL_NO_ERROR || bytesRead == 0)
+                break;
+            this->leftoverBuffer.insert(this->leftoverBuffer.end(), tmp.begin(), tmp.begin() + bytesRead);
+        }
+        return {this->leftoverBuffer.data(), this->leftoverBuffer.size()};
+    }
+
     auto SSLStream::readFromLeftover(int amount, int& bytesRead) -> std::vector<char>
     {
         std::vector<char> buffer(amount);

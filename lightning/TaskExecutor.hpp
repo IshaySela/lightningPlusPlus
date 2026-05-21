@@ -60,7 +60,7 @@ namespace lightning
 
             if constexpr (std::is_copy_constructible<T>::value)
                 this->tasks.push_back(task);
-            else if (std::is_move_assignable<T>::value)
+            else if constexpr (std::is_move_constructible<T>::value)
                 this->tasks.push_back(std::move(task));
 
             mutex.unlock();

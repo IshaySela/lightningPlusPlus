@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
 #include <string>
+#include <string_view>
+#include <vector>
 
 namespace lightning::stream
 {
@@ -47,8 +48,22 @@ namespace lightning::stream
          */
         virtual auto setTimeout(int seconds) -> void = 0;
 
+        /**
+         * @brief The function injectBuffer allows the caller to inject data into the stream's internal buffer. 
+         * this is useful for cases where the caller has read some data from the stream that it doesn't want to process immediately, but also doesn't want to lose. By injecting the data back into the stream, the caller can ensure that it will be available for future read operations. The exact behavior of how the injected data is stored and accessed is up to the implementation of the IStream interface.
+         * @param data the data to inject
+         */
         virtual auto injectBuffer(std::vector<char> data) -> void {}
 
+        /**
+         * @brief The function peek allows the caller to look at a certain amount of data from the stream without consuming it.
+         * The function is virtual to avoid copying data for implementations that can provide a view into the internal buffer.
+         * @note There is no guarantee that the view returned by peek will remain valid after subsequent calls to read, write, or injectBuffer,
+         * as the internal buffer may be reallocated or modified.
+         * @param amount The amount to read
+         * @return std::string_view View into the internal buffer (data pointer + size of actually buffered bytes).
+         */
+        virtual auto peek(int amount) -> std::string_view = 0;
         virtual ~IStream() = default;
     };
 
