@@ -45,6 +45,12 @@ set(PROJECT_SOURCE_FILES
 ./lightning/middlewares/addHeaderToResponse.hpp
  )
 
+option(ENABLE_PROFILING "Enable profiling flags" OFF)
+
+if(ENABLE_PROFILING)
+    add_compile_options(-O2 -g -fno-omit-frame-pointer)
+endif()
+
 add_executable(
   http
   ./source.cpp
