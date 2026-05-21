@@ -109,7 +109,7 @@ namespace lightning
                 else
                 {
                     auto task = std::move(executor.tasks.front());
-                    executor.tasks.erase(executor.tasks.begin());
+                    executor.tasks.pop_front();
 
                     lock.unlock();
                     executor.cv.notify_one();
