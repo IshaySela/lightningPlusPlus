@@ -33,12 +33,13 @@
 .editorconfig
 /build
 /cert
-/tests
 /.vscode
 /unit-tests/build/*
 /doxygen/*
 !/doxygen/.gitkeep
 .vscode/*
+*.key
+*.cert
 
 # clangd
 .cache/*
