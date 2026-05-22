@@ -108,15 +108,11 @@ namespace lightning
 
     auto NonblockingClientManagerTask::drainReturnChannel() -> void
     {
-        std::vector<ReturnedConnection> returned;
+        while(!returnChannel.connections.empty())
         {
-            std::lock_guard lock(returnChannel.m);
-            returned = std::move(returnChannel.connections);
-            returnChannel.connections.clear();
-        }
+            ReturnedConnection rc;
+            returnChannel.connections.pop(rc);
 
-        for (auto& rc : returned)
-        {
             if (rc.keepAlive)
             {
                 int fd = rc.client->getFd();

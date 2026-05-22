@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
 #include <mutex>
+#include <utility>
 #include <vector>
 #include "../IClient.hpp"
-
+#include "lightning/MPMCQueue.hpp"
 namespace lightning
 {
     struct NewFdChannel
@@ -18,13 +19,17 @@ namespace lightning
     {
         std::unique_ptr<IClient> client;
         bool keepAlive;
+        ReturnedConnection& operator=(ReturnedConnection&& other) noexcept = default;
     };
 
     struct ReturnChannel
     {
-        std::mutex m;
-        std::vector<ReturnedConnection> connections;
+        rigtorp::MPMCQueue<ReturnedConnection> connections;
         int pipeRead = -1;
         int pipeWrite = -1;
+
+        ReturnChannel() : connections(64)
+        {
+        }
     };
 } // namespace lightning

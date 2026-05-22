@@ -1,4 +1,5 @@
 #include "lightning/httpServer/ClientRequestHandler.hpp"
+#include "lightning/httpServer/FdChannels.hpp"
 #include "lightning/httpServer/HttpServer.hpp"
 #include "lightning/request/FrameworkInfo.hpp"
 #include "lightning/response/HttpResponseBuilder.hpp"
@@ -79,10 +80,7 @@ namespace lightning
 
     auto ClientRequestHandler::signalReturn(bool keepAlive) -> void
     {
-        {
-            std::lock_guard lock(returnChannel.get().m);
-            returnChannel.get().connections.push_back({std::move(client), keepAlive});
-        }
+        returnChannel.get().connections.emplace(std::move(client), keepAlive);
         char byte = 'x';
         ::write(returnChannel.get().pipeWrite, &byte, 1);
     }

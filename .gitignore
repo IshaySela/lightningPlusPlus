@@ -40,7 +40,7 @@
 .vscode/*
 *.key
 *.cert
-
+build-release
 # clangd
 .cache/*
 
