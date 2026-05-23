@@ -57,3 +57,4 @@ http
 perf.data
 perf.data.old
 *.perf
+strace-summary.txt
