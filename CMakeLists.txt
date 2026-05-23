@@ -39,11 +39,12 @@ set(PROJECT_SOURCE_FILES
 
 ./lightning/TaskExecutor.hpp
 ./lightning/MPMCQueue.hpp
+./lightning/concurrentqueue.h
 ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 
 ./lightning/middlewares/useFolder.hpp
 ./lightning/middlewares/addHeaderToResponse.hpp
- )
+)
 
 option(ENABLE_PROFILING "Enable profiling flags" OFF)
 
@@ -65,6 +66,8 @@ add_library(
 find_package(OpenSSL REQUIRED)
 target_link_libraries(http OpenSSL::SSL)
 target_link_libraries(httpServer OpenSSL::SSL)
+
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

@@ -1,10 +1,12 @@
 #pragma once
+#include <boost/type_traits/has_trivial_destructor.hpp>
 #include <memory>
 #include <mutex>
-#include <utility>
 #include <vector>
 #include "../IClient.hpp"
 #include "lightning/MPMCQueue.hpp"
+#include "lightning/concurrentqueue.h"
+
 namespace lightning
 {
     struct NewFdChannel
@@ -19,17 +21,12 @@ namespace lightning
     {
         std::unique_ptr<IClient> client;
         bool keepAlive;
-        ReturnedConnection& operator=(ReturnedConnection&& other) noexcept = default;
+        ReturnedConnection(std::unique_ptr<IClient> client, bool keepAlive) : client(std::move(client)), keepAlive(keepAlive) {}
     };
-
     struct ReturnChannel
     {
-        rigtorp::MPMCQueue<ReturnedConnection> connections;
+        moodycamel::ConcurrentQueue<ReturnedConnection> connections;
         int pipeRead = -1;
         int pipeWrite = -1;
-
-        ReturnChannel() : connections(64)
-        {
-        }
     };
 } // namespace lightning

@@ -102,21 +102,19 @@ namespace lightning
             ev.events = EPOLLIN | EPOLLONESHOT;
             ev.data.fd = fd;
             epoll_ctl(epollFd, EPOLL_CTL_ADD, fd, &ev);
-            connections.emplace(fd, ConnectionState{std::move(client)});
+            this->connections.emplace(fd, ConnectionState{std::move(client)});
         }
     }
 
     auto NonblockingClientManagerTask::drainReturnChannel() -> void
     {
-        while(!returnChannel.connections.empty())
+        ReturnedConnection rc(nullptr, false);
+        while(returnChannel.connections.try_dequeue(rc))
         {
-            ReturnedConnection rc;
-            returnChannel.connections.pop(rc);
-
             if (rc.keepAlive)
             {
                 int fd = rc.client->getFd();
-                connections.emplace(fd, ConnectionState{std::move(rc.client)});
+                this->connections.emplace(fd, ConnectionState{std::move(rc.client)});
                 rearmFd(fd);
             }
             else

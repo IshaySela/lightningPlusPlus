@@ -80,7 +80,7 @@ namespace lightning
 
     auto ClientRequestHandler::signalReturn(bool keepAlive) -> void
     {
-        returnChannel.get().connections.emplace(std::move(client), keepAlive);
+        returnChannel.get().connections.enqueue(ReturnedConnection(std::move(client), keepAlive));
         char byte = 'x';
         ::write(returnChannel.get().pipeWrite, &byte, 1);
     }
