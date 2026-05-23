@@ -4,7 +4,6 @@
 #include <mutex>
 #include <vector>
 #include "../IClient.hpp"
-#include "lightning/MPMCQueue.hpp"
 #include "lightning/concurrentqueue.h"
 
 namespace lightning
