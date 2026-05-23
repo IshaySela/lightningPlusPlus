@@ -1,34 +1,47 @@
 # Bottleneck Report: `feature/non-blocking-io`
 
-## Environment
-- Branch: `feature/non-blocking-io`
-- Binary: built with `-O2 -g -fno-omit-frame-pointer` (`ENABLE_PROFILING=ON`)
-- Profiler: `strace -c -f -p <PID>` (syscall accounting across all 34 threads)
-- Load generator: `wrk -t4 -c100 -d12s`
-- Server config: 32 worker threads, POST `/` handler returning static HTML
+Profiled across two snapshots of the branch:
+- **Snapshot A** — commit `35a5d13` (pre-MPMC): mutex-based `ReturnChannel`, `erase(begin())`
+- **Snapshot B** — commit `8f66bb1` (latest): `rigtorp::MPMCQueue` ReturnChannel, `pop_front()` fixed
+
+Profiling method: `strace -c -f -p <PID>` across all 34 threads during `wrk` load.  
+Server config: 32 worker threads, POST `/` → static HTML response.  
+Hardware: **4 CPU cores**, Intel Xeon @ 2.80 GHz.
 
 ---
 
 ## Benchmark Results
 
-| Mode | Connections | Req/s | p50 | p99 |
-|---|---|---|---|---|
-| `Connection: keep-alive` | 100 | **42,754** | 2.30ms | 4.23ms |
-| `Connection: keep-alive` | 400 | **42,393** | 9.37ms | 12.26ms |
-| `Connection: close` | 100 | **17,537** | 4.02ms | 40.00ms |
-| `Connection: close` | 400 | **19,175** | 16.20ms | 64.50ms |
+### Snapshot A — `35a5d13` (mutex ReturnChannel, erase(begin()))
 
-The ~15k cap reported in production corresponds to the **`Connection: close` path**. Keep-alive saturates at ~42k. The ceiling in both cases is mutex contention, but close mode adds per-connection syscall overhead on top.
+| Mode | Threads | Conns | Req/s | p50 | p99 |
+|---|---|---|---|---|---|
+| keep-alive | t4 | 100 | **42,754** | 2.30ms | 4.23ms |
+| keep-alive | t12 | 400 | **36,352** | 2.70ms | 4.95ms |
+| Connection:close | t4 | 100 | **17,537** | 4.02ms | 40.00ms |
+| Connection:close | t8 | 400 | **19,175** | 16.20ms | 64.50ms |
+
+### Snapshot B — `8f66bb1` (MPMC ReturnChannel, pop_front())
+
+| Mode | Threads | Conns | Req/s | p50 | p99 |
+|---|---|---|---|---|---|
+| keep-alive | t4 | 100 | **4,067** | 23.7ms | 124ms |
+| keep-alive | t12 | 400 | **1,730** | 239ms | 328ms |
+| Connection:close | t4 | 100 | **5,453** | 16.3ms | 88ms |
+
+**The MPMC change caused a ~10× regression across all modes.**
 
 ---
 
-## strace Syscall Profile (keep-alive, during 95,832 req window)
+## strace Syscall Profiles
+
+### Snapshot A — keep-alive (95,832-req window)
 
 ```
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
- 97.74  220.957389        1359    162469       1142 futex
-  0.84    1.904811          25     73589      26700 recvfrom
+ 97.74  220.957389        1359    162469      1142 futex
+  0.84    1.904811          25     73589     26700 recvfrom
   0.46    1.047664          39     26700            sendto
   0.40    0.894513        8856       101            accept
   0.29    0.658184          24     26801            write
@@ -37,7 +50,22 @@ The ~15k cap reported in production corresponds to the **`Connection: close` pat
   0.00    0.005689          10       542            read
 ```
 
-## strace Syscall Profile (Connection:close, during 22,314 req window)
+### Snapshot B — keep-alive (3,758-req window)
+
+```
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 96.45   48.873425        2172     22494        266 futex
+  1.54    0.779489        7717       101             accept
+  0.83    0.420079          21     19191       3763 recvfrom
+  0.44    0.220715          58      3758             sendto
+  0.43    0.216464          14     15450             epoll_ctl
+  0.26    0.132202          34      3849             write
+  0.05    0.024191          18      1309             epoll_wait
+  0.01    0.005259          26       202             fcntl
+```
+
+### Snapshot A — Connection:close (22,413-req window)
 
 ```
 % time     seconds  usecs/call     calls    errors syscall
@@ -51,129 +79,104 @@ The ~15k cap reported in production corresponds to the **`Connection: close` pat
   0.25    0.725013          15     47163             epoll_ctl
   0.13    0.377309          16     22421        105 shutdown
   0.08    0.223422           9     22421             close
-  0.01    0.037320          25      1490             epoll_wait
 ```
 
 ---
 
-## Findings
+## Analysis
 
-### 1. CRITICAL — Mutex Contention (`futex`): 97% of All Syscall Time
+### Finding 1 — CRITICAL REGRESSION: MPMC Spin-Wait on 4-Core Machine
 
-**The dominant bottleneck in both modes is `futex`** — the Linux primitive underlying `std::mutex` and `std::condition_variable`.
+**Root cause of 10× regression**: `rigtorp::MPMCQueue` is a spin-wait queue. Its `emplace()` and `pop()` busy-loop using `while (turn != slot.turn.load(...));`. On a machine with only **4 CPU cores** and **34 threads** (1 accept + 1 epoll + 32 workers), spinning is catastrophic:
 
-- Keep-alive: **1,359 µs average futex wait** (162,469 calls = 97.74% of total syscall time)
-- Close: **2,089 µs average futex wait** (136,164 calls = 96.20% of total syscall time)
+1. A worker thread claims a slot via `head_.fetch_add(1)` (atomic)
+2. The OS context-switches that worker before it finishes the `slot.turn.store()`
+3. The epoll thread calls `drainReturnChannel()`, reaches `pop()`, and immediately begins spinning on `slot.turn` — burning an entire CPU core
+4. With 4 cores, one core spinning blocks one other thread from running
+5. At scale: multiple workers spinning in `emplace()` + epoll spinning in `pop()` → nearly all 4 cores burn in tight loops → actual request processing stalls
 
-An uncontended futex returns in < 1 µs. A 1,359 µs average means threads are genuinely sleeping, not spinning — they are blocked waiting for another thread to release a lock.
+Per strace ratio comparison:
+- Snapshot A: 162,469 futex calls / 95,832 req = **1.7 futex/req**, avg wait **1,359 µs**
+- Snapshot B: 22,494 futex calls / 3,758 req = **5.9 futex/req**, avg wait **2,172 µs**
 
-Three mutexes are in the hot path on every request:
+Each completed request in Snapshot B takes 3.5× more futex time *and* wastes uncountable CPU cycles in spin-wait that strace cannot measure. The result: 10× throughput collapse.
 
-**a) `TaskExecutor::mutex`** (`lightning/TaskExecutor.hpp`)  
-All 32 worker threads plus the epoll thread contend on this single lock. The worker threads hold it while waiting on the condition variable (`cv.wait(lock, ...)`), so each `add_task()` call from the epoll thread must fight 32 waiting threads.
+**The rule**: lock-free spin-wait queues only outperform mutex queues when `active_threads ≤ CPU_cores`. At 34 threads / 4 cores, a mutex that sleeps is strictly better because sleeping yields the CPU to threads that can make progress.
 
-```cpp
-// Every worker thread (32 of them) — all holding this lock simultaneously:
-std::unique_lock<std::mutex> lock(executor.mutex);
-executor.cv.wait(lock, [...] { return executor.tasks.size() > 0 || ...; });
-```
-
-**b) `ReturnChannel::m`** (`lightning/httpServer/FdChannels.hpp` + `ClientRequestHandler.cpp`)  
-All 32 workers converge on this single mutex when signalling completion. At peak, 32 threads simultaneously try to push into `returnChannel.connections`:
-
-```cpp
-// ClientRequestHandler.cpp — every worker, end of every request:
-std::lock_guard lock(returnChannel.get().m);  // 32 threads fight here
-returnChannel.get().connections.push_back({std::move(client), keepAlive});
-```
-
-**c) `NewFdChannel::m`** (`FdChannels.hpp`)  
-Lower severity — only the accept thread and epoll thread contend here. But under Connection:close this fires once per request.
+**Fix options**:
+- Revert `ReturnChannel` to the mutex + move-drain from Snapshot A (already worked well)
+- OR replace `rigtorp::MPMCQueue` with a bounded queue that falls back to `futex_wait` when empty/full
+- OR reduce worker thread count from 32 → `nproc` (4), then spin-wait becomes viable
 
 ---
 
-### 2. HIGH — `TaskExecutor::tasks.erase(begin())` Not Fixed
+### Finding 2 — NEW BUG: `empty()` + `pop()` TOCTOU in `drainReturnChannel`
+
+**File**: `NonblockingClientManagerTask.cpp`
+
+```cpp
+while(!returnChannel.connections.empty())  // ← check
+{
+    ReturnedConnection rc;
+    returnChannel.connections.pop(rc);     // ← act — NOT atomic with check
+```
+
+`pop()` does `tail_.fetch_add(1)` unconditionally, then spin-waits for `slot.turn`. A producer that claims `head` but gets context-switched before its `slot.turn.store()` will cause `pop()` to spin on that slot until the producer resumes — potentially many milliseconds on a 4-core oversubscribed system.
+
+**Fix**: Replace `pop()` with `try_pop()`, which returns false immediately if the slot isn't ready:
+
+```cpp
+ReturnedConnection rc;
+while (returnChannel.connections.try_pop(rc))
+{
+    // process rc
+}
+```
+
+---
+
+### Finding 3 — `pop_front()` Fix Landed Correctly (`2586039`)
 
 **File**: `lightning/TaskExecutor.hpp`
 
-The commit `655112b` claims O(1) dequeue by switching `vector` → `deque`. However the implementation still calls `.erase(begin())` instead of `.pop_front()`:
+The commit replacing `tasks.erase(tasks.begin())` with `tasks.pop_front()` is correct and is a genuine improvement — reduces lock hold time in the `TaskExecutor` mutex critical section. Its benefit is obscured by the MPMC regression in Snapshot B but will be visible once that is reverted.
+
+---
+
+### Finding 4 — Baseline Bottleneck Unchanged: `futex` at 96–97% in Both Snapshots
+
+Despite the MPMC structural change, `futex` remains the dominant syscall. In Snapshot A it came from `TaskExecutor::mutex` + `ReturnChannel::m`. In Snapshot B it comes from `TaskExecutor::mutex` alone, but per-request futex time is *higher* because TaskExecutor workers are starved by spinning threads consuming CPU.
+
+Until the thread count matches the core count, the `TaskExecutor` mutex contention will persist as the ceiling. With 32 workers on 4 cores, at any moment 28 threads are context-switched out and competing to wake up — every `add_task()` produces a thundering herd.
+
+---
+
+### Finding 5 — Connection:close Path: 2× `fcntl` Per Connection (minor)
+
+**File**: `HttpServer.cpp`
+
+Visible in Snapshot A Connection:close strace: **44,830 fcntl calls for 22,413 requests = 2 per connection**:
 
 ```cpp
-// Current (still O(n) — shifts all remaining elements):
-auto task = executor.tasks.front();
-executor.tasks.erase(executor.tasks.begin());
-
-// Should be O(1):
-auto task = std::move(executor.tasks.front());
-executor.tasks.pop_front();
+fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK);  // GET + SET = 2 syscalls
 ```
 
-This fires inside the lock on every dequeue, slowing the critical section and increasing lock hold time.
+Replaceable with:
+
+```cpp
+fcntl(fd, F_SETFL, O_NONBLOCK);  // SET only = 1 syscall
+```
+
+Minor: saves ~17 µs/connection on the close path only.
 
 ---
 
-### 3. HIGH — `EPOLLONESHOT` Generates ~2 `epoll_ctl` Syscalls Per Request
+## Recommended Fix Priority
 
-Keep-alive: **46,988 epoll_ctl** for 26,700 requests = **1.76 calls/request**  
-Close: **47,163 epoll_ctl** for 22,413 requests = **2.10 calls/request**
-
-Each `EPOLLONESHOT` event auto-disables the fd after firing, requiring an explicit `epoll_ctl(EPOLL_CTL_MOD)` re-arm in `rearmFd()`. For keep-alive this fires per request. For close it fires when a partial header arrives (triggering re-arm before the request is dispatched).
-
-`epoll_ctl` is a syscall; these are all happening on the single epoll thread — adding to its serialisation bottleneck.
-
----
-
-### 4. MEDIUM — Connection:close Adds 5 Syscalls Per Request
-
-Close mode adds per-connection overhead absent from keep-alive:
-
-| Syscall | Count | Cost (µs/call) | Purpose |
-|---|---|---|---|
-| `accept()` | 1× | 135 µs | New TCP connection |
-| `fcntl()` ×2 | 2× | 37 µs | Set `O_NONBLOCK` (GET + SET) |
-| `shutdown()` | 1× | 16 µs | Half-close before close |
-| `close()` | 1× | 9 µs | Socket teardown |
-
-Total: ~234 µs in syscalls per request just for connection lifecycle, vs ~0 for keep-alive. At 15k req/s this is 234 µs × 15k = 3.5 seconds of syscall time per second — i.e. the system is spending 3.5 CPU-seconds per wall-clock second just on connection setup/teardown.
-
-The `fcntl(GET) + fcntl(SET)` pattern (`HttpServer.cpp`) runs per-connection. It can be folded into one `fcntl(F_SETFL, O_NONBLOCK)` without the GET.
-
----
-
-### 5. LOW — `recvfrom` Error Rate (EAGAIN on non-blocking sockets)
-
-Keep-alive: 26,700 errors out of 73,589 `recvfrom` calls = **36% error rate**  
-Close: 22,327 errors out of 69,573 `recvfrom` calls = **32% error rate**
-
-These are `EAGAIN`/`EWOULDBLOCK` returns from `peek()` when the socket has no more data. The stream's `peek()` loop keeps calling `recv()` until it gets a partial read, then stops — one extra failed syscall per peek operation. This is unavoidable with the current peek-until-header design, but is a minor cost relative to futex.
-
----
-
-## Root Cause Summary
-
-The 15k req/s cap on Connection:close is caused by:
-
-1. **97% of syscall time in futex** — all 32 worker threads + epoll thread fighting over two mutexes (`TaskExecutor::mutex` and `ReturnChannel::m`) on every single request
-2. **234 µs of extra connection-lifecycle syscalls per request** in close mode (accept + 2×fcntl + shutdown + close) that don't exist in keep-alive mode
-3. **Incomplete `pop_front()` optimization** in `TaskExecutor` increases lock hold time under the already-contended mutex
-
-The keep-alive cap at ~42k req/s is set almost entirely by (1) alone.
-
----
-
-## Recommended Fixes (Ordered by Impact)
-
-### Fix 1 — Replace `ReturnChannel` mutex with a lock-free MPSC queue
-All 32 worker threads are the producers; the epoll thread is the sole consumer. This is the textbook case for a multi-producer single-consumer (MPSC) queue. An atomic linked list or ring buffer eliminates the mutex entirely, removing the primary futex contention source.
-
-### Fix 2 — Replace `TaskExecutor` with a work-stealing or MPMC queue
-`std::mutex` + `std::condition_variable` across 32 threads is the second contention source. A lock-free MPMC queue (e.g. a bounded ring buffer with CAS) would eliminate the futex traffic on `add_task` / dequeue.
-
-### Fix 3 — Fix `pop_front()` (trivial, immediate win)
-`lightning/TaskExecutor.hpp`: replace `tasks.erase(tasks.begin())` with `tasks.pop_front()` on both the copy and move branches.
-
-### Fix 4 — Replace `EPOLLONESHOT` with level-triggered + explicit state
-Removes one `epoll_ctl()` syscall per request from the epoll thread's hot path.
-
-### Fix 5 — Fold `fcntl` GET+SET into single SET
-`HttpServer.cpp`: replace `fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK)` with `fcntl(fd, F_SETFL, O_NONBLOCK)` — saves one syscall per connection on the close path.
+| Priority | Fix | Expected Impact |
+|---|---|---|
+| 1 | Revert `ReturnChannel` to mutex + move-drain, OR reduce threads to `nproc` | Restores ~42k req/s keep-alive |
+| 2 | Replace `pop()` with `try_pop()` in `drainReturnChannel` | Prevents epoll spin-stall on MPMC path |
+| 3 | Match worker thread count to `nproc` (4) at runtime (`std::thread::hardware_concurrency()`) | Reduces all lock contention by 8× |
+| 4 | Replace `TaskExecutor` mutex+CV with a sleeping bounded queue | Eliminates remaining futex dominance |
+| 5 | `fcntl(SET only)` in `HttpServer.cpp` | Saves 1 syscall/connection on close path |
