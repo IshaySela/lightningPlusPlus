@@ -5,7 +5,7 @@
 #include <vector>
 #include "ClientRequestHandler.hpp"
 #include "FdChannels.hpp"
-#include "../TaskExecutor.hpp"
+#include "../MPMCTaskExecutor.hpp"
 
 namespace lightning
 {
