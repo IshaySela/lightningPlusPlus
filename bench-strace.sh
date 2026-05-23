@@ -59,15 +59,18 @@ if [[ ! -x "$BINARY" ]]; then
 fi
 
 # ── helpers ───────────────────────────────────────────────────────────────────
-URL="http://localhost:${PORT}/"
+# Use 127.0.0.1 explicitly — 'localhost' resolves to ::1 (IPv6) first in some
+# environments, causing "Cannot assign requested address" on IPv4-only servers.
+URL="http://127.0.0.1:${PORT}/"
 STRACE_RAW=$(mktemp /tmp/strace-raw-XXXXXX.txt)
 WRK_OUT=$(mktemp /tmp/wrk-out-XXXXXX.txt)
+SERVER_LOG=$(mktemp /tmp/server-log-XXXXXX.txt)
 
 cleanup() {
     kill "$SERVER_PID" 2>/dev/null || true
     kill "$STRACE_PID" 2>/dev/null || true
     wait "$SERVER_PID" 2>/dev/null || true
-    rm -f "$STRACE_RAW" "$WRK_OUT"
+    rm -f "$STRACE_RAW" "$WRK_OUT" "$SERVER_LOG"
 }
 trap cleanup EXIT
 
@@ -76,30 +79,39 @@ separator() { printf '%0.s─' {1..70}; echo; }
 # ── start server ──────────────────────────────────────────────────────────────
 echo
 echo "▶  Starting server: $BINARY"
-"$BINARY" &>/dev/null &
+"$BINARY" >"$SERVER_LOG" 2>&1 &
 SERVER_PID=$!
 
-# wait for server to listen
+# wait for server to listen (up to 6s)
+READY=0
 for i in {1..20}; do
-    if curl -sf -X POST "$URL" -H "Content-Length: 0" -o /dev/null 2>/dev/null; then
-        break
+    if curl -sf --ipv4 -X POST "$URL" -H "Content-Length: 0" -o /dev/null 2>/dev/null; then
+        READY=1; break
     fi
     sleep 0.3
     if ! kill -0 "$SERVER_PID" 2>/dev/null; then
         echo "Error: server exited before accepting connections." >&2
+        echo "Server output:" >&2
+        cat "$SERVER_LOG" >&2
         exit 1
     fi
 done
+
+if [[ "$READY" -eq 0 ]]; then
+    echo "Error: server did not respond on $URL after 6s." >&2
+    echo "Server output:" >&2
+    cat "$SERVER_LOG" >&2
+    exit 1
+fi
 
 echo "   PID: $SERVER_PID  port: $PORT"
 echo
 
 # ── warmup ────────────────────────────────────────────────────────────────────
 echo "⏳  Warming up for ${WARMUP}s …"
-wrk -t"$WRK_THREADS" -c"$WRK_CONNECTIONS" -d"${WARMUP}s" \
-    -H "Content-Length: 0" \
-    ${CONNECTION_CLOSE:+-H "Connection: close"} \
-    "$URL" &>/dev/null
+WARMUP_ARGS=(-t"$WRK_THREADS" -c"$WRK_CONNECTIONS" -d"${WARMUP}s" -H "Content-Length: 0")
+[[ "$CONNECTION_CLOSE" -eq 1 ]] && WARMUP_ARGS+=(-H "Connection: close")
+wrk "${WARMUP_ARGS[@]}" "$URL" &>/dev/null
 echo "   Done."
 echo
 
