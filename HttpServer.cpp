@@ -54,10 +54,7 @@ namespace lightning
             int fd = client->getFd();
             fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK);
 
-            {
-                std::lock_guard lock(newFdChannel.m);
-                newFdChannel.clients.push_back(std::move(client));
-            }
+            newFdChannel.clients.enqueue(std::move(client));
             char byte = 'x';
             ::write(newFdChannel.pipeWrite, &byte, 1);
         } while (!shouldStop(*this));

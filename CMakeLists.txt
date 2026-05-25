@@ -38,7 +38,7 @@ set(PROJECT_SOURCE_FILES
 ./lightning/uriMapper/Strings.hpp ./Strings.cpp
 
 ./lightning/MPMCTaskExecutor.hpp
-./lightning/concurrentqueue.h
+./lightning/moodycamel/concurrentqueue.h
 ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 
 ./lightning/middlewares/useFolder.hpp

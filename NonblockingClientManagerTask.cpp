@@ -88,14 +88,8 @@ namespace lightning
 
     auto NonblockingClientManagerTask::drainNewFdChannel() -> void
     {
-        std::vector<std::unique_ptr<IClient>> newClients;
-        {
-            std::lock_guard lock(newFdChannel.m);
-            newClients = std::move(newFdChannel.clients);
-            newFdChannel.clients.clear();
-        }
-
-        for (auto& client : newClients)
+        std::unique_ptr<IClient> client;
+        while (newFdChannel.clients.try_dequeue(client))
         {
             int fd = client->getFd();
             epoll_event ev{};
