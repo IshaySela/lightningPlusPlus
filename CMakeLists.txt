@@ -37,7 +37,7 @@ set(PROJECT_SOURCE_FILES
 ./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
 ./lightning/uriMapper/Strings.hpp ./Strings.cpp
 
-./lightning/TaskExecutor.hpp
+./lightning/MPMCTaskExecutor.hpp
 ./lightning/concurrentqueue.h
 ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 
