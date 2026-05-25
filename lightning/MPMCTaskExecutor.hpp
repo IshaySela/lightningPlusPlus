@@ -13,12 +13,12 @@ namespace lightning
     concept Task = (std::is_copy_constructible_v<T> || std::is_move_constructible_v<T>)
                    && requires(T t) { t.operator()(); };
 
-    // Lock-free multi-producer / multi-consumer task executor.
+    // Lock-free task executor.
     //
-    // The task queue is moodycamel::BlockingConcurrentQueue — no mutex on the
-    // hot path. Workers block inside wait_dequeue() using moodycamel's built-in
-    // lightweight semaphore; no external counting_semaphore is needed and the
-    // sched_yield spin-loop from try_dequeue is eliminated entirely.
+    // The task queue is moodycamel::BlockingConcurrentQueue — no mutex.
+    // Workers block inside wait_dequeue() using moodycamel's built-in
+    // lightweight semaphore; no external counting_semaphore is needed and no
+    // sched_yield 
     //
     // Shutdown uses a null-pointer sentinel: stop_all() enqueues one nullptr per
     // worker thread; each worker exits when it dequeues a null task.
@@ -50,22 +50,16 @@ namespace lightning
         TaskExecutor(TaskExecutor&&)                 = delete;
         TaskExecutor& operator=(TaskExecutor&&)      = delete;
 
-        // Enqueue a task and wake one sleeping worker.
-        // Thread-safe; may be called from any thread simultaneously.
         auto add_task(T task) -> void
         {
             tasks.enqueue(std::make_unique<T>(std::move(task)));
         }
 
-        // Signal all workers to stop, then block until they have all exited.
-        // Idempotent — safe to call from the destructor even after an explicit call.
         auto stop_all() -> void
         {
             if (kill_threads.exchange(true, std::memory_order_acq_rel))
-                return; // already stopped
+                return;
 
-            // Enqueue one null sentinel per worker — each null wakes and exits
-            // exactly one thread blocked in wait_dequeue().
             for (int i = 0; i < thread_count; i++)
                 tasks.enqueue(nullptr);
 
@@ -82,7 +76,7 @@ namespace lightning
             {
                 executor.tasks.wait_dequeue(task);
 
-                if (!task) // null sentinel → shutdown
+                if (!task)
                     break;
 
                 (*task)();
