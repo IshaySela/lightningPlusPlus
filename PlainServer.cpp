@@ -21,10 +21,13 @@ namespace lightning
         if (this->rawSocketFd < 0)
             throw LowLevelApiException("socket() failed", GetLastError(), errno);
 
+        int opt = 1;
+        setsockopt(this->rawSocketFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
         if (bind(this->rawSocketFd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
             throw LowLevelApiException("bind() failed", GetLastError(), errno);
 
-        if (listen(this->rawSocketFd, 1) < 0)
+        if (listen(this->rawSocketFd, SOMAXCONN) < 0)
             throw LowLevelApiException("listen() failed", GetLastError(), errno);
     }
 

@@ -13,13 +13,11 @@
 #include <unordered_map>
 #include <chrono>
 #include <vector>
-#include "../TaskExecutor.hpp"
 #include "../LowLevelSocketServer.hpp"
 #include "MiddlewareContainer.hpp"
-#include "ClientHandlerTask.hpp"
+#include "FdChannels.hpp"
 namespace lightning
 {
-    class ClientHandlerTask;
     const std::optional<HttpResponse> Continue = std::nullopt;
 
     class HttpServer
@@ -123,7 +121,8 @@ namespace lightning
         MiddlewareContainer<DefaultPreMiddlewareType, DefaultPostMiddlewareType> middlewares;
 
         static auto getTimeSinceEpoch()->std::uint64_t;
-        TaskExecutor<ClientHandlerTask> tasks;
-        static const std::vector<char> INTERNAL_SERVER_ERROR;
+        int threadCount;
+        NewFdChannel newFdChannel;
+        ReturnChannel returnChannel;
     };
 } // namespace lightning

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "lightning/httpServer/ServerBuilder.hpp"
 #include <lightning/httpServer/MiddlewareContainer.hpp>
-#include <lightning/httpServer/ClientHandlerTask.hpp>
 #include <openssl/md5.h>
 #include <lightning/middlewares/middlewares.hpp>
 #include <string>
@@ -20,23 +19,11 @@ auto main() -> int
     auto benchmark = [](lightning::HttpRequest request)
     {
         auto contentLengthHeader = request.getHeader("Content-Length");
-        std::cout << "Handling request for " << request.getRawUri() << '\n';
-        
-        std::vector<char> body = request.getBody();
-        std::string resp;
-        auto obj = nlohmann::json::parse(body.begin(), body.end());
-        
-        if (obj.contains("name"))
-        {
-            resp = "<h1>Hello, " + obj["name"].get<std::string>() + "!</h1>";
-        }
-        else
-        {
-            resp = "<h1>Hello! Please provide a name in the body as json!</h1>";
-        }
 
         return lightning::HttpResponseBuilder::create()
-            .withHtmlBody(resp)
+            .withHtmlBody("<h1>Hello!</h1>")
+            .withStatusCode(200)
+            .withStatusPhrase("OK")
             .build();
     };
 

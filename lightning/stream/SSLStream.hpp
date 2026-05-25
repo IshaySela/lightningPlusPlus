@@ -43,6 +43,7 @@ namespace lightning::stream
         auto readUntilToken(std::string token) -> std::vector<char> override;
         auto close() -> void override;
         auto setTimeout(int seconds) -> void override;
+        auto peek(int amount) -> std::string_view override;
 
         auto getSsl() const -> SSL *;
     };

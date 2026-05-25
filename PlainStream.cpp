@@ -80,6 +80,25 @@ namespace lightning::stream
         setsockopt(this->fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
     }
 
+    auto PlainStream::injectBuffer(std::vector<char> data) -> void
+    {
+        this->leftoverBuffer.insert(this->leftoverBuffer.begin(), data.begin(), data.end());
+    }
+
+    auto PlainStream::peek(int amount) -> std::string_view
+    {
+        while ((int)this->leftoverBuffer.size() < amount)
+        {
+            int needed = amount - (int)this->leftoverBuffer.size();
+            std::vector<char> tmp(needed);
+            int ret = ::recv(this->fd, tmp.data(), needed, 0);
+            if (ret <= 0)
+                break;
+            this->leftoverBuffer.insert(this->leftoverBuffer.end(), tmp.begin(), tmp.begin() + ret);
+        }
+        return {this->leftoverBuffer.data(), this->leftoverBuffer.size()};
+    }
+
     auto PlainStream::readFromLeftover(int amount, int &bytesRead) -> std::vector<char>
     {
         std::vector<char> buffer(amount);

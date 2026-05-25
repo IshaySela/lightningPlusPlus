@@ -8,4 +8,9 @@ namespace lightning
     {
         return this->plainStream;
     }
+
+    auto PlainClient::getFd() -> int
+    {
+        return this->fd;
+    }
 }

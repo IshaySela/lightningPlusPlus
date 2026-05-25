@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
-#include "TaskExecutor.hpp"
+#include "MPMCTaskExecutor.hpp"
 #include <optional>
 
 namespace lightning

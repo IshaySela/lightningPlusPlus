@@ -20,6 +20,7 @@ namespace lightning
         SSLClient(int fd, SmartResource<SSL> ssl);
         auto getSsl() const -> SSL *;
         auto getStream() -> stream::SSLStream& override;
+        auto getFd() -> int override;
 
         ~SSLClient() = default;
     private:
