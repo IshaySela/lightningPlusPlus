@@ -4,7 +4,7 @@
 #include <mutex>
 #include <vector>
 #include "../IClient.hpp"
-#include "lightning/concurrentqueue.h"
+#include "lightning/moodycamel/concurrentqueue.h"
 
 namespace lightning
 {

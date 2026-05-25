@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
-#include "blockingconcurrentqueue.h"
+#include "moodycamel/blockingconcurrentqueue.h"
 
 namespace lightning
 {
