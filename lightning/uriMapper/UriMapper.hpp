@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <optional>
+#include <regex>
 #include "../lightning.hpp"
 
 namespace lightning
@@ -13,7 +14,7 @@ namespace lightning
     class UriMapper
     {
     private:
-        std::unordered_map<std::string, Resolver> resolvers;
+        std::unordered_map<std::string, std::pair<std::regex, Resolver>> resolvers;
 
         /**
          * @brief Search for the wildcard string / * and return its index.

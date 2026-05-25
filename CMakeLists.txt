@@ -28,20 +28,28 @@ set(PROJECT_SOURCE_FILES
 ./lightning/HttpProtocol.hpp
 ./lightning/httpServer/HttpServer.hpp ./HttpServer.cpp
 ./lightning/httpServer/MiddlewareContainer.hpp
-./lightning/httpServer/ClientHandlerTask.hpp ./ClientHandlerTask.cpp
+./lightning/httpServer/FdChannels.hpp
+./lightning/httpServer/ClientRequestHandler.hpp ./ClientRequestHandler.cpp
+./lightning/httpServer/NonblockingClientManagerTask.hpp ./NonblockingClientManagerTask.cpp
 ./lightning/httpServer/ServerBuilder.hpp ./ServerBuilder.cpp
 ./lightning/LowLevelSocketServer.hpp
 
 ./lightning/uriMapper/UriMapper.hpp ./UriMapper.cpp
 ./lightning/uriMapper/Strings.hpp ./Strings.cpp
 
-./lightning/TaskExecutor.hpp
-
+./lightning/MPMCTaskExecutor.hpp
+./lightning/moodycamel/concurrentqueue.h
 ./lightning/handlers/StaticFile.hpp ./StaticFile.cpp
 
 ./lightning/middlewares/useFolder.hpp
 ./lightning/middlewares/addHeaderToResponse.hpp
- )
+)
+
+option(ENABLE_PROFILING "Enable profiling flags" OFF)
+
+if(ENABLE_PROFILING)
+    add_compile_options(-O2 -g -fno-omit-frame-pointer)
+endif()
 
 add_executable(
   http
@@ -57,6 +65,8 @@ add_library(
 find_package(OpenSSL REQUIRED)
 target_link_libraries(http OpenSSL::SSL)
 target_link_libraries(httpServer OpenSSL::SSL)
+
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

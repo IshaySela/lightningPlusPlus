@@ -33,16 +33,17 @@
 .editorconfig
 /build
 /cert
-/tests
 /.vscode
 /unit-tests/build/*
 /doxygen/*
 !/doxygen/.gitkeep
 .vscode/*
-
+*.key
+*.cert
+build-release
 # clangd
 .cache/*
-
+.claude/*
 
 CMakeFiles/
 CMakeCache.txt
@@ -52,3 +53,5 @@ CTestTestfile.cmake
 CMakeFiles/*
 # output binary
 http
+HANDOFF.md
+strace-summary.txt

@@ -46,24 +46,21 @@ namespace lightning
     {
         auto wildcard = UriMapper::containsWildcard(uri);
 
-        if (wildcard == std::string::npos)
-        {
-            auto exactMatch = UriMapper::createExactMatch(uri);
-            // Insert and return the resolver added.
-            return (*this->resolvers.insert({exactMatch, resolver}).first).second;
-        }
+        std::string regexStr = (wildcard == std::string::npos)
+            ? UriMapper::createExactMatch(uri)
+            : UriMapper::createWithWildcard(uri);
 
-        auto wildcardRegex = UriMapper::createWithWildcard(uri);
-
-        return (*this->resolvers.insert({wildcardRegex, resolver}).first).second;
+        std::regex compiled(regexStr);
+        return this->resolvers.insert_or_assign(regexStr, std::make_pair(std::move(compiled), resolver))
+            .first->second.second;
     }
 
     auto UriMapper::match(std::string uri) -> std::optional<std::pair<Resolver, std::string>>
     {
-        for (auto &[regexStr, resolver] : this->resolvers)
+        for (auto& [regexStr, regexAndResolver] : this->resolvers)
         {
+            auto& [rgx, resolver] = regexAndResolver;
             std::cmatch result;
-            std::regex rgx(regexStr);
 
             if (std::regex_match(uri.data(), result, rgx))
             {
