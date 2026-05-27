@@ -3,10 +3,10 @@
 ## Overview
 
 Lightning++ is a high-performance, header-heavy C++ HTTP server library built around
-three core design pillars: a **non-blocking I/O event loop** (epoll), a **lock-free
-thread pool**, and **zero-copy IPC channels** between the threads that manage those
-two subsystems. The result is a reactor-style server that can handle large numbers of
-concurrent connections with minimal thread contention.
+three core design pillars: a **non-blocking I/O event loop** (epoll), a **mutex-free
+thread pool with a lock-free fast path**, and **pipe-signalled IPC channels** between
+the threads that manage those two subsystems. The result is a reactor-style server
+that can handle large numbers of concurrent connections with minimal thread contention.
 
 ---
 
@@ -22,7 +22,7 @@ listening TCP socket. Each accepted file descriptor is:
 1. Wrapped in an `IClient` concrete type (`PlainClient` or `SSLClient`).
 2. Set to non-blocking mode with `O_NONBLOCK`.
 3. **Enqueued** into `NewFdChannel::clients`
-   — a lock-free `BlockingConcurrentQueue<unique_ptr<IClient>>`.
+   — a `BlockingConcurrentQueue<unique_ptr<IClient>>` (mutex-free; lock-free fast path, futex-based blocking when empty).
 4. Signalled to the epoll thread by writing one byte to
    `NewFdChannel::pipeWrite`.
 
@@ -49,14 +49,29 @@ simultaneously. The epoll thread re-arms the fd only when it is safe to do so.
 
 ### 3 — Worker Thread Pool (`TaskExecutor`)
 
-`TaskExecutor<ClientRequestHandler>` is a lock-free MPMC thread pool:
+`TaskExecutor<ClientRequestHandler>` is a **mutex-free** MPMC thread pool. It is
+*not* fully lock-free in the formal sense — see the note below.
 
 - Backed by `moodycamel::BlockingConcurrentQueue<unique_ptr<ClientRequestHandler>>`.
-- Worker threads block inside `wait_dequeue()`, which suspends on
-  `moodycamel::LightweightSemaphore` — no `mutex`, no `sched_yield`.
+- Worker threads call `wait_dequeue()`, which has two tiers:
+  1. **Lock-free fast path** — spins up to 10 000 iterations on an `atomic<ssize_t>`
+     counter with CAS. If an item arrives during the spin, no syscall is made.
+  2. **Blocking slow path** — when the queue is genuinely empty the worker falls
+     through to `sem_wait()` (POSIX semaphore), which calls `futex(FUTEX_WAIT)` and
+     suspends the thread in the kernel. This is **blocking, not lock-free**.
+- No `std::mutex` or `std::condition_variable` is used anywhere.
 - Shutdown uses a **null-pointer sentinel**: `stop_all()` enqueues one `nullptr`
-  per worker; each worker exits when it dequeues `null`.
+  per worker; each worker exits when it dequeues `null`. The entry point is guarded
+  by `atomic<bool>` with `memory_order_acq_rel` to prevent double-invocation.
 - Thread count is configurable at construction time (default: 1).
+
+> **Concurrency terminology note**
+> `ConcurrentQueue` (non-blocking) and the enqueue / `try_dequeue` operations of
+> `BlockingConcurrentQueue` are **lock-free**: they use only atomic CAS loops and
+> never block a thread. `wait_dequeue` is **blocking-with-lock-free-fast-path**: it
+> avoids kernel involvement when items are already queued, but a thread waiting on an
+> empty queue is parked on a futex and makes no progress — the formal "lock-free"
+> guarantee does not hold there.
 
 Each worker executes one `ClientRequestHandler::operator()()` per dequeue:
 
@@ -73,8 +88,8 @@ Each worker executes one `ClientRequestHandler::operator()()` per dequeue:
 
 | Primitive | Location | Purpose |
 |-----------|----------|---------|
-| `BlockingConcurrentQueue` (moodycamel) | `NewFdChannel::clients` | Lock-free hand-off of accepted clients from accept thread → epoll thread |
-| `ConcurrentQueue` (moodycamel) | `ReturnChannel::connections` | Lock-free hand-off of finished connections from worker threads → epoll thread |
+| `BlockingConcurrentQueue` (moodycamel) | `NewFdChannel::clients`, `TaskExecutor` | Mutex-free hand-off with lock-free fast path; `wait_dequeue` parks on `futex` when queue is empty |
+| `ConcurrentQueue` (moodycamel) | `ReturnChannel::connections` | Fully lock-free (CAS-only) non-blocking dequeue; used where the caller never needs to block |
 | Unix pipe (`pipeRead` / `pipeWrite`) | `NewFdChannel`, `ReturnChannel` | Wake epoll from `epoll_wait()` when a queue item is available; integrates with epoll itself |
 | `EPOLLONESHOT` | epoll registration | Ensures at most one outstanding event per fd; prevents concurrent access to the same connection |
 | `std::atomic<bool> kill_threads` | `TaskExecutor` | Idempotent shutdown gate; `exchange(true, acq_rel)` prevents double-shutdown |
@@ -119,7 +134,7 @@ graph TB
         end
 
         subgraph CHAN1["NewFdChannel"]
-            Q1[BlockingConcurrentQueue\nlock-free MPMC]
+            Q1[BlockingConcurrentQueue\nmutex-free · lock-free fast path\nfutex slow path]
             P1[Unix pipe\npipeRead / pipeWrite]
         end
 
@@ -132,7 +147,7 @@ graph TB
         end
 
         subgraph CHAN2["ReturnChannel"]
-            Q2[ConcurrentQueue\nlock-free MPMC]
+            Q2[ConcurrentQueue\nfully lock-free CAS-only MPMC]
             P2[Unix pipe\npipeRead / pipeWrite]
         end
 
@@ -140,7 +155,7 @@ graph TB
             W1[Worker 0\nwait_dequeue]
             W2[Worker 1\nwait_dequeue]
             WN[Worker N\nwait_dequeue]
-            TQ[BlockingConcurrentQueue\nLightweightSemaphore]
+            TQ[BlockingConcurrentQueue\nfast: atomic CAS spin\nslow: futex sleep]
         end
     end
 
@@ -202,7 +217,7 @@ sequenceDiagram
     else Headers complete
         ET ->> ET: stream.read(headerEnd + 4)
         ET ->> TQ: enqueue ClientRequestHandler(IClient, headerBytes)
-        TQ -->> W: wait_dequeue wakes via LightweightSemaphore
+        TQ -->> W: wait_dequeue: CAS fast path or futex wakeup
         W  ->> W: HttpRequest::createRequest(headerBytes)
         W  ->> W: parse method, URI, headers
         W  ->> W: run pre-middlewares
@@ -254,7 +269,7 @@ stateDiagram-v2
     }
 
     state "Worker Thread (TaskExecutor)" as WT {
-        Dispatched --> Processing   : wait_dequeue\n(LightweightSemaphore)
+        Dispatched --> Processing   : wait_dequeue\n(CAS spin → futex if empty)
         Processing --> Responding   : parse + route + handler
         Responding --> Signalled    : write response\nenqueue ReturnChannel\nwrite pipe
     }
@@ -295,7 +310,7 @@ graph LR
         direction TB
         ADD[add_task\nenqueue unique_ptr&ltT&gt]
         BQ["BlockingConcurrentQueue\n(moodycamel MPMC)"]
-        SEM["LightweightSemaphore\n(internal to queue)"]
+        SEM["LightweightSemaphore\nfast: atomic CAS spin ≤10k iters\nslow: sem_wait → futex(FUTEX_WAIT)"]
 
         subgraph Workers["Worker Threads  (0 … N-1)"]
             direction LR
@@ -360,9 +375,9 @@ graph LR
 | Property | Mechanism |
 |----------|-----------|
 | Scalable connection handling | Single epoll fd multiplexes thousands of sockets |
-| No lock contention on accept path | Lock-free queue between accept and epoll threads |
-| No lock contention in worker pool | `moodycamel::BlockingConcurrentQueue` — no mutex |
-| No spurious wakeups in workers | `LightweightSemaphore` counts exact item additions |
+| No mutex on accept path | `BlockingConcurrentQueue` enqueue is lock-free (CAS); epoll thread drains synchronously after pipe wakeup |
+| No mutex in worker pool | `BlockingConcurrentQueue` is mutex-free; workers spin on atomics in the common case, park on `futex` only when queue is genuinely empty |
+| No spurious wakeups in workers | `LightweightSemaphore` counts exact item additions; `sem_post` is called only when a waiter needs waking |
 | No concurrent fd access | `EPOLLONESHOT` + single-owner `unique_ptr` |
 | No extra copies of request data | Header bytes moved (not copied) into worker task |
 | Keep-alive connection reuse | Connections re-armed in-place after response sent |
