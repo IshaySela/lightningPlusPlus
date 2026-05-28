@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
-#include "moodycamel/concurrentqueue.h"
+#include "moodycamel/blockingconcurrentqueue.h"
 
 namespace lightning
 {
@@ -15,14 +15,18 @@ namespace lightning
 
     // Lock-free task executor.
     //
-    // The task queue is moodycamel::ConcurrentQueue — no mutex, no semaphore.
-    // Workers spin on try_dequeue() and yield when the queue is empty, avoiding
-    // semaphore syscall overhead at the cost of CPU burn during idle periods.
+    // The task queue is moodycamel::BlockingConcurrentQueue — no mutex.
+    // Workers block inside wait_dequeue() using moodycamel's built-in
+    // lightweight semaphore; no external counting_semaphore is needed and no
+    // sched_yield
     //
-    // Shutdown sets kill_threads; workers exit after draining the queue.
+    // Shutdown uses a null-pointer sentinel: stop_all() enqueues one nullptr per
+    // worker thread; each worker exits when it dequeues a null task.
     //
     // Tasks are stored as std::unique_ptr<T> so T need not be default-
-    // constructible or move-assignable.
+    // constructible or move-assignable (wait_dequeue requires move-assignment of
+    // the stored element type; unique_ptr satisfies this regardless of T's own
+    // assignment operators).
     template <typename T = std::function<void()>>
     requires Task<T>
     class TaskExecutor
@@ -56,6 +60,9 @@ namespace lightning
             if (kill_threads.exchange(true, std::memory_order_acq_rel))
                 return;
 
+            for (int i = 0; i < thread_count; i++)
+                tasks.enqueue(nullptr);
+
             for (auto& t : threads)
                 if (t.joinable()) t.join();
         }
@@ -67,27 +74,18 @@ namespace lightning
 
             while (true)
             {
-                if (executor.tasks.try_dequeue(task))
-                {
-                    (*task)();
-                }
-                else if (executor.kill_threads.load(std::memory_order_acquire))
-                {
-                    // Drain any tasks enqueued before the flag was set.
-                    while (executor.tasks.try_dequeue(task))
-                        (*task)();
+                executor.tasks.wait_dequeue(task);
+
+                if (!task)
                     break;
-                }
-                else
-                {
-                    std::this_thread::yield();
-                }
+
+                (*task)();
             }
         }
 
         const int thread_count;
         std::vector<std::thread> threads;
-        moodycamel::ConcurrentQueue<std::unique_ptr<T>> tasks;
+        moodycamel::BlockingConcurrentQueue<std::unique_ptr<T>> tasks;
         std::atomic<bool> kill_threads{false};
     };
 } // namespace lightning
